@@ -1,0 +1,2 @@
+WEB_PHP_SOCKET=application
+WEB_DOCUMENT_ROOT=/var/www/localhost/htdocs

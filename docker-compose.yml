@@ -1,0 +1,208 @@
+version: '3.3'
+services:
+  # nginx:
+  #   image: webdevops/nginx
+  #   container_name: nginx
+  #   hostname: nginx
+  #   restart: unless-stopped
+  #   tty: true
+  #   volumes:
+  #     - .docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+  #     - .docker-volumes/nginx/logs:/var/log/nginx
+  #     - .:/var/www/localhost/htdocs
+  #   expose:
+  #     - 80
+  #   ports:
+  #     - 8080:80
+  #   extra_hosts:
+  #     - host.docker.internal:host-gateway
+  #   links:
+  #     - application:application
+    # network_mode: bridge
+  #   networks:
+  #     network:
+  #       ipv4_address: 172.10.0.1
+    # env_file:
+  #     .docker/nginx/env
+  laravel-startkit-api:
+    image: macedodosanjosmateus/laravel-return:latest
+    build:
+      context: ./
+      dockerfile: .docker/Dockerfile
+    container_name: laravel-startkit-api
+    restart: unless-stopped
+    mem_limit: 0.5g
+    tty: true
+    volumes:
+      - .:/var/www/localhost/htdocs
+      - .docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - .docker/php/php.ini:/usr/local/etc/php/conf.d/app.ini
+      - .docker/php/daemon-process.conf:/etc/supervisor/supervisord.conf
+      - .docker/php/php-fpm-www.conf:/usr/local/etc/php-fpm.d/www.conf
+      # - ./storage/logs:/var/log/nginx/
+    depends_on:
+      - mysql
+      - mongodb
+      - rabbitmq
+      - redis
+      - localstack
+    expose:
+      - 80
+      - 9000
+      - 9003
+    ports:
+      - 8080:80
+      - 9000:9000
+      - 9003:9003
+    links:
+      - mysql:mysql
+      - mongodb:mongodb
+      - rabbitmq:rabbitmq
+      - redis:redis
+      - localstack:localstack
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    hostname: laravel-startkit-api
+    network_mode: bridge
+    networks:
+      network:
+        ipv4_address: 172.10.0.2
+    environment:
+      XDEBUG_MODE: ${XDEBUG_MODE:-debug}
+      XDEBUG_CLIENT_HOST: ${XDEBUG_CLIENT_HOST:-host.docker.internal}
+      XDEBUG_CLIENT_PORT: ${XDEBUG_CLIENT_PORT:-9003}
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    mem_limit: 1g
+    mem_reservation: 300m
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    volumes:
+      - .docker-volumes/mysql:/var/lib/mysql
+    expose:
+      - 3306
+    ports:
+      - 3306:3306
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    hostname: mysql
+    network_mode: bridge
+    networks:
+      network:
+        ipv4_address: 172.10.0.3
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: laravel_startkit_api
+      MYSQL_PASSWORD: Secret*123
+      MYSQL_DB: laravel_startkit_api
+
+  mongodb:
+    image: mongo:5.0.3
+    container_name: mongodb
+    mem_limit: 0.5g
+    mem_reservation: 150m
+    restart: unless-stopped
+    volumes:
+      - .docker/mongodb/mongodb-entrypoint.js:/docker-entrypoint-initdb.d/mongodb-entrypoint.js
+      - .docker-volumes/mongodb:/data/db
+    ports:
+      - 27017:27017
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    hostname: mongodb
+    network_mode: bridge
+    networks:
+      network:
+        ipv4_address: 172.10.0.4
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    mem_limit: 0.5g
+    mem_reservation: 150m
+    restart: unless-stopped
+    volumes:
+      - .docker/rabbitmq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config
+      - .docker-volumes/rabbitmq:/var/lib/rabbitmq
+    expose:
+      - 5672
+      - 15672
+      - 25672
+    ports:
+      - 5672:5672
+      - 25672:25672
+      - 15672:15672
+    hostname: rabbitmq
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    network_mode: bridge
+    networks:
+      network:
+        ipv4_address: 172.10.0.5
+    environment:
+      RABBITMQ_DEFAULT_USER: root
+      RABBITMQ_DEFAULT_PASS: root
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    mem_limit: 0.3g
+    mem_reservation: 100m
+    restart: unless-stopped
+    command: redis-server --databases 1
+    volumes:
+      - .docker-volumes/redis/data:/data
+    expose:
+      - 6379
+    ports:
+      - 6379:6379
+    network_mode: bridge
+    hostname: redis
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    networks:
+      network:
+        ipv4_address: 172.10.0.6
+
+  localstack:
+    image: localstack/localstack
+    container_name: localstack
+    mem_limit: 0.5g
+    mem_reservation: 100m
+    restart: unless-stopped
+    volumes:
+      - .docker-volumes/localstack/data:/tmp/localstack/data
+      - /var/run/docker.sock:/var/run/docker.sock
+      - .docker/localstack:/docker-entrypoint-initaws.d
+    expose:
+      - 4572
+      - 4576
+      - 4566
+    ports:
+      - 4572:4572 # s3
+      - 4576:4576 # sqs
+      - 4566:4566 # cli
+    hostname: localstack
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    network_mode: bridge
+    networks:
+      network:
+        ipv4_address: 172.10.0.7
+    environment:
+      SERVICES: s3,sqs
+      DOCKER_HOST: unix:///var/run/docker.sock
+      DEBUG: 1
+      HOSTNAME_EXTERNAL: localstack
+
+networks:
+  network:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 172.10.0.0/16
