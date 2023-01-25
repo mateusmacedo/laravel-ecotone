@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Module\Users\Infrastructure\Http\Controllers\Illuminate\RegisterController;
+use Module\Users\Infraestructure\Http\Controllers\Illuminate\FindByEmailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('user')->group(function () {
+    Route::post('/register', [RegisterController::class, 'post'])->name('user.register');
+    Route::get('/by-email', [FindByEmailController::class, 'get'])->name('user.findByEmail');
 });

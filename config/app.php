@@ -195,6 +195,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * Module Providers...
+         */
+        Module\Users\Infrastructure\Providers\Illuminate\UsersProvider::class,
     ],
 
     /*
