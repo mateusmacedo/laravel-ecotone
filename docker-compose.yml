@@ -99,7 +99,7 @@ services:
       MYSQL_DB: laravel_startkit_api
 
   mongodb:
-    image: mongo:5.0.3
+    image: mongo:latest
     container_name: mongodb
     mem_limit: 0.5g
     mem_reservation: 150m

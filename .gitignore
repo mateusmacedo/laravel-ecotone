@@ -19,3 +19,7 @@ yarn-error.log
 .docker/volume
 .docker-volumes/
 .docker/DS_Store
+_ide_helper.php
+.gitignore
+storage/debugbar/
+public/vendor/telescope/
