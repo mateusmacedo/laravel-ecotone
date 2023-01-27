@@ -4,8 +4,152 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6e0429fd1f150f8232d571019ff1697b",
+    "content-hash": "e0fa4bb90544b5b8cdf7b3d3e4c5a743",
     "packages": [
+        {
+            "name": "aws/aws-crt-php",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/awslabs/aws-crt-php.git",
+                "reference": "3942776a8c99209908ee0b287746263725685732"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/awslabs/aws-crt-php/zipball/3942776a8c99209908ee0b287746263725685732",
+                "reference": "3942776a8c99209908ee0b287746263725685732",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.35|^5.4.3"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "AWS SDK Common Runtime Team",
+                    "email": "aws-sdk-common-runtime@amazon.com"
+                }
+            ],
+            "description": "AWS Common Runtime for PHP",
+            "homepage": "http://aws.amazon.com/sdkforphp",
+            "keywords": [
+                "amazon",
+                "aws",
+                "crt",
+                "sdk"
+            ],
+            "support": {
+                "issues": "https://github.com/awslabs/aws-crt-php/issues",
+                "source": "https://github.com/awslabs/aws-crt-php/tree/v1.0.2"
+            },
+            "time": "2021-09-03T22:57:30+00:00"
+        },
+        {
+            "name": "aws/aws-sdk-php",
+            "version": "3.257.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aws/aws-sdk-php.git",
+                "reference": "97c41c42690e4fd7846915eae520e508d71c0baf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/97c41c42690e4fd7846915eae520e508d71c0baf",
+                "reference": "97c41c42690e4fd7846915eae520e508d71c0baf",
+                "shasum": ""
+            },
+            "require": {
+                "aws/aws-crt-php": "^1.0.2",
+                "ext-json": "*",
+                "ext-pcre": "*",
+                "ext-simplexml": "*",
+                "guzzlehttp/guzzle": "^6.5.8 || ^7.4.5",
+                "guzzlehttp/promises": "^1.4.0",
+                "guzzlehttp/psr7": "^1.8.5 || ^2.3",
+                "mtdowling/jmespath.php": "^2.6",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "andrewsville/php-token-reflection": "^1.4",
+                "aws/aws-php-sns-message-validator": "~1.0",
+                "behat/behat": "~3.0",
+                "composer/composer": "^1.10.22",
+                "dms/phpunit-arraysubset-asserts": "^0.4.0",
+                "doctrine/cache": "~1.4",
+                "ext-dom": "*",
+                "ext-openssl": "*",
+                "ext-pcntl": "*",
+                "ext-sockets": "*",
+                "nette/neon": "^2.3",
+                "paragonie/random_compat": ">= 2",
+                "phpunit/phpunit": "^4.8.35 || ^5.6.3 || ^9.5",
+                "psr/cache": "^1.0",
+                "psr/simple-cache": "^1.0",
+                "sebastian/comparator": "^1.2.3 || ^4.0",
+                "yoast/phpunit-polyfills": "^1.0"
+            },
+            "suggest": {
+                "aws/aws-php-sns-message-validator": "To validate incoming SNS notifications",
+                "doctrine/cache": "To use the DoctrineCacheAdapter",
+                "ext-curl": "To send requests using cURL",
+                "ext-openssl": "Allows working with CloudFront private distributions and verifying received SNS messages",
+                "ext-sockets": "To use client-side monitoring"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/functions.php"
+                ],
+                "psr-4": {
+                    "Aws\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Amazon Web Services",
+                    "homepage": "http://aws.amazon.com"
+                }
+            ],
+            "description": "AWS SDK for PHP - Use Amazon Web Services in your PHP project",
+            "homepage": "http://aws.amazon.com/sdkforphp",
+            "keywords": [
+                "amazon",
+                "aws",
+                "cloud",
+                "dynamodb",
+                "ec2",
+                "glacier",
+                "s3",
+                "sdk"
+            ],
+            "support": {
+                "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
+                "issues": "https://github.com/aws/aws-sdk-php/issues",
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.257.9"
+            },
+            "time": "2023-01-26T19:21:26+00:00"
+        },
         {
             "name": "brick/math",
             "version": "0.10.2",
@@ -412,16 +556,16 @@
         },
         {
             "name": "ecotone/ecotone",
-            "version": "1.67.2",
+            "version": "1.68.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ecotoneframework/ecotone.git",
-                "reference": "bb7a09821633e5efec08d1b1fd24f2f6af28ae41"
+                "reference": "5de7b47013ab97b318a771c5f1adf20f31a08ae4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ecotoneframework/ecotone/zipball/bb7a09821633e5efec08d1b1fd24f2f6af28ae41",
-                "reference": "bb7a09821633e5efec08d1b1fd24f2f6af28ae41",
+                "url": "https://api.github.com/repos/ecotoneframework/ecotone/zipball/5de7b47013ab97b318a771c5f1adf20f31a08ae4",
+                "reference": "5de7b47013ab97b318a771c5f1adf20f31a08ae4",
                 "shasum": ""
             },
             "require": {
@@ -470,7 +614,7 @@
                 "service-bus"
             ],
             "support": {
-                "source": "https://github.com/ecotoneframework/ecotone/tree/1.67.2"
+                "source": "https://github.com/ecotoneframework/ecotone/tree/1.68.0"
             },
             "funding": [
                 {
@@ -478,24 +622,95 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-01-11T21:06:07+00:00"
+            "time": "2023-01-26T07:19:24+00:00"
         },
         {
-            "name": "ecotone/laravel",
-            "version": "1.67.2",
+            "name": "ecotone/enqueue",
+            "version": "1.68.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ecotoneframework/laravel.git",
-                "reference": "bf7c9b61fbeea5274afc6ed0dcd4dcbcc6db5ecf"
+                "url": "https://github.com/ecotoneframework/enqueue.git",
+                "reference": "0c0e94a4b3fd849757bcdd6235ddfdfeb96f4147"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ecotoneframework/laravel/zipball/bf7c9b61fbeea5274afc6ed0dcd4dcbcc6db5ecf",
-                "reference": "bf7c9b61fbeea5274afc6ed0dcd4dcbcc6db5ecf",
+                "url": "https://api.github.com/repos/ecotoneframework/enqueue/zipball/0c0e94a4b3fd849757bcdd6235ddfdfeb96f4147",
+                "reference": "0c0e94a4b3fd849757bcdd6235ddfdfeb96f4147",
                 "shasum": ""
             },
             "require": {
-                "ecotone/ecotone": "1.67.2",
+                "ecotone/ecotone": "1.68",
+                "enqueue/dsn": "^0.10.4",
+                "queue-interop/queue-interop": "^0.8"
+            },
+            "require-dev": {
+                "behat/behat": "^3.10",
+                "phpstan/phpstan": "^1.8",
+                "phpunit/phpunit": "^9.5",
+                "wikimedia/composer-merge-plugin": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.68-dev"
+                },
+                "ecotone": {
+                    "repository": "enqueue"
+                },
+                "merge-plugin": {
+                    "include": [
+                        "../config.json"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ecotone\\Enqueue\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dariusz Gafka",
+                    "email": "dgafka.mail@gmail.com"
+                }
+            ],
+            "description": "Integration with enqueue",
+            "homepage": "https://docs.ecotone.tech/",
+            "keywords": [
+                "ecotone",
+                "enqueue"
+            ],
+            "support": {
+                "source": "https://github.com/ecotoneframework/enqueue/tree/1.68.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/dgafka",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-01-26T07:19:25+00:00"
+        },
+        {
+            "name": "ecotone/laravel",
+            "version": "1.68.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ecotoneframework/laravel.git",
+                "reference": "2b36cc62e7b40bdf817a021ad8f83aef46c83541"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ecotoneframework/laravel/zipball/2b36cc62e7b40bdf817a021ad8f83aef46c83541",
+                "reference": "2b36cc62e7b40bdf817a021ad8f83aef46c83541",
+                "shasum": ""
+            },
+            "require": {
+                "ecotone/ecotone": "1.68",
                 "laravel/framework": "^9.0"
             },
             "require-dev": {
@@ -552,7 +767,7 @@
                 "messaging"
             ],
             "support": {
-                "source": "https://github.com/ecotoneframework/laravel/tree/1.67.2"
+                "source": "https://github.com/ecotoneframework/laravel/tree/1.68.0"
             },
             "funding": [
                 {
@@ -560,7 +775,77 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-01-11T21:06:29+00:00"
+            "time": "2023-01-26T07:19:34+00:00"
+        },
+        {
+            "name": "ecotone/sqs",
+            "version": "1.68.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ecotoneframework/sqs.git",
+                "reference": "adab2843c56da2754aa293d54656ed6b101d0644"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ecotoneframework/sqs/zipball/adab2843c56da2754aa293d54656ed6b101d0644",
+                "reference": "adab2843c56da2754aa293d54656ed6b101d0644",
+                "shasum": ""
+            },
+            "require": {
+                "ecotone/enqueue": "1.68",
+                "enqueue/sqs": "^0.10.15"
+            },
+            "require-dev": {
+                "behat/behat": "^3.10",
+                "phpstan/phpstan": "^1.8",
+                "phpunit/phpunit": "^9.5",
+                "wikimedia/composer-merge-plugin": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.68-dev"
+                },
+                "ecotone": {
+                    "repository": "sqs"
+                },
+                "merge-plugin": {
+                    "include": [
+                        "../config.json"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ecotone\\Sqs\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dariusz Gafka",
+                    "email": "dgafka.mail@gmail.com"
+                }
+            ],
+            "description": "Extends Ecotone with Amazon Sqs integration",
+            "homepage": "https://docs.ecotone.tech/",
+            "keywords": [
+                "ecotone",
+                "sqs"
+            ],
+            "support": {
+                "source": "https://github.com/ecotoneframework/sqs/tree/1.68.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/dgafka",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-01-26T07:19:41+00:00"
         },
         {
             "name": "egulias/email-validator",
@@ -628,6 +913,120 @@
                 }
             ],
             "time": "2023-01-14T14:17:03+00:00"
+        },
+        {
+            "name": "enqueue/dsn",
+            "version": "0.10.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-enqueue/dsn.git",
+                "reference": "729fabaae6b24189d14598033b174bd72e825e9a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-enqueue/dsn/zipball/729fabaae6b24189d14598033b174bd72e825e9a",
+                "reference": "729fabaae6b24189d14598033b174bd72e825e9a",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.10.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Enqueue\\Dsn\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Parse DSN",
+            "homepage": "https://enqueue.forma-pro.com/",
+            "keywords": [
+                "dsn",
+                "parse"
+            ],
+            "support": {
+                "docs": "https://github.com/php-enqueue/enqueue-dev/blob/master/docs/index.md",
+                "email": "opensource@forma-pro.com",
+                "forum": "https://gitter.im/php-enqueue/Lobby",
+                "issues": "https://github.com/php-enqueue/enqueue-dev/issues",
+                "source": "https://github.com/php-enqueue/enqueue-dev"
+            },
+            "time": "2021-02-09T12:01:28+00:00"
+        },
+        {
+            "name": "enqueue/sqs",
+            "version": "0.10.15",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-enqueue/sqs.git",
+                "reference": "9e1c85ce438b52f3ea04c266472e5ebd792ab6fb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-enqueue/sqs/zipball/9e1c85ce438b52f3ea04c266472e5ebd792ab6fb",
+                "reference": "9e1c85ce438b52f3ea04c266472e5ebd792ab6fb",
+                "shasum": ""
+            },
+            "require": {
+                "aws/aws-sdk-php": "~3.155",
+                "enqueue/dsn": "^0.10",
+                "php": "^7.3|^8.0",
+                "queue-interop/queue-interop": "^0.8"
+            },
+            "require-dev": {
+                "enqueue/test": "0.10.x-dev",
+                "phpunit/phpunit": "^9.5",
+                "queue-interop/queue-spec": "^0.6.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.10.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Enqueue\\Sqs\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Message Queue Amazon SQS Transport",
+            "homepage": "https://enqueue.forma-pro.com/",
+            "keywords": [
+                "amazon",
+                "aws",
+                "messaging",
+                "queue",
+                "sqs"
+            ],
+            "support": {
+                "docs": "https://github.com/php-enqueue/enqueue-dev/blob/master/docs/index.md",
+                "email": "opensource@forma-pro.com",
+                "forum": "https://gitter.im/php-enqueue/Lobby",
+                "issues": "https://github.com/php-enqueue/enqueue-dev/issues",
+                "source": "https://github.com/php-enqueue/enqueue-dev"
+            },
+            "time": "2021-11-18T16:38:37+00:00"
         },
         {
             "name": "friendsofphp/proxy-manager-lts",
@@ -2486,6 +2885,67 @@
             "time": "2022-07-24T11:55:47+00:00"
         },
         {
+            "name": "mtdowling/jmespath.php",
+            "version": "2.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jmespath/jmespath.php.git",
+                "reference": "9b87907a81b87bc76d19a7fb2d61e61486ee9edb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jmespath/jmespath.php/zipball/9b87907a81b87bc76d19a7fb2d61e61486ee9edb",
+                "reference": "9b87907a81b87bc76d19a7fb2d61e61486ee9edb",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.4 || ^7.0 || ^8.0",
+                "symfony/polyfill-mbstring": "^1.17"
+            },
+            "require-dev": {
+                "composer/xdebug-handler": "^1.4 || ^2.0",
+                "phpunit/phpunit": "^4.8.36 || ^7.5.15"
+            },
+            "bin": [
+                "bin/jp.php"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.6-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/JmesPath.php"
+                ],
+                "psr-4": {
+                    "JmesPath\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Declaratively specify how to extract elements from a JSON document",
+            "keywords": [
+                "json",
+                "jsonpath"
+            ],
+            "support": {
+                "issues": "https://github.com/jmespath/jmespath.php/issues",
+                "source": "https://github.com/jmespath/jmespath.php/tree/2.6.1"
+            },
+            "time": "2021-06-14T00:11:39+00:00"
+        },
+        {
             "name": "nesbot/carbon",
             "version": "2.65.0",
             "source": {
@@ -3509,6 +3969,57 @@
                 "source": "https://github.com/bobthecow/psysh/tree/v0.11.11"
             },
             "time": "2023-01-23T16:14:59+00:00"
+        },
+        {
+            "name": "queue-interop/queue-interop",
+            "version": "0.8.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/queue-interop/queue-interop.git",
+                "reference": "117043fd38490f8b5516622cd4b697b33a89ce2b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/queue-interop/queue-interop/zipball/117043fd38490f8b5516622cd4b697b33a89ce2b",
+                "reference": "117043fd38490f8b5516622cd4b697b33a89ce2b",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3 || ^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.5 || ^6.0 || ^7.0 || ^8.0 || ^9.0",
+                "queue-interop/queue-spec": "^0.6@dev"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.7-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Interop\\Queue\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Promoting the interoperability of MQs objects. Based on Java JMS",
+            "homepage": "https://github.com/queue-interop/queue-interop",
+            "keywords": [
+                "MQ",
+                "jms",
+                "message queue",
+                "messaging",
+                "queue"
+            ],
+            "support": {
+                "issues": "https://github.com/queue-interop/queue-interop/issues",
+                "source": "https://github.com/queue-interop/queue-interop/tree/0.8.1"
+            },
+            "time": "2020-12-21T13:14:51+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -8577,16 +9088,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "9.2.23",
+            "version": "9.2.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "9f1f0f9a2fbb680b26d1cf9b61b6eac43a6e4e9c"
+                "reference": "2cf940ebc6355a9d430462811b5aaa308b174bed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/9f1f0f9a2fbb680b26d1cf9b61b6eac43a6e4e9c",
-                "reference": "9f1f0f9a2fbb680b26d1cf9b61b6eac43a6e4e9c",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/2cf940ebc6355a9d430462811b5aaa308b174bed",
+                "reference": "2cf940ebc6355a9d430462811b5aaa308b174bed",
                 "shasum": ""
             },
             "require": {
@@ -8642,7 +9153,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.23"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.24"
             },
             "funding": [
                 {
@@ -8650,7 +9161,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-12-28T12:41:10+00:00"
+            "time": "2023-01-26T08:26:55+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",

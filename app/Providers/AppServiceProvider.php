@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Enqueue\Sqs\SqsConnectionFactory;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -18,6 +19,9 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
             // $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
         }
+        $this->app->singleton(SqsConnectionFactory::class, function () {
+            return new SqsConnectionFactory("sqs:?key=key&secret=secret&region=us-east-1&endpoint=http://localstack:4566&version=latest");
+        });
     }
 
     /**
