@@ -6,7 +6,6 @@ namespace Module\Users\Infrastructure\CQRS\Ecotone;
 
 use Ecotone\Messaging\MessagePublisher;
 use Ecotone\Modelling\Attribute\CommandHandler;
-use Ecotone\Modelling\EventBus;
 use Module\Users\Application\Commands\RegisterCommand;
 use Module\Users\Application\Commands\RegisterHandler;
 

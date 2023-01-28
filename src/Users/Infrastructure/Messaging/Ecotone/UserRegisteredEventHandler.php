@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Module\Users\Infrastructure\Messaging\Ecotone;
 
+use Ecotone\Messaging\Attribute\Asynchronous;
 use Ecotone\Messaging\Attribute\MessageConsumer;
 use Module\Users\Application\Events\UserRegisteredEvent;
 use Module\Users\Application\Events\UserRegisteredHandler;

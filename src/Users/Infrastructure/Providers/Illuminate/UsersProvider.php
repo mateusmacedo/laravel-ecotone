@@ -5,13 +5,10 @@ declare(strict_types=1);
 namespace Module\Users\Infrastructure\Providers\Illuminate;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Foundation\Application;
-use Module\Users\Domain\Contracts\UpsertRepository;
-use Module\Users\Domain\Contracts\FindByEmailRepository;
+use Module\Users\Domain\Repositories\FindByEmailRepository;
 use Module\Users\Domain\Repositories\FindByIdRepository;
-use Module\Users\Infrastructure\CQRS\Ecotone\RegisterCommandHandler;
+use Module\Users\Domain\Repositories\UpsertRepository;
 use Module\Users\Infrastructure\Repository\MongoDB\UserRepository;
-use Module\Users\Application\Commands\RegisterHandler;
 
 class UsersProvider extends ServiceProvider
 {

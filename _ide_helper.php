@@ -17647,31 +17647,73 @@
         class Str {
          
     }
+     
+}
+
+        namespace Aws\Laravel { 
             /**
-     * 
+     * Facade for the AWS service
      *
-     * @template TKey of array-key
-     * @template TValue
-     * @implements \ArrayAccess<TKey, TValue>
-     * @implements \Illuminate\Support\Enumerable<TKey, TValue>
      */ 
-        class Collection {
+        class AwsFacade {
+                    /**
+         * Get a client by name using an array of constructor options.
+         *
+         * @param string $name Service name or namespace (e.g., DynamoDb, s3).
+         * @param array $args Arguments to configure the client.
+         * @return \Aws\AwsClientInterface 
+         * @throws \InvalidArgumentException if any required options are missing or
+         *                                   the service is not supported.
+         * @see Aws\AwsClient::__construct for a list of available options for args.
+         * @static 
+         */ 
+        public static function createClient($name, $args = [])
+        {
+                        /** @var \Aws\Sdk $instance */
+                        return $instance->createClient($name, $args);
+        }
                     /**
          * 
          *
-         * @see \Barryvdh\Debugbar\ServiceProvider::register()
          * @static 
          */ 
-        public static function debug()
+        public static function createMultiRegionClient($name, $args = [])
         {
-                        return \Illuminate\Support\Collection::debug();
+                        /** @var \Aws\Sdk $instance */
+                        return $instance->createMultiRegionClient($name, $args);
+        }
+                    /**
+         * Clone existing SDK instance with ability to pass an associative array
+         * of extra client settings.
+         *
+         * @param array $args
+         * @return self 
+         * @static 
+         */ 
+        public static function copy($args = [])
+        {
+                        /** @var \Aws\Sdk $instance */
+                        return $instance->copy($args);
+        }
+                    /**
+         * Determine the endpoint prefix from a client namespace.
+         *
+         * @param string $name Namespace name
+         * @return string 
+         * @internal 
+         * @deprecated Use the `\Aws\manifest()` function instead.
+         * @static 
+         */ 
+        public static function getEndpointPrefix($name)
+        {
+                        return \Aws\Sdk::getEndpointPrefix($name);
         }
          
     }
      
 }
 
-        namespace L5Swagger { 
+    namespace L5Swagger { 
             /**
      * 
      *
@@ -17687,6 +17729,156 @@
         {
                         /** @var \L5Swagger\Generator $instance */
                         return $instance->generateDocs();
+        }
+         
+    }
+     
+}
+
+    namespace Laravel\Octane\Facades { 
+            /**
+     * 
+     *
+     * @see \Laravel\Octane\Octane
+     */ 
+        class Octane {
+                    /**
+         * Get a Swoole table instance.
+         *
+         * @param string $table
+         * @return \Swoole\Table 
+         * @static 
+         */ 
+        public static function table($table)
+        {
+                        /** @var \Laravel\Octane\Octane $instance */
+                        return $instance->table($table);
+        }
+                    /**
+         * Format an exception to a string that should be returned to the client.
+         *
+         * @param \Throwable $e
+         * @param bool $debug
+         * @return string 
+         * @static 
+         */ 
+        public static function formatExceptionForClient($e, $debug = false)
+        {
+                        return \Laravel\Octane\Octane::formatExceptionForClient($e, $debug);
+        }
+                    /**
+         * Concurrently resolve the given callbacks via background tasks, returning the results.
+         * 
+         * Results will be keyed by their given keys - if a task did not finish, the tasks value will be "false".
+         *
+         * @param array $tasks
+         * @param int $waitMilliseconds
+         * @return array 
+         * @throws \Laravel\Octane\Exceptions\TaskException
+         * @throws \Laravel\Octane\Exceptions\TaskTimeoutException
+         * @static 
+         */ 
+        public static function concurrently($tasks, $waitMilliseconds = 3000)
+        {
+                        /** @var \Laravel\Octane\Octane $instance */
+                        return $instance->concurrently($tasks, $waitMilliseconds);
+        }
+                    /**
+         * Get the task dispatcher.
+         *
+         * @return \Laravel\Octane\Contracts\DispatchesTasks 
+         * @static 
+         */ 
+        public static function tasks()
+        {
+                        /** @var \Laravel\Octane\Octane $instance */
+                        return $instance->tasks();
+        }
+                    /**
+         * Get the listeners that will prepare the Laravel application for a new request.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function prepareApplicationForNextRequest()
+        {
+                        return \Laravel\Octane\Octane::prepareApplicationForNextRequest();
+        }
+                    /**
+         * Get the listeners that will prepare the Laravel application for a new operation.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function prepareApplicationForNextOperation()
+        {
+                        return \Laravel\Octane\Octane::prepareApplicationForNextOperation();
+        }
+                    /**
+         * Get the container bindings / services that should be pre-resolved by default.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function defaultServicesToWarm()
+        {
+                        return \Laravel\Octane\Octane::defaultServicesToWarm();
+        }
+                    /**
+         * Register a Octane route.
+         *
+         * @param string $method
+         * @param string $uri
+         * @param \Closure $callback
+         * @return void 
+         * @static 
+         */ 
+        public static function route($method, $uri, $callback)
+        {
+                        /** @var \Laravel\Octane\Octane $instance */
+                        $instance->route($method, $uri, $callback);
+        }
+                    /**
+         * Determine if a route exists for the given method and URI.
+         *
+         * @param string $method
+         * @param string $uri
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasRouteFor($method, $uri)
+        {
+                        /** @var \Laravel\Octane\Octane $instance */
+                        return $instance->hasRouteFor($method, $uri);
+        }
+                    /**
+         * Invoke the route for the given method and URI.
+         *
+         * @param \Illuminate\Http\Request $request
+         * @param string $method
+         * @param string $uri
+         * @return \Symfony\Component\HttpFoundation\Response 
+         * @static 
+         */ 
+        public static function invokeRoute($request, $method, $uri)
+        {
+                        /** @var \Laravel\Octane\Octane $instance */
+                        return $instance->invokeRoute($request, $method, $uri);
+        }
+                    /**
+         * Register a callback to be called every N seconds.
+         *
+         * @param string $key
+         * @param callable $callback
+         * @param int $seconds
+         * @param bool $immediate
+         * @return \Laravel\Octane\Swoole\InvokeTickCallable 
+         * @static 
+         */ 
+        public static function tick($key, $callback, $seconds = 1, $immediate = true)
+        {
+                        /** @var \Laravel\Octane\Octane $instance */
+                        return $instance->tick($key, $callback, $seconds, $immediate);
         }
          
     }
@@ -21946,7 +22138,9 @@ namespace  {
             class Validator extends \Illuminate\Support\Facades\Validator {}
             class View extends \Illuminate\Support\Facades\View {}
             class Vite extends \Illuminate\Support\Facades\Vite {}
+            class AWS extends \Aws\Laravel\AwsFacade {}
             class L5Swagger extends \L5Swagger\L5SwaggerFacade {}
+            class Octane extends \Laravel\Octane\Facades\Octane {}
             class Flare extends \Spatie\LaravelIgnition\Facades\Flare {}
      
 }

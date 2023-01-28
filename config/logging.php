@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Log Channel
@@ -30,10 +31,7 @@ return [
     |
     */
 
-    'deprecations' => [
-        'channel' => env('LOG_DEPRECATIONS_CHANNEL', 'null'),
-        'trace' => false,
-    ],
+    'deprecations' => env('LOG_DEPRECATIONS_CHANNEL', 'null'),
 
     /*
     |--------------------------------------------------------------------------
@@ -68,6 +66,7 @@ return [
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => 14,
+            'permission' => 0664,
         ],
 
         'slack' => [
@@ -81,11 +80,10 @@ return [
         'papertrail' => [
             'driver' => 'monolog',
             'level' => env('LOG_LEVEL', 'debug'),
-            'handler' => env('LOG_PAPERTRAIL_HANDLER', SyslogUdpHandler::class),
+            'handler' => SyslogUdpHandler::class,
             'handler_with' => [
                 'host' => env('PAPERTRAIL_URL'),
                 'port' => env('PAPERTRAIL_PORT'),
-                'connectionString' => 'tls://'.env('PAPERTRAIL_URL').':'.env('PAPERTRAIL_PORT'),
             ],
         ],
 
@@ -116,7 +114,62 @@ return [
 
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
+            'permission' => 0664,
         ],
-    ],
 
+        'local' => [
+            'driver' => 'stack',
+            'channels' => [
+                'stderr',
+            ],
+            'ignore_exceptions' => false,
+        ],
+
+        'dev' => [
+            'driver' => 'stack',
+            'channels' => [
+                'bugsnag',
+                'stderr',
+            ],
+            'ignore_exceptions' => false,
+        ],
+
+        'bugsnag' => [
+            'driver' => 'bugsnag',
+        ],
+
+        'cloud' => [
+            'driver' => 'stack',
+            'channels' => [
+                'bugsnag',
+                'stdout',
+            ],
+            'ignore_exceptions' => false,
+        ],
+
+        'stdout' => [
+            'driver' => 'monolog',
+            'handler' => StreamHandler::class,
+            'formatter' => \Monolog\Formatter\JsonFormatter::class,
+            'with' => [
+                'stream' => 'php://stdout',
+            ],
+            'tap' => [
+                \App\Logger\Processor\UidProcessor::class,
+            ],
+        ],
+
+        'monolog' => [
+            'driver' => 'monolog',
+            'handler' => \Monolog\Handler\MongoDBHandler::class,
+            'formatter' => \Monolog\Formatter\MongoDBFormatter::class,
+            'handler_with' => [
+                'mongo' => new MongoDB\Client(
+                    env('DB_URI', 'mongodb://127.0.0.1')
+                ),
+                'database' => env('DB_DATABASE'),
+                'collection' => 'logs'
+            ]
+        ]
+    ],
 ];

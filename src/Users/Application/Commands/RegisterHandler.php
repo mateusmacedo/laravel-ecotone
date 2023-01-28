@@ -25,6 +25,6 @@ class RegisterHandler
             throw new ValidationExceptions($user->getExceptions());
         }
         $this->repository->upsert($user);
-        $messagePublisher->send(json_encode(['userId' => $user->getId()]), 'application/json');
+        $messagePublisher->send($user->toJson(), 'application/json');
     }
 }

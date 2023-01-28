@@ -14,7 +14,7 @@ class UserRegisteredHandler
     }
     public function handle(UserRegisteredEvent $event): void
     {
-        $user = $this->repository->findById($event->getUserId());
+        $user = $this->repository->findById($event->getUserAggregate()->getId());
         Log::info("Sending email to user {$user->getEmail()->getValue()}");
     }
 }

@@ -14,7 +14,6 @@ class FindByEmailHandler
     {
     }
 
-    #[QueryHandler]
     public function handle(FindByEmailQuery $query): ?UserAggregate
     {
         return $this->repository->findByEmail($query->getDto()->getEmail());
