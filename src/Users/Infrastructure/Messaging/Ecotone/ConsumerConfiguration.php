@@ -9,12 +9,12 @@ use Ecotone\Messaging\Attribute\ServiceContext;
 
 class ConsumerConfiguration
 {
-	#[ServiceContext]
-	public function userRegisteredConsumerConfig(): array
-	{
-		return [
+    #[ServiceContext]
+    public function userRegisteredConsumerConfig(): array
+    {
+        return [
             SqsMessageConsumerConfiguration::create('sendRegistrationEmail', 'users')
-			->withDeclareOnStartup(false)
+            ->withDeclareOnStartup(false)
         ];
-	}
+    }
 }

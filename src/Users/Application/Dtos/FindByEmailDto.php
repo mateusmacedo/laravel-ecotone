@@ -8,12 +8,12 @@ use Module\Users\Domain\Email;
 
 class FindByEmailDto
 {
-	public function __construct(private Email $email)
-	{
-	}
+    public function __construct(private Email $email)
+    {
+    }
 
-	public function getEmail(): Email
-	{
-		return $this->email;
-	}
+    public function getEmail(): Email
+    {
+        return $this->email;
+    }
 }

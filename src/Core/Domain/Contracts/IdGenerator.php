@@ -6,5 +6,5 @@ namespace Module\Core\Domain\Contracts;
 
 interface IdGenerator
 {
-	public static function generate(): string;
+    public static function generate(): string;
 }

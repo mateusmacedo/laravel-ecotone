@@ -11,16 +11,16 @@ use Module\Users\Domain\Password;
 
 class UserDtoFactory
 {
-	public function registerDto(array $data): RegisterDto
-	{
-		$email = new Email($data['email']);
-		$password = new Password($data['password']);
-		return new RegisterDto($email, $password);
-	}
+    public function registerDto(array $data): RegisterDto
+    {
+        $email = new Email($data['email']);
+        $password = new Password($data['password']);
+        return new RegisterDto($email, $password);
+    }
 
-	public function findByEmailDto(array $data): FindByEmailDto
-	{
-		$email = new Email($data['email']);
-		return new FindByEmailDto($email);
-	}
+    public function findByEmailDto(array $data): FindByEmailDto
+    {
+        $email = new Email($data['email']);
+        return new FindByEmailDto($email);
+    }
 }

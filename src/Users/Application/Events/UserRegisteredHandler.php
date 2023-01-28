@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace Module\Users\Application\Events;
 
-use Ecotone\Messaging\Attribute\Asynchronous;
-use Ecotone\Modelling\Attribute\EventHandler;
 use Illuminate\Support\Facades\Log;
-
+use Module\Users\Domain\Repositories\FindByIdRepository;
 
 class UserRegisteredHandler
 {
-	public function handle(UserRegisteredEvent $event): void
-	{
-		Log::info("Sending email to user {$event->getUserId()}");
-	}
+    public function __construct(private FindByIdRepository $repository)
+    {
+    }
+    public function handle(UserRegisteredEvent $event): void
+    {
+        $user = $this->repository->findById($event->getUserId());
+        Log::info("Sending email to user {$user->getEmail()->getValue()}");
+    }
 }

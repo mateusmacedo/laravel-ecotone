@@ -8,10 +8,12 @@ use Module\Users\Application\Dtos\FindByEmailDto;
 
 class FindByEmailQuery
 {
-	public function __construct(private FindByEmailDto $dto) {}
+    public function __construct(private FindByEmailDto $dto)
+    {
+    }
 
-	public function getDto(): FindByEmailDto
-	{
-		return $this->dto;
-	}
+    public function getDto(): FindByEmailDto
+    {
+        return $this->dto;
+    }
 }

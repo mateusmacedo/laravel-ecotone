@@ -9,17 +9,17 @@ use Module\Users\Domain\Password;
 
 class RegisterDto
 {
-	public function __construct(private Email $email, private Password $password)
-	{
-	}
+    public function __construct(private Email $email, private Password $password)
+    {
+    }
 
-	public function getEmail(): Email
-	{
-		return $this->email;
-	}
+    public function getEmail(): Email
+    {
+        return $this->email;
+    }
 
-	public function getPassword(): Password
-	{
-		return $this->password;
-	}
+    public function getPassword(): Password
+    {
+        return $this->password;
+    }
 }

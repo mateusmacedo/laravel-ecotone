@@ -12,9 +12,9 @@ use Module\Users\Application\Commands\RegisterHandler;
 
 class RegisterCommandHandler
 {
-	#[CommandHandler]
-	public function handle(RegisterCommand $command, RegisterHandler $handler, MessagePublisher $messagePublisher): void
-	{
-		$handler->handle($command, $messagePublisher);
-	}
+    #[CommandHandler]
+    public function handle(RegisterCommand $command, RegisterHandler $handler, MessagePublisher $messagePublisher): void
+    {
+        $handler->handle($command, $messagePublisher);
+    }
 }

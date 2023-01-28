@@ -8,12 +8,12 @@ use Module\Users\Application\Dtos\RegisterDto;
 
 class RegisterCommand
 {
-	public function __construct(private RegisterDto $registerDto)
-	{
-	}
+    public function __construct(private RegisterDto $registerDto)
+    {
+    }
 
-	public function getDto(): RegisterDto
-	{
-		return $this->registerDto;
-	}
+    public function getDto(): RegisterDto
+    {
+        return $this->registerDto;
+    }
 }

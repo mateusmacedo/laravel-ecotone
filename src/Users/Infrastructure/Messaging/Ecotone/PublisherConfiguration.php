@@ -14,7 +14,7 @@ class PublisherConfiguration
     #[ServiceContext]
     public function userRegisteredPublisherConfig(): SqsMessagePublisherConfiguration
     {
-    return SqsMessagePublisherConfiguration::create(queueName: 'users')
-      ->withAutoDeclareQueueOnSend(false);
-	}
+        return SqsMessagePublisherConfiguration::create(queueName: 'users')
+          ->withAutoDeclareQueueOnSend(false);
+    }
 }

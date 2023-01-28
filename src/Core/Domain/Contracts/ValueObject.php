@@ -6,7 +6,7 @@ namespace Module\Core\Domain\Contracts;
 
 interface ValueObject
 {
-	public function getIdentifier(): string;
-	public function getValue(): mixed;
-	public function equals(ValueObject $valueObject): bool;
+    public function getIdentifier(): string;
+    public function getValue(): mixed;
+    public function equals(ValueObject $valueObject): bool;
 }

@@ -1,6 +1,6 @@
 <?php
 
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace Module\Users\Infrastructure\Messaging\Ecotone;
 
@@ -24,11 +24,11 @@ class JsonToPHPConverter implements Converter
         $data = \json_decode($source, true, 512, JSON_THROW_ON_ERROR);
         switch ($targetType->getTypeHint()) {
             case UserRegisteredEvent::class:{
-				return UserRegisteredEvent::fromArray($data);
-			}
+                return UserRegisteredEvent::fromArray($data);
+            }
             default:{
-				throw new \InvalidArgumentException("Unknown conversion type");
-			}
+                throw new \InvalidArgumentException("Unknown conversion type");
+            }
         }
     }
 }

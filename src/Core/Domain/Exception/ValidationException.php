@@ -20,4 +20,3 @@ class ValidationException extends DomainException
         return $this->identifier;
     }
 }
-

@@ -8,21 +8,21 @@ use Module\Core\Domain\Contracts\ValueObject;
 
 abstract class AbstractValueObjectValidable extends AbstractValidable implements ValueObject
 {
-	protected string $identifier;
+    protected string $identifier;
 
-	public function __construct(protected mixed $value)
-	{
-	}
+    public function __construct(protected mixed $value)
+    {
+    }
 
-	public function getIdentifier(): string
-	{
-		return $this->identifier;
-	}
+    public function getIdentifier(): string
+    {
+        return $this->identifier;
+    }
 
-	public function getValue(): mixed
-	{
-		return $this->value;
-	}
+    public function getValue(): mixed
+    {
+        return $this->value;
+    }
 
-	abstract public function equals(ValueObject $valueObject): bool;
+    abstract public function equals(ValueObject $valueObject): bool;
 }

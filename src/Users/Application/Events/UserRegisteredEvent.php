@@ -6,17 +6,17 @@ namespace Module\Users\Application\Events;
 
 class UserRegisteredEvent
 {
-	public function __construct(private string $userId)
-	{
-	}
+    public function __construct(private string $userId)
+    {
+    }
 
-	public function getUserId(): string
-	{
-		return $this->userId;
-	}
+    public function getUserId(): string
+    {
+        return $this->userId;
+    }
 
-	public static function fromArray($data): self
-	{
-		return new self($data['userId']);
-	}
+    public static function fromArray($data): self
+    {
+        return new self($data['userId']);
+    }
 }

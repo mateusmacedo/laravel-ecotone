@@ -11,13 +11,13 @@ use Module\Users\Application\Queries\FindByEmailQuery;
 
 class UserCommandQueryFactory
 {
-	public static function registerCommand(RegisterDto $dto): RegisterCommand
-	{
-		return new RegisterCommand($dto);
-	}
+    public static function registerCommand(RegisterDto $dto): RegisterCommand
+    {
+        return new RegisterCommand($dto);
+    }
 
-	public static function findByEmailQuery(FindByEmailDto $dto): FindByEmailQuery
-	{
-		return new FindByEmailQuery($dto);
-	}
+    public static function findByEmailQuery(FindByEmailDto $dto): FindByEmailQuery
+    {
+        return new FindByEmailQuery($dto);
+    }
 }

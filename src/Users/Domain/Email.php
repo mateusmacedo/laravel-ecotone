@@ -10,17 +10,17 @@ use Module\Core\Domain\Exception\ValidationException;
 
 class Email extends AbstractValueObjectValidable
 {
-	protected string $identifier = 'email';
+    protected string $identifier = 'email';
 
-	public function equals(ValueObject $valueObject): bool
-	{
-		return $this->getValue() === $valueObject->getValue();
-	}
+    public function equals(ValueObject $valueObject): bool
+    {
+        return $this->getValue() === $valueObject->getValue();
+    }
 
-	public function validate(): void
-	{
-		if (!filter_var($this->getValue(), FILTER_VALIDATE_EMAIL)) {
-			$this->addException(new ValidationException('Invalid email', $this->getIdentifier()));
-		}
-	}
+    public function validate(): void
+    {
+        if (!filter_var($this->getValue(), FILTER_VALIDATE_EMAIL)) {
+            $this->addException(new ValidationException('Invalid email', $this->getIdentifier()));
+        }
+    }
 }
