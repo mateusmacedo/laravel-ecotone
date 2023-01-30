@@ -3,7 +3,7 @@
 #---------------------------------------------------
 
 # Image
-FROM macedodosanjosmateus/laravel-return:base
+FROM macedodosanjosmateus/laravel-startkit:base
 # Variables
 ENV DOCUMENT_ROOT /var/www/localhost/htdocs
 

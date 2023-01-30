@@ -238,7 +238,7 @@ services:
     mem_limit: 0.3g
     mem_reservation: 100m
     restart: unless-stopped
-    command: redis-server --databases 1
+    command: redis-server --databases 2
     volumes:
       - .docker-volumes/redis/data:/data
     expose:
