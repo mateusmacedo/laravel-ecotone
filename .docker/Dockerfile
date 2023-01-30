@@ -29,7 +29,6 @@ WORKDIR $DOCUMENT_ROOT
 RUN rm -f /etc/nginx/conf.d/*
 
 # Copy app and configs
-COPY . $DOCUMENT_ROOT
 COPY .docker/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY .docker/php/php.ini /usr/local/etc/php/conf.d/app.ini
 COPY .docker/php/daemon-process.conf /etc/supervisor/supervisord.conf

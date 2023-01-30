@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Module\Users\Application\Events;
+
 use Module\Users\Domain\UserAggregate;
 
 class UserRegisteredEvent

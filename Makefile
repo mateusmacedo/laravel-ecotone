@@ -2,6 +2,7 @@ CONTAINER_NAME=laravel-startkit-api
 CONTAINER_LOCALSTACK_NAME=localstack
 
 install:
+	make build-base
 	make build
 	make up
 	make composer-package-install
@@ -18,6 +19,9 @@ down:
 bash:
 	make up
 	docker exec -it $(CONTAINER_NAME) sh
+
+build-base:
+	docker build -t macedodosanjosmateus/laravel-startkit:base -f .docker/Dockerfile.base .
 
 build:
 	docker-compose build

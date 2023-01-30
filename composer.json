@@ -34,16 +34,20 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",
         "barryvdh/laravel-ide-helper": "^2.10",
+        "captainhook/captainhook": "^5.14",
+        "captainhook/plugin-composer": "^5.3",
         "darkaonline/l5-swagger": "^8.4",
         "fakerphp/faker": "^1.9.1",
         "friendsofphp/php-cs-fixer": "^3.13",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.0.1",
         "laravel/telescope": "^4.12",
+        "marcocesarato/php-conventional-changelog": "^1.16",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
         "nunomaduro/larastan": "^2.0",
         "phpunit/phpunit": "^9.5.10",
+        "ramsey/conventional-commits": "^1.3",
         "spatie/laravel-ignition": "^1.0"
     },
     "autoload": {
@@ -62,7 +66,8 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "vendor/bin/captainhook install -f -s"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
@@ -75,11 +80,24 @@
         ],
         "code-analyze": " php -d memory_limit=-1 vendor/bin/phpstan analyze",
         "code-analyze:report": " php -d memory_limit=-1 vendor/bin/phpstan analyze --error-format=gitlab > ${REPORT_PATH}quality.json || true",
-        "lint-fix": "vendor/bin/php-cs-fixer fix",
-        "lint-validation": "vendor/bin/php-cs-fixer fix -v --using-cache no --dry-run --stop-on-violation",
+        "lint-fix": [
+            "vendor/bin/php-cs-fixer fix ./app",
+            "vendor/bin/php-cs-fixer fix ./src",
+            "vendor/bin/php-cs-fixer fix ./tests"
+        ],
+        "lint-validation": [
+            "vendor/bin/php-cs-fixer fix -v --using-cache no --dry-run --stop-on-violation ./app",
+            "vendor/bin/php-cs-fixer fix -v --using-cache no --dry-run --stop-on-violation ./src",
+            "vendor/bin/php-cs-fixer fix -v --using-cache no --dry-run --stop-on-violation ./tests"
+        ],
         "unit-test": "php -d memory_limit=-1 vendor/bin/phpunit --testdox --no-coverage",
         "test-coverage-html": "XDEBUG_MODE=coverage php -d memory_limit=-1 vendor/bin/phpunit --coverage-html=coverage",
-        "unit-test:report": "vendor/bin/phpunit --coverage-text --colors=never --log-junit ${REPORT_PATH}logfile.xml --coverage-clover ${REPORT_PATH}coverage.xml"
+        "unit-test:report": "vendor/bin/phpunit --coverage-text --colors=never --log-junit ${REPORT_PATH}logfile.xml --coverage-clover ${REPORT_PATH}coverage.xml",
+        "changelog": "conventional-changelog",
+        "release": "conventional-changelog --commit",
+        "release:patch": "conventional-changelog --patch --commit",
+        "release:minor": "conventional-changelog --minor --commit",
+        "release:major": "conventional-changelog --major --commit"
     },
     "extra": {
         "laravel": {
@@ -88,6 +106,20 @@
                 "barryvdh/laravel-debugbar",
                 "barryvdh/laravel-ide-helper"
             ]
+        },
+        "ramsey/conventional-commits": {
+            "config": {
+                "typeCase": null,
+                "types": [],
+                "scopeCase": null,
+                "scopeRequired": false,
+                "scopes": [],
+                "descriptionCase": null,
+                "descriptionEndMark": null,
+                "bodyRequired": false,
+                "bodyWrapWidth": null,
+                "requiredFooters": []
+            }
         }
     },
     "config": {
@@ -95,9 +127,11 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true
+            "pestphp/pest-plugin": true,
+            "captainhook/plugin-composer": true
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "version": "0.0.1"
 }

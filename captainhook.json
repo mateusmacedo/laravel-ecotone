@@ -1,0 +1,59 @@
+{
+    "commit-msg": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "\\Ramsey\\CaptainHook\\ValidateConventionalCommit"
+            }
+        ]
+    },
+    "pre-push": {
+        "enabled": false,
+        "actions": []
+    },
+    "pre-commit": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "php -d memory_limit=-1 vendor/bin/phpunit --testdox --no-coverage",
+                "options": []
+            },
+            {
+                "action": "vendor/bin/php-cs-fixer fix ./app",
+                "options": []
+            },
+            {
+                "action": "vendor/bin/php-cs-fixer fix ./src",
+                "options": []
+            },
+            {
+                "action": "vendor/bin/php-cs-fixer fix ./tests",
+                "options": []
+            }
+        ]
+    },
+    "prepare-commit-msg": {
+        "enabled": false,
+        "actions": []
+    },
+    "post-commit": {
+        "enabled": false,
+        "actions": []
+    },
+    "post-merge": {
+        "enabled": false,
+        "actions": []
+    },
+    "post-checkout": {
+        "enabled": false,
+        "actions": []
+    },
+    "post-rewrite": {
+        "enabled": false,
+        "actions": []
+    },
+    "post-change": {
+        "enabled": false,
+        "actions": []
+    }
+}

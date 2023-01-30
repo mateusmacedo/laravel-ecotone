@@ -11,9 +11,9 @@ use Module\Users\Domain\UserAggregate;
 
 class FindByEmailQueryHandler
 {
-	#[QueryHandler]
-	public function handle(FindByEmailQuery $query, FindByEmailHandler $handler): ?UserAggregate
-	{
-		return $handler->handle($query);
-	}
+    #[QueryHandler]
+    public function handle(FindByEmailQuery $query, FindByEmailHandler $handler): ?UserAggregate
+    {
+        return $handler->handle($query);
+    }
 }
