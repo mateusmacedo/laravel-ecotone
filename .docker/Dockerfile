@@ -3,43 +3,12 @@
 #---------------------------------------------------
 
 # Image
-FROM php:8.1-fpm-alpine
+FROM macedodosanjosmateus/laravel-startkit:base
+
 # Variables
 ENV DOCUMENT_ROOT /var/www/localhost/htdocs
-ENV TZ=America/Sao_Paulo
-ENV XDEBUG_MODE=debug
-ENV XDEBUG_CLIENT_HOST=host.docker.internal
-ENV XDEBUG_CLIENT_PORT=9003
 
-# Install dependencies
 RUN apk add --no-cache \
-        $PHPIZE_DEPS \
-        nginx \
-        unzip \
-        git \
-        pkgconfig \
-        icu-dev \
-        curl-dev \
-        openssl-dev \
-        libxml2-dev \
-        libzip-dev \
-        oniguruma-dev \
-        readline-dev \
-        libmcrypt-dev \
-        libxslt-dev \
-        libmemcached-dev \
-        libpng-dev \
-        freetype-dev \
-        libjpeg-turbo-dev \
-        supervisor \
-        linux-headers \
-    && pecl install memcached redis xdebug mongodb \
-    && docker-php-ext-enable memcached opcache redis xdebug mongodb \
-    && docker-php-ext-configure gd  \
-    && docker-php-ext-configure zip  \
-    && docker-php-ext-install bcmath \
-    && docker-php-ext-install -j "$(nproc)" mysqli pdo_mysql intl zip xsl soap gd \
-    && docker-php-source delete \
     && apk del --no-cache \
         gcc \
         g++ \
@@ -53,18 +22,6 @@ RUN apk add --no-cache \
         pkgconf \
         re2c
 
-# Tuning OS
-RUN echo 'net.ipv4.ip_local_port_range = 12000 65535' >> /etc/sysctl.conf
-RUN echo 'fs.file-max = 1048576' >> /etc/sysctl.conf
-RUN mkdir /etc/security/
-RUN echo '*                soft    nofile          1048576' >> /etc/security/limits.conf
-RUN echo '*                hard    nofile          1048576' >> /etc/security/limits.conf
-RUN echo 'root             soft    nofile          1048576' >> /etc/security/limits.conf
-RUN echo 'root             hard    nofile          1048576' >> /etc/security/limits.conf
-
-# Set Timezone
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
 # Workdir
 WORKDIR $DOCUMENT_ROOT
 
@@ -77,16 +34,14 @@ COPY .docker/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY .docker/php/php.ini /usr/local/etc/php/conf.d/app.ini
 COPY .docker/php/daemon-process.conf /etc/supervisor/supervisord.conf
 COPY .docker/php/php-fpm-www.conf /usr/local/etc/php-fpm.d/www.conf
+# COPY .docker/php/op-cache.ini /usr/local/etc/php/conf.d/opcache.ini
+
 RUN chown -R www-data:www-data $DOCUMENT_ROOT
-
-RUN curl -s https://getcomposer.org/installer | php
-
-RUN mv composer.phar /usr/local/bin/composer && chmod +x /usr/local/bin/composer
 
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && ln -sf /dev/stderr /var/log/nginx/error.log
 
 # Expose port
-EXPOSE 80 9000 9003
+EXPOSE 80 9000
 
 # Start APP
 CMD ["nginx", "-g", "daemon off;"]

@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-db = db.getSiblingDB('laravel_startkit_api')
+// db = db.getSiblingDB('laravel_startkit_api')
 db.createUser({
   user: 'laravel_startkit_api',
   pwd: 'Secret*123',

@@ -25,7 +25,7 @@ services:
     # env_file:
   #     .docker/nginx/env
   laravel-startkit-api:
-    image: macedodosanjosmateus/laravel-return:latest
+    image: macedodosanjosmateus/laravel-return:prod
     build:
       context: ./
       dockerfile: .docker/Dockerfile
@@ -39,7 +39,7 @@ services:
       - .docker/php/php.ini:/usr/local/etc/php/conf.d/app.ini
       - .docker/php/daemon-process.conf:/etc/supervisor/supervisord.conf
       - .docker/php/php-fpm-www.conf:/usr/local/etc/php-fpm.d/www.conf
-      # - ./storage/logs:/var/log/nginx/
+    #   # - ./storage/logs:/var/log/nginx/
     depends_on:
       - mysql
       - mongodb
@@ -49,11 +49,9 @@ services:
     expose:
       - 80
       - 9000
-      - 9003
     ports:
       - 8080:80
       - 9000:9000
-      - 9003:9003
     links:
       - mysql:mysql
       - mongodb:mongodb
@@ -67,10 +65,96 @@ services:
     networks:
       network:
         ipv4_address: 172.10.0.2
+
+  laravel-startkit-api-dev:
+    image: macedodosanjosmateus/laravel-return:dev
+    build:
+      context: ./
+      dockerfile: .docker/Dockerfile.dev
+    container_name: laravel-startkit-api-dev
+    restart: unless-stopped
+    mem_limit: 0.5g
+    tty: true
+    volumes:
+      - .:/var/www/localhost/htdocs
+      - .docker/nginx/nginx-dev.conf:/etc/nginx/nginx.conf
+      - .docker/php/php.ini:/usr/local/etc/php/conf.d/app.ini
+      - .docker/php/daemon-process.conf:/etc/supervisor/supervisord.conf
+      - .docker/php/php-fpm-www.conf:/usr/local/etc/php-fpm.d/www.conf
+    #   # - ./storage/logs:/var/log/nginx/
+    depends_on:
+      - mysql
+      - mongodb
+      - rabbitmq
+      - redis
+      - localstack
+    expose:
+      - 80
+      - 9000
+      - 9003
+    ports:
+      - 8081:80
+      - 9001:9000
+      - 9003:9003
+    links:
+      - mysql:mysql
+      - mongodb:mongodb
+      - rabbitmq:rabbitmq
+      - redis:redis
+      - localstack:localstack
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    hostname: laravel-startkit-api-dev
+    network_mode: bridge
+    networks:
+      network:
+        ipv4_address: 172.10.0.3
     environment:
       XDEBUG_MODE: ${XDEBUG_MODE:-debug}
       XDEBUG_CLIENT_HOST: ${XDEBUG_CLIENT_HOST:-host.docker.internal}
       XDEBUG_CLIENT_PORT: ${XDEBUG_CLIENT_PORT:-9003}
+
+  laravel-startkit-api-swl:
+    image: macedodosanjosmateus/laravel-return:swl
+    build:
+      context: ./
+      dockerfile: .docker/Dockerfile.swoole
+    container_name: laravel-startkit-api-swl
+    restart: unless-stopped
+    mem_limit: 0.5g
+    tty: true
+    volumes:
+      - .:/var/www/localhost/htdocs
+      - .docker/nginx/nginx-swl.conf:/etc/nginx/nginx.conf
+      - .docker/php/php.ini:/usr/local/etc/php/conf.d/app.ini
+      - .docker/php/daemon-process-swl.conf:/etc/supervisor/supervisord.conf
+      - .docker/php/php-fpm-www.conf:/usr/local/etc/php-fpm.d/www.conf
+    #   # - ./storage/logs:/var/log/nginx/
+    depends_on:
+      - mysql
+      - mongodb
+      - rabbitmq
+      - redis
+      - localstack
+    expose:
+      - 80
+      - 8000
+    ports:
+      - 8082:80
+      - 8000:8000
+    links:
+      - mysql:mysql
+      - mongodb:mongodb
+      - rabbitmq:rabbitmq
+      - redis:redis
+      - localstack:localstack
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    hostname: laravel-startkit-api-swl
+    network_mode: bridge
+    networks:
+      network:
+        ipv4_address: 172.10.0.4
 
   mysql:
     image: mysql:5.7
@@ -91,7 +175,7 @@ services:
     network_mode: bridge
     networks:
       network:
-        ipv4_address: 172.10.0.3
+        ipv4_address: 172.10.0.5
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: laravel_startkit_api
@@ -99,7 +183,7 @@ services:
       MYSQL_DB: laravel_startkit_api
 
   mongodb:
-    image: mongo:5.0.3
+    image: mongo:latest
     container_name: mongodb
     mem_limit: 0.5g
     mem_reservation: 150m
@@ -115,7 +199,7 @@ services:
     network_mode: bridge
     networks:
       network:
-        ipv4_address: 172.10.0.4
+        ipv4_address: 172.10.0.6
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
@@ -143,7 +227,7 @@ services:
     network_mode: bridge
     networks:
       network:
-        ipv4_address: 172.10.0.5
+        ipv4_address: 172.10.0.7
     environment:
       RABBITMQ_DEFAULT_USER: root
       RABBITMQ_DEFAULT_PASS: root
@@ -154,7 +238,7 @@ services:
     mem_limit: 0.3g
     mem_reservation: 100m
     restart: unless-stopped
-    command: redis-server --databases 1
+    command: redis-server --databases 2
     volumes:
       - .docker-volumes/redis/data:/data
     expose:
@@ -167,7 +251,7 @@ services:
       - host.docker.internal:host-gateway
     networks:
       network:
-        ipv4_address: 172.10.0.6
+        ipv4_address: 172.10.0.8
 
   localstack:
     image: localstack/localstack
@@ -193,7 +277,7 @@ services:
     network_mode: bridge
     networks:
       network:
-        ipv4_address: 172.10.0.7
+        ipv4_address: 172.10.0.9
     environment:
       SERVICES: s3,sqs
       DOCKER_HOST: unix:///var/run/docker.sock
@@ -205,4 +289,4 @@ networks:
     driver: bridge
     ipam:
       config:
-      - subnet: 172.10.0.0/16
+      - subnet: 172.10.0.0/24

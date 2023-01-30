@@ -1,4 +1,4 @@
-CONTAINER_NAME=application
+CONTAINER_NAME=laravel-startkit-api
 CONTAINER_LOCALSTACK_NAME=localstack
 
 install:
