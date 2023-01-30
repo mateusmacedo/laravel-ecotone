@@ -25,7 +25,7 @@ services:
     # env_file:
   #     .docker/nginx/env
   laravel-startkit-api:
-    image: macedodosanjosmateus/laravel-return:prod
+    image: macedodosanjosmateus/laravel-startkit:prod
     build:
       context: ./
       dockerfile: .docker/Dockerfile
@@ -67,7 +67,7 @@ services:
         ipv4_address: 172.10.0.2
 
   laravel-startkit-api-dev:
-    image: macedodosanjosmateus/laravel-return:dev
+    image: macedodosanjosmateus/laravel-startkit:dev
     build:
       context: ./
       dockerfile: .docker/Dockerfile.dev
@@ -115,7 +115,7 @@ services:
       XDEBUG_CLIENT_PORT: ${XDEBUG_CLIENT_PORT:-9003}
 
   laravel-startkit-api-swl:
-    image: macedodosanjosmateus/laravel-return:swl
+    image: macedodosanjosmateus/laravel-startkit:swl
     build:
       context: ./
       dockerfile: .docker/Dockerfile.swoole
