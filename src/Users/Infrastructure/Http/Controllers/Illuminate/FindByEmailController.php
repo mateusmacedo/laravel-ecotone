@@ -6,7 +6,7 @@ namespace Module\Users\Infrastructure\Http\Controllers\Illuminate;
 
 use Ecotone\Modelling\QueryBus;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Module\Users\Application\Factories\UserCommandQueryFactory;
 use Module\Users\Application\Factories\UserDtoFactory;
 use Symfony\Component\HttpFoundation\Response;

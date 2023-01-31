@@ -11,7 +11,7 @@ use Module\Users\Application\Events\UserRegisteredHandler;
 
 class UserRegisteredEventHandler
 {
-    #[Asynchronous('orders')]
+    #[Asynchronous('users')]
     #[MessageConsumer("sendRegistrationEmail")]
     public function sendEmail(UserRegisteredEvent $event, UserRegisteredHandler $handler): void
     {

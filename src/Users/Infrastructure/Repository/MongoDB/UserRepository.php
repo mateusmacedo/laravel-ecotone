@@ -25,7 +25,7 @@ class UserRepository implements UpsertRepository, FindByEmailRepository, FindByI
 
     public function findByEmail(Email $email): ?UserAggregate
     {
-        $user = $this->model->findByEmail($email->getValue());
+        $user = $this->model->findByEmail($email->getValue())->first();
         if ($user) {
             return UserAggregate::fromArray($user->toArray());
         }
@@ -34,7 +34,7 @@ class UserRepository implements UpsertRepository, FindByEmailRepository, FindByI
 
     public function findById(string $id): ?UserAggregate
     {
-        $user = $this->model->findById($id);
+        $user = $this->model->findById($id)->first();
         if ($user) {
             return UserAggregate::fromArray($user->toArray());
         }

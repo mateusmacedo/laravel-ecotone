@@ -36,7 +36,7 @@ class ValidationExceptions extends DomainException
 
     public function getCurrent(): ?ValidationException
     {
-        return current($this->items);
+        return current($this->items) ?: null;
     }
 
     public function extractErrorMessages(): array
