@@ -31,7 +31,7 @@ chmod -R 777 storage bootstrap/cache
 Para realizar a build e instalar as dependências `<laravel-starkit>`, siga estas etapas:
 
 ```bash
-make build
+make install
 ```
 
 ## ⚙️ Configurando ambiente `<laravel-starkit>`

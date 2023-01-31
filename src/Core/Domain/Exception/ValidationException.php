@@ -11,8 +11,7 @@ class ValidationException extends DomainException
     public function __construct(
         string $message,
         private string $identifier,
-    )
-    {
+    ) {
         parent::__construct($message);
     }
 

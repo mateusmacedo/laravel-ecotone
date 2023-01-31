@@ -9,8 +9,8 @@ use Tests\TestCase;
 
 class UuidGeneratorTest extends TestCase
 {
-	public function testThatCanGenerateUuid(): void
-	{
-		$this->assertNotEmpty(UuidGenerator::generate());
-	}
+    public function testThatCanGenerateUuid(): void
+    {
+        $this->assertNotEmpty(UuidGenerator::generate());
+    }
 }

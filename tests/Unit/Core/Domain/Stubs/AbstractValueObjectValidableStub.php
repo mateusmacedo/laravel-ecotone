@@ -9,19 +9,19 @@ use Module\Core\Domain\Contracts\ValueObject;
 
 class AbstractValueObjectValidableStub extends AbstractValueObjectValidable
 {
-	protected string $identifier = self::class;
+    protected string $identifier = self::class;
 
-	public function __construct(mixed $value)
-	{
-		parent::__construct($value);
-	}
+    public function __construct(mixed $value)
+    {
+        parent::__construct($value);
+    }
 
-	public function equals(ValueObject $valueObject): bool
-	{
-		return true;
-	}
+    public function equals(ValueObject $valueObject): bool
+    {
+        return true;
+    }
 
-	public function validate(): void
-	{
-	}
+    public function validate(): void
+    {
+    }
 }

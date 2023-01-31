@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Module\Users\Infrastructure\Http\Controllers\Illuminate\RegisterController;
-use Module\Users\Infraestructure\Http\Controllers\Illuminate\FindByEmailController;
+use Module\Users\Infrastructure\Http\Controllers\Illuminate\FindByEmailController;
 
 /*
 |--------------------------------------------------------------------------
