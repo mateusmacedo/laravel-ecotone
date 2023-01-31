@@ -19,7 +19,11 @@ class UserRepository implements UpsertRepository, FindByEmailRepository, FindByI
 
     public function upsert(UserAggregate $user): void
     {
-        $userModel = $this->model->newInstance($user->toArray());
+        $userModel = $this->model->findByEmail($user->getEmail()->getValue())->first();
+        if (!$userModel) {
+            $userModel = $this->model->newInstance($user->toArray());
+        }
+        $userModel->fill($user->toArray());
         $userModel->save();
     }
 
