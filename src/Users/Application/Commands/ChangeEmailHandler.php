@@ -6,6 +6,7 @@ namespace Module\Users\Application\Commands;
 
 use Module\Users\Domain\Repositories\FindByEmailRepository;
 use Module\Users\Domain\Repositories\UpsertRepository;
+use Module\Users\Domain\UserAggregate;
 
 class ChangeEmailHandler
 {
@@ -15,16 +16,18 @@ class ChangeEmailHandler
     ) {
     }
 
-    public function handle(ChangeEmailCommand $command): void
+    public function handle(ChangeEmailCommand $command): ?UserAggregate
     {
         $dto = $command->getDto();
         $newEmail = $dto->getNewEmail();
         $isEmailAlreadyInUse = $this->findByEmailRepository->findByEmail($newEmail);
         if ($isEmailAlreadyInUse) {
-            return;
+            return null;
         }
         $user = $this->findByEmailRepository->findByEmail($dto->getCurrentEmail());
         $user->changeEmail($newEmail);
         $this->upsertRepository->upsert($user);
+
+        return $user;
     }
 }

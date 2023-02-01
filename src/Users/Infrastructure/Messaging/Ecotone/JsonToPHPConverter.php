@@ -8,6 +8,7 @@ use Ecotone\Messaging\Attribute\MediaTypeConverter;
 use Ecotone\Messaging\Conversion\Converter;
 use Ecotone\Messaging\Conversion\MediaType;
 use Ecotone\Messaging\Handler\TypeDescriptor;
+use Module\Users\Application\Events\EmailChangedEvent;
 use Module\Users\Application\Events\UserRegisteredEvent;
 
 #[MediaTypeConverter]
@@ -25,6 +26,9 @@ class JsonToPHPConverter implements Converter
         switch ($targetType->getTypeHint()) {
             case UserRegisteredEvent::class:{
                 return UserRegisteredEvent::fromArray($data);
+            }
+            case EmailChangedEvent::class:{
+                return EmailChangedEvent::fromArray($data);
             }
             default:{
                 throw new \InvalidArgumentException("Unknown conversion type");
