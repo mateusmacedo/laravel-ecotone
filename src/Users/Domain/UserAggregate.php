@@ -80,8 +80,12 @@ class UserAggregate extends AbstractValidable
         return self::fromArray(json_decode($json, true));
     }
 
-    public function changeEmail(Email $newEmail)
+  public function changeEmail(Email $newEmail)
+  {
+      $this->email = $newEmail;
+  }
+    public function changePassword(Password $password): void
     {
-        $this->email = $newEmail;
+        $this->password = $password;
     }
 }
