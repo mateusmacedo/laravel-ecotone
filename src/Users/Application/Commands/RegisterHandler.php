@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Module\Users\Application\Commands;
 
-use Ecotone\Messaging\MessagePublisher;
 use Module\Core\Domain\Exception\ValidationExceptions;
+use Module\Users\Application\Commands\RegisterCommand;
 use Module\Users\Domain\Repositories\UpsertRepository;
 use Module\Users\Domain\UserAggregate;
-use Module\Users\Application\Commands\RegisterCommand;
 
 class RegisterHandler
 {
@@ -16,7 +15,7 @@ class RegisterHandler
     {
     }
 
-    public function handle(RegisterCommand $command, MessagePublisher $messagePublisher): void
+    public function handle(RegisterCommand $command): UserAggregate
     {
         $dto = $command->getDto();
         $user = UserAggregate::register($dto->getEmail(), $dto->getPassword());
@@ -25,6 +24,6 @@ class RegisterHandler
             throw new ValidationExceptions($user->getExceptions());
         }
         $this->repository->upsert($user);
-        $messagePublisher->send($user->toJson(), 'application/json');
+        return $user;
     }
 }

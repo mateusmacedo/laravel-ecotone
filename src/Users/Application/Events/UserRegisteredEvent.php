@@ -21,4 +21,9 @@ class UserRegisteredEvent
     {
         return new self(UserAggregate::fromArray($data));
     }
+
+    public function toJson(): string
+    {
+        return json_encode($this->getUserAggregate()->toArray());
+    }
 }
