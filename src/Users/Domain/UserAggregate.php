@@ -79,4 +79,9 @@ class UserAggregate extends AbstractValidable
     {
         return self::fromArray(json_decode($json, true));
     }
+
+    public function changeEmail(Email $newEmail)
+    {
+        $this->email = $newEmail;
+    }
 }

@@ -16,11 +16,11 @@ class UserModel extends BaseModel
 
     public function findByEmail(string $email): mixed
     {
-        return self::where('email', $email)->first();
+        return self::where('email', $email)?->first();
     }
 
     public function findById(string $id): mixed
     {
-        return self::where('id', $id)->first();
+        return self::where('id', $id)?->first();
     }
 }

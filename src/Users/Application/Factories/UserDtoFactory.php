@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Module\Users\Application\Factories;
 
+use Module\Users\Application\Dtos\ChangeEmailDto;
 use Module\Users\Application\Dtos\FindByEmailDto;
 use Module\Users\Application\Dtos\RegisterDto;
 use Module\Users\Domain\Email;
@@ -22,5 +23,13 @@ class UserDtoFactory
     {
         $email = new Email($data['email']);
         return new FindByEmailDto($email);
+    }
+
+    public function changeEmailDto(array $data): ChangeEmailDto
+    {
+        return new ChangeEmailDto(
+            new Email($data['currentEmail']),
+            new Email($data['newEmail']),
+        );
     }
 }

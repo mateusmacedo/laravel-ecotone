@@ -63,7 +63,8 @@ RUN chown -R www-data:www-data $DOCUMENT_ROOT
 RUN curl -s https://getcomposer.org/installer | php
 
 RUN mv composer.phar /usr/local/bin/composer && chmod +x /usr/local/bin/composer
-RUN composer run-script post-root-package-install --no-interaction
-RUN composer install --no-interaction --no-scripts
+#RUN composer run-script post-root-package-install --no-interaction
+RUN composer install
+# --no-interaction --no-scripts
 
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && ln -sf /dev/stderr /var/log/nginx/error.log
