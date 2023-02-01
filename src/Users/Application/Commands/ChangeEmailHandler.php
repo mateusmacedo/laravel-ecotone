@@ -18,19 +18,13 @@ class ChangeEmailHandler
     public function handle(ChangeEmailCommand $command): void
     {
         $dto = $command->getDto();
-
         $newEmail = $dto->getNewEmail();
-
         $isEmailAlreadyInUse = $this->findByEmailRepository->findByEmail($newEmail);
-
         if ($isEmailAlreadyInUse) {
             return;
         }
-
         $user = $this->findByEmailRepository->findByEmail($dto->getCurrentEmail());
-
         $user->changeEmail($newEmail);
-
         $this->upsertRepository->upsert($user);
     }
 }

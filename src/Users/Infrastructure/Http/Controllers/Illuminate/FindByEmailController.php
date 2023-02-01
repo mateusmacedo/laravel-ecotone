@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Module\Users\Infrastructure\Http\Controllers\Illuminate;
 
 use Ecotone\Modelling\QueryBus;
-use Illuminate\Routing\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Module\Core\Domain\Exception\ValidationExceptions;
 use Module\Users\Application\Factories\UserCommandQueryFactory;
 use Module\Users\Application\Factories\UserDtoFactory;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Http\JsonResponse;
 
 class FindByEmailController extends Controller
 {
@@ -30,9 +31,12 @@ class FindByEmailController extends Controller
             if ($user) {
                 return new JsonResponse($user, Response::HTTP_OK);
             }
-        } catch (\Exception $e) {
+        } catch (ValidationExceptions $e) {
             $errorMessages = ['message' => $e->extractErrorMessages()];
-            return new JsonResponse($errorMessages, Response::HTTP_UNPROCESSABLE_ENTITY);
+            return new JsonResponse($errorMessages, Response::HTTP_BAD_REQUEST);
+        } catch (\Exception $e) {
+            $errorMessages = ['message' => $e->getMessage()];
+            return new JsonResponse($errorMessages, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
         return new Response(null, Response::HTTP_NOT_FOUND);
     }

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Module\Users\Domain;
 
 use Module\Core\Domain\AbstractValidable;
+use Module\Core\Domain\Contracts\Validable;
 use Module\Core\Infrastructure\UuidGenerator;
 use Module\Users\Domain\Email;
 use Module\Users\Domain\Password;
-use Module\Core\Domain\Contracts\Validable;
 
 class UserAggregate extends AbstractValidable
 {
@@ -19,7 +19,7 @@ class UserAggregate extends AbstractValidable
     ) {
     }
 
-    public static function register(Email $email, Password $password): static
+    public static function register(Email $email, Password $password): self
     {
         return new self(UuidGenerator::generate(), $email, $password);
     }
@@ -41,7 +41,10 @@ class UserAggregate extends AbstractValidable
 
     public function validate(): void
     {
-        foreach ($this as $attribute) {
+        $attributes = new \ArrayObject($this);
+        $interator = $attributes->getIterator();
+        while ($interator->valid()) {
+            $attribute = $interator->current();
             if (!$attribute instanceof Validable) {
                 continue;
             }
@@ -61,7 +64,7 @@ class UserAggregate extends AbstractValidable
         ];
     }
 
-    public static function fromArray(array $data): static
+    public static function fromArray(array $data): self
     {
         return new self(
             $data['id'],
@@ -75,15 +78,15 @@ class UserAggregate extends AbstractValidable
         return json_encode($this->toArray());
     }
 
-    public static function fromJson(string $json): static
+    public static function fromJson(string $json): self
     {
         return self::fromArray(json_decode($json, true));
     }
 
-  public function changeEmail(Email $newEmail)
-  {
-      $this->email = $newEmail;
-  }
+    public function changeEmail(Email $newEmail)
+    {
+        $this->email = $newEmail;
+    }
     public function changePassword(Password $password): void
     {
         $this->password = $password;
