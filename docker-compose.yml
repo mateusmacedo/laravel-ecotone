@@ -18,7 +18,7 @@ services:
   #     - host.docker.internal:host-gateway
   #   links:
   #     - application:application
-    # network_mode: bridge
+    #
   #   networks:
   #     network:
   #       ipv4_address: 172.10.0.1
@@ -68,7 +68,7 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway
     hostname: laravel-startkit-api
-    network_mode: bridge
+
     networks:
       network:
         ipv4_address: 172.10.0.2
@@ -117,7 +117,7 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway
     hostname: laravel-startkit-api-dev
-    network_mode: bridge
+
     networks:
       network:
         ipv4_address: 172.10.0.3
@@ -169,7 +169,7 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway
     hostname: laravel-startkit-api-swl
-    network_mode: bridge
+
     networks:
       network:
         ipv4_address: 172.10.0.4
@@ -195,7 +195,7 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway
     hostname: mysql
-    network_mode: bridge
+
     networks:
       network:
         ipv4_address: 172.10.0.5
@@ -224,7 +224,7 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway
     hostname: mongodb
-    network_mode: bridge
+
     networks:
       network:
         ipv4_address: 172.10.0.6
@@ -257,7 +257,7 @@ services:
     hostname: rabbitmq
     extra_hosts:
       - host.docker.internal:host-gateway
-    network_mode: bridge
+
     networks:
       network:
         ipv4_address: 172.10.0.7
@@ -283,7 +283,7 @@ services:
       - 6379
     ports:
       - 6379:6379
-    network_mode: bridge
+
     hostname: redis
     extra_hosts:
       - host.docker.internal:host-gateway
@@ -317,7 +317,7 @@ services:
     hostname: localstack
     extra_hosts:
       - host.docker.internal:host-gateway
-    network_mode: bridge
+
     networks:
       network:
         ipv4_address: 172.10.0.9

@@ -42,9 +42,9 @@ class UserAggregate extends AbstractValidable
     public function validate(): void
     {
         $attributes = new \ArrayObject($this);
-        $interator = $attributes->getIterator();
-        while ($interator->valid()) {
-            $attribute = $interator->current();
+        $iterator = $attributes->getIterator();
+        while ($iterator->valid()) {
+            $attribute = $iterator->current();
             if (!$attribute instanceof Validable) {
                 continue;
             }
