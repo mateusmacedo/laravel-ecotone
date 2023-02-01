@@ -1,5 +1,9 @@
 CONTAINER_NAME=laravel-startkit-api
 CONTAINER_LOCALSTACK_NAME=localstack
+CONTAINER_MYSQL_NAME=mysql
+CONTAINER_REDIS_NAME=redis
+CONTAINER_RABBITMQ_NAME=rabbitmq
+CONTAINER_MONGO_NAME=mongodb
 
 install:
 	make build-base
@@ -11,7 +15,7 @@ install:
 	make clear
 
 up:
-	docker-compose up -d
+	docker-compose up -d $(CONTAINER_NAME) $(CONTAINER_LOCALSTACK_NAME) $(CONTAINER_MYSQL_NAME) $(CONTAINER_REDIS_NAME) $(CONTAINER_RABBITMQ_NAME) $(CONTAINER_MONGO_NAME)
 
 down:
 	docker-compose down
