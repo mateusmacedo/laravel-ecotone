@@ -65,6 +65,10 @@ services:
       context: ./
       dockerfile: .docker/Dockerfile.dev
     container_name: laravel-startkit-api-dev
+    env_file:
+        - .env
+    restart: unless-stopped
+    mem_limit: 0.5g
     tty: true
     volumes:
       - .:/var/www/localhost/htdocs
@@ -200,6 +204,7 @@ services:
       - 6379
     ports:
       - 6379:6379
+    #network_mode: bridge
     hostname: redis
     extra_hosts:
       - host.docker.internal:host-gateway
@@ -225,7 +230,7 @@ services:
     hostname: localstack
     extra_hosts:
       - host.docker.internal:host-gateway
-
+    #network_mode: bridge
     networks:
       network:
         ipv4_address: 172.10.0.9
