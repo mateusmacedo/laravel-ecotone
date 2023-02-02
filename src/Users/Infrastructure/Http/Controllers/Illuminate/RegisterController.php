@@ -19,7 +19,8 @@ class RegisterController extends Controller
         private UserDtoFactory $dtoFactory,
         private UserCommandQueryFactory $commandQueryFactory,
         private CommandBus $commandBus
-    ) {
+    )
+    {
     }
 
     public function post(Request $request): JsonResponse

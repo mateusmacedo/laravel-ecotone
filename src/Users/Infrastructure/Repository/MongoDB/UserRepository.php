@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+/* declare(strict_types=1);
 
 namespace Module\Users\Infrastructure\Repository\MongoDB;
 
@@ -29,7 +29,7 @@ class UserRepository implements UpsertRepository, FindByEmailRepository, FindByI
 
     public function findByEmail(Email $email): ?UserAggregate
     {
-        $user = $this->model->findByEmail($email->getValue());
+        $user = $this->model->findByEmail($email->getValue())->first();
         if ($user) {
             return UserAggregate::fromArray($user->toArray());
         }
@@ -38,10 +38,32 @@ class UserRepository implements UpsertRepository, FindByEmailRepository, FindByI
 
     public function findById(string $id): ?UserAggregate
     {
-        $user = $this->model->findById($id);
+        $user = $this->model->findById($id)->first();
         if ($user) {
             return UserAggregate::fromArray($user->toArray());
         }
         return null;
+    }
+}
+ */
+
+declare(strict_types=1);
+
+namespace Module\Users\Infrastructure\Repository\MongoDB;
+
+use Module\Core\Infrastructure\Database\MongoBaseRepository;
+use Module\Users\Domain\Contracts\FindByEmailRepository;
+use Module\Users\Domain\Contracts\IUserRepository;
+use Module\Users\Domain\Contracts\UpsertRepository;
+use Module\Users\Domain\UserAggregate;
+use Module\Users\Infrastructure\Repository\MongoDB\Models\UserModel;
+use Module\Users\Domain\Email;
+use Module\Users\Mapper\UsersMapper;
+
+class UserRepository extends MongoBaseRepository implements IUserRepository
+{
+    public function __construct(private UserModel $model, private UsersMapper $mapper)
+    {
+        parent::__construct($model, $mapper);
     }
 }

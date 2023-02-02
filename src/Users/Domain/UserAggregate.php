@@ -4,45 +4,34 @@ declare(strict_types=1);
 
 namespace Module\Users\Domain;
 
+use Barryvdh\Debugbar\Facades\Debugbar;
 use Module\Core\Domain\AbstractValidable;
-use Module\Core\Domain\Contracts\Validable;
-use Module\Core\Infrastructure\ArraySerialize;
-use Module\Core\Infrastructure\FromArray;
-use Module\Core\Infrastructure\FromJson;
+use Module\Core\Domain\AggregateRoot;
+use Module\Core\Domain\Entity;
+use Module\Core\Domain\Exception\ValidationException;
 use Module\Core\Infrastructure\UuidGenerator;
 use Module\Users\Application\Dtos\RegisterDto;
 
-class UserAggregate extends AbstractValidable implements ArraySerialize, \JsonSerializable, FromArray, FromJson
+
+class UserAggregate extends Entity
 {
-    private function __construct(
-        private string $id,
+    public function __construct(
+        ?string $id,
         private Email $email,
         private Password $password
-    ) {
+    )
+    {
+        parent::__construct($id);
     }
 
-    public static function fromArray(array $data): self
+    public static function register(?string $uuid, Email $email, Password $password): static
     {
-        return new self(
-            $data['id'],
-            new Email($data['email']),
-            new Password($data['password'])
-        );
-    }
-
-    public static function fromJson(string $json): self
-    {
-        return self::fromArray(json_decode($json, true));
-    }
-
-    public static function register(RegisterDto $dto): self
-    {
-        return new self(UuidGenerator::generate(), $dto->getEmail(), $dto->getPassword());
+        return new self(null, $email, $password);
     }
 
     public function getId(): string
     {
-        return $this->id;
+        return $this->uuid;
     }
 
     public function getEmail(): Email
@@ -84,7 +73,7 @@ class UserAggregate extends AbstractValidable implements ArraySerialize, \JsonSe
     public function arraySerialize(): array
     {
         return [
-            'id' => $this->id,
+            'uuid' => $this->uuid,
             'email' => $this->email->getValue(),
             'password' => $this->password->getValue(),
         ];
@@ -92,6 +81,30 @@ class UserAggregate extends AbstractValidable implements ArraySerialize, \JsonSe
 
     public function jsonSerialize()
     {
-        return $this->arraySerialize();
+        return new self(
+            $data['uuid'],
+            new Email($data['email']),
+            new Password($data['password'])
+        );
+    }
+
+    public function toJson(): string
+    {
+        return json_encode($this->toArray());
+    }
+
+    public static function fromJson(string $json): self
+    {
+        return self::fromArray(json_decode($json, true));
+    }
+
+    public function changeEmail(Email $newEmail)
+    {
+        $this->email = $newEmail;
+    }
+
+    public function changePassword(Password $password): void
+    {
+        $this->password = $password;
     }
 }
