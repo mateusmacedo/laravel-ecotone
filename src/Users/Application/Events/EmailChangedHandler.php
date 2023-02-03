@@ -19,4 +19,3 @@ class EmailChangedHandler
         Log::info("Sending email to user {$user->getEmail()->getValue()}");
     }
 }
-

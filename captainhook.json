@@ -19,15 +19,15 @@
                 "options": []
             },
             {
-                "action": "vendor/bin/php-cs-fixer fix ./app",
+                "action": "export PHP_CS_FIXER_IGNORE_ENV=1 && vendor/bin/php-cs-fixer fix ./app",
                 "options": []
             },
             {
-                "action": "vendor/bin/php-cs-fixer fix ./src",
+                "action": "export PHP_CS_FIXER_IGNORE_ENV=1 && vendor/bin/php-cs-fixer fix ./src",
                 "options": []
             },
             {
-                "action": "vendor/bin/php-cs-fixer fix ./tests",
+                "action": "export PHP_CS_FIXER_IGNORE_ENV=1 && vendor/bin/php-cs-fixer fix ./tests",
                 "options": []
             }
         ]

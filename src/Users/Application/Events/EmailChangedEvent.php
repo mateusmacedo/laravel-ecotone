@@ -8,22 +8,22 @@ use Module\Users\Domain\UserAggregate;
 
 class EmailChangedEvent
 {
-  	public function __construct(private UserAggregate $userAggregate)
-	{
-	}
+    public function __construct(private UserAggregate $userAggregate)
+    {
+    }
 
-  	public function getUserAggregate(): UserAggregate
-  	{
-		return $this->userAggregate;
-  	}
+    public function getUserAggregate(): UserAggregate
+    {
+        return $this->userAggregate;
+    }
 
-	public static function fromArray($data): self
-	{
-		return new self(UserAggregate::fromArray($data));
-	}
+    public static function fromArray($data): self
+    {
+        return new self(UserAggregate::fromArray($data));
+    }
 
-	public function toJson(): string
-	{
-		return json_encode($this->getUserAggregate()->toArray());
-	}
+    public function toJson(): string
+    {
+        return json_encode($this->getUserAggregate()->toArray());
+    }
 }

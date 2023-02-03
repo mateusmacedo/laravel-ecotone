@@ -18,26 +18,18 @@ services:
   #     - host.docker.internal:host-gateway
   #   links:
   #     - application:application
-    #
+  #
   #   networks:
   #     network:
   #       ipv4_address: 172.10.0.1
-    # env_file:
+  # env_file:
   #     .docker/nginx/env
 
   laravel-startkit-api:
-    image: macedodosanjosmateus/laravel-startkit:prod
-    deploy:
-      resources:
-        limits:
-          cpus: '6'
-          memory: 512M
-        reservations:
-          cpus: '0.5'
-          memory: 20M
+    image: macedodosanjosmateus/laravel-startkit:prd
     build:
       context: ./
-      dockerfile: .docker/Dockerfile
+      dockerfile: .docker/Dockerfile.prd
     container_name: laravel-startkit-api
     tty: true
     volumes:
@@ -46,7 +38,7 @@ services:
       - .docker/php/php.ini:/usr/local/etc/php/conf.d/app.ini
       - .docker/php/daemon-process.conf:/etc/supervisor/supervisord.conf
       - .docker/php/php-fpm-www.conf:/usr/local/etc/php-fpm.d/www.conf
-    #   # - ./storage/logs:/var/log/nginx/
+      - .docker/php/op-cache.ini:/usr/local/etc/php/conf.d/opcache.ini
     depends_on:
       - mysql
       - mongodb
@@ -68,21 +60,12 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway
     hostname: laravel-startkit-api
-
     networks:
       network:
         ipv4_address: 172.10.0.2
 
   laravel-startkit-api-dev:
     image: macedodosanjosmateus/laravel-startkit:dev
-    deploy:
-      resources:
-        limits:
-          cpus: '6'
-          memory: 512M
-        reservations:
-          cpus: '0.5'
-          memory: 20M
     build:
       context: ./
       dockerfile: .docker/Dockerfile.dev
@@ -94,7 +77,6 @@ services:
       - .docker/php/php.ini:/usr/local/etc/php/conf.d/app.ini
       - .docker/php/daemon-process.conf:/etc/supervisor/supervisord.conf
       - .docker/php/php-fpm-www.conf:/usr/local/etc/php-fpm.d/www.conf
-    #   # - ./storage/logs:/var/log/nginx/
     depends_on:
       - mysql
       - mongodb
@@ -104,7 +86,6 @@ services:
     expose:
       - 80
       - 9000
-      - 9003
     ports:
       - 8081:80
       - 9000:9000
@@ -117,7 +98,6 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway
     hostname: laravel-startkit-api-dev
-
     networks:
       network:
         ipv4_address: 172.10.0.3
@@ -128,26 +108,17 @@ services:
 
   laravel-startkit-api-swl:
     image: macedodosanjosmateus/laravel-startkit:swl
-    deploy:
-      resources:
-        limits:
-          cpus: '6'
-          memory: 768M
-        reservations:
-          cpus: '0.5'
-          memory: 20M
     build:
       context: ./
-      dockerfile: .docker/Dockerfile.swoole
+      dockerfile: .docker/Dockerfile.swl
     container_name: laravel-startkit-api-swl
     tty: true
     volumes:
       - .:/var/www/localhost/htdocs
-      - .docker/nginx/nginx-swl.conf:/etc/nginx/nginx.conf
       - .docker/php/php.ini:/usr/local/etc/php/conf.d/app.ini
       - .docker/php/daemon-process-swl.conf:/etc/supervisor/supervisord.conf
-      - .docker/php/php-fpm-www.conf:/usr/local/etc/php-fpm.d/www.conf
-    #   # - ./storage/logs:/var/log/nginx/
+      - .docker/nginx/nginx-swl.conf:/etc/nginx/nginx.conf
+      - .docker/php/op-cache.ini:/usr/local/etc/php/conf.d/opcache.ini
     depends_on:
       - mysql
       - mongodb
@@ -155,11 +126,11 @@ services:
       - redis
       - localstack
     expose:
-      - 80
       - 8000
+      - 80
     ports:
-      - 8082:80
       - 8000:8000
+      - 8082:80
     links:
       - mysql:mysql
       - mongodb:mongodb
@@ -169,21 +140,12 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway
     hostname: laravel-startkit-api-swl
-
     networks:
       network:
         ipv4_address: 172.10.0.4
 
   mysql:
     image: mysql:5.7
-    deploy:
-      resources:
-        limits:
-          cpus: '6'
-          memory: 512M
-        reservations:
-          cpus: '0.25'
-          memory: 20M
     container_name: mysql
     command: --default-authentication-plugin=mysql_native_password
     volumes:
@@ -195,7 +157,6 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway
     hostname: mysql
-
     networks:
       network:
         ipv4_address: 172.10.0.5
@@ -207,24 +168,15 @@ services:
 
   mongodb:
     image: mongo:latest
-    deploy:
-      resources:
-        limits:
-          cpus: '6'
-          memory: 512M
-        reservations:
-          cpus: '0.25'
-          memory: 20M
     container_name: mongodb
     volumes:
-      - .docker/mongodb/mongodb-entrypoint.js:/docker-entrypoint-initdb.d/mongodb-entrypoint.js
+      - .docker/mongodb:/docker-entrypoint-initdb.d
       - .docker-volumes/mongodb:/data/db
     ports:
       - 27017:27017
     extra_hosts:
       - host.docker.internal:host-gateway
     hostname: mongodb
-
     networks:
       network:
         ipv4_address: 172.10.0.6
@@ -234,17 +186,9 @@ services:
 
   rabbitmq:
     image: rabbitmq:3-management
-    deploy:
-      resources:
-        limits:
-          cpus: '6'
-          memory: 512M
-        reservations:
-          cpus: '0.25'
-          memory: 20M
     container_name: rabbitmq
     volumes:
-      - .docker/rabbitmq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config
+      # - .docker/rabbitmq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config
       - .docker-volumes/rabbitmq:/var/lib/rabbitmq
     expose:
       - 5672
@@ -257,24 +201,12 @@ services:
     hostname: rabbitmq
     extra_hosts:
       - host.docker.internal:host-gateway
-
     networks:
       network:
         ipv4_address: 172.10.0.7
-    environment:
-      RABBITMQ_DEFAULT_USER: root
-      RABBITMQ_DEFAULT_PASS: root
 
   redis:
     image: redis:alpine
-    deploy:
-      resources:
-        limits:
-          cpus: '6'
-          memory: 512M
-        reservations:
-          cpus: '0.5'
-          memory: 20M
     container_name: redis
     command: redis-server --databases 2
     volumes:
@@ -293,14 +225,6 @@ services:
 
   localstack:
     image: localstack/localstack
-    deploy:
-      resources:
-        limits:
-          cpus: '6'
-          memory: 768M
-        reservations:
-          cpus: '0.5'
-          memory: 20M
     container_name: localstack
     volumes:
       - .docker-volumes/localstack/data:/tmp/localstack/data
@@ -332,4 +256,4 @@ networks:
     driver: bridge
     ipam:
       config:
-      - subnet: 172.10.0.0/24
+        - subnet: 172.10.0.0/24
