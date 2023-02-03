@@ -33,6 +33,7 @@ class UserDtoFactory
           new Email($data['newEmail']),
       );
   }
+
     public function changePasswordDto(array $data): ChangePasswordDto
     {
         $password = new Password($data['password']);

@@ -11,8 +11,8 @@ use Module\Users\Application\Events\EmailChangedHandler;
 
 class EmailChangedEventHandler
 {
-    #[Asynchronous("users")]
-    #[EventHandler(listenTo: EmailChangedEvent::class, endpointId: "notifyEmailHasChanged")]
+    #[Asynchronous('users')]
+    #[EventHandler(listenTo: EmailChangedEvent::class, endpointId: 'notifyEmailHasChanged')]
     public function notifyEmailHasChanged(EmailChangedEvent $event, EmailChangedHandler $handler): void
     {
         $handler->handle($event);

@@ -7,8 +7,6 @@ namespace Module\Users\Domain;
 use Module\Core\Domain\AbstractValidable;
 use Module\Core\Domain\Contracts\Validable;
 use Module\Core\Infrastructure\UuidGenerator;
-use Module\Users\Domain\Email;
-use Module\Users\Domain\Password;
 
 class UserAggregate extends AbstractValidable
 {
@@ -87,6 +85,7 @@ class UserAggregate extends AbstractValidable
     {
         $this->email = $newEmail;
     }
+
     public function changePassword(Password $password): void
     {
         $this->password = $password;

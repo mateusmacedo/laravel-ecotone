@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Module\Users\Application\Factories;
 
 use Module\Users\Application\Commands\ChangeEmailCommand;
+use Module\Users\Application\Commands\ChangePasswordCommand;
 use Module\Users\Application\Commands\RegisterCommand;
 use Module\Users\Application\Dtos\ChangeEmailDto;
-use Module\Users\Application\Commands\ChangePasswordCommand;
 use Module\Users\Application\Dtos\ChangePasswordDto;
 use Module\Users\Application\Dtos\FindByEmailDto;
 use Module\Users\Application\Dtos\RegisterDto;
@@ -29,6 +29,7 @@ class UserCommandQueryFactory
   {
       return new ChangeEmailCommand($dto);
   }
+
     public static function changePasswordCommand(ChangePasswordDto $dto): ChangePasswordCommand
     {
         return new ChangePasswordCommand($dto);

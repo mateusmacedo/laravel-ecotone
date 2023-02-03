@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Module\Users\Infrastructure\Repository\MongoDB\Models;
 
-use DateTime;
 use Jenssegers\Mongodb\Eloquent\Model;
 use MongoDB\BSON\UTCDateTime;
 
@@ -25,6 +24,6 @@ class BaseModel extends Model
             return null;
         }
 
-        return new UTCDateTime(new DateTime($dateTime));
+        return new UTCDateTime(new \DateTime($dateTime));
     }
 }

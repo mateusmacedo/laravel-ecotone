@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Module\Users\Application\Commands;
 
 use Module\Core\Domain\Exception\ValidationExceptions;
-use Module\Users\Application\Commands\ChangePasswordCommand;
 use Module\Users\Domain\Repositories\FindByEmailRepository;
 use Module\Users\Domain\Repositories\UpsertRepository;
 

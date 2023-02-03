@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Module\Core\Domain\Exception;
 
-use DomainException;
-
-class ValidationException extends DomainException
+class ValidationException extends \DomainException
 {
     public function __construct(
         string $message,

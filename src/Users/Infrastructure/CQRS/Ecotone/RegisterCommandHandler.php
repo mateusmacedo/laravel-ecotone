@@ -13,8 +13,8 @@ use Module\Users\Application\Events\UserRegisteredEvent;
 
 class RegisterCommandHandler
 {
-    #[Asynchronous("users")]
-    #[CommandHandler(endpointId: "RegisterCommand")]
+    #[Asynchronous('users')]
+    #[CommandHandler(endpointId: 'RegisterCommand')]
     public function handle(RegisterCommand $command, RegisterHandler $handler, EventBus $eventBus): void
     {
         $result = $handler->handle($command);

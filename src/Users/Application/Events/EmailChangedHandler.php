@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Module\Users\Application\Events;
 
-use Module\Users\Domain\Repositories\FindByIdRepository;
 use Illuminate\Support\Facades\Log;
+use Module\Users\Domain\Repositories\FindByIdRepository;
 
 class EmailChangedHandler
 {

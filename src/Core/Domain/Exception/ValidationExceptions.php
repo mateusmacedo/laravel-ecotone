@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Module\Core\Domain\Exception;
 
-use DomainException;
-
-class ValidationExceptions extends DomainException
+class ValidationExceptions extends \DomainException
 {
     private $items = [];
 

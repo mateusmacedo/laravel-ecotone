@@ -12,6 +12,7 @@ class UserRegisteredHandler
     public function __construct(private FindByIdRepository $repository)
     {
     }
+
     public function handle(UserRegisteredEvent $event): void
     {
         $user = $this->repository->findById($event->getUserAggregate()->getId());

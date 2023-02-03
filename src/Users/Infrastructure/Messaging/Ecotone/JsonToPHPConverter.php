@@ -24,15 +24,12 @@ class JsonToPHPConverter implements Converter
     {
         $data = \json_decode($source, true, 512, JSON_THROW_ON_ERROR);
         switch ($targetType->getTypeHint()) {
-            case UserRegisteredEvent::class:{
+            case UserRegisteredEvent::class:
                 return UserRegisteredEvent::fromArray($data);
-            }
-            case EmailChangedEvent::class:{
+            case EmailChangedEvent::class:
                 return EmailChangedEvent::fromArray($data);
-            }
-            default:{
-                throw new \InvalidArgumentException("Unknown conversion type");
-            }
+            default:
+                throw new \InvalidArgumentException('Unknown conversion type');
         }
     }
 }

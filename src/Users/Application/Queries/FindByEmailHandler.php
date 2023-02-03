@@ -6,7 +6,6 @@ namespace Module\Users\Application\Queries;
 
 use Module\Users\Domain\Repositories\FindByEmailRepository;
 use Module\Users\Domain\UserAggregate;
-use Module\Users\Application\Queries\FindByEmailQuery;
 
 class FindByEmailHandler
 {

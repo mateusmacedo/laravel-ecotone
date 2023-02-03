@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use Enqueue\AmqpExt\AmqpConnectionFactory;
@@ -10,8 +12,6 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     *
-     * @return void
      */
     public function register()
     {
@@ -21,20 +21,17 @@ class AppServiceProvider extends ServiceProvider
             // $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
         }
         $this->app->singleton(SqsConnectionFactory::class, function () {
-            return new SqsConnectionFactory("sqs:?key=key&secret=secret&region=us-east-1&endpoint=http://localstack:4566&version=latest");
+            return new SqsConnectionFactory('sqs:?key=key&secret=secret&region=us-east-1&endpoint=http://localstack:4566&version=latest');
         });
         $this->app->singleton(AmqpConnectionFactory::class, function () {
-            return new AmqpConnectionFactory("amqp+lib://guest:guest@rabbitmq:5672//");
+            return new AmqpConnectionFactory('amqp+lib://guest:guest@rabbitmq:5672//');
         });
     }
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
     public function boot()
     {
-        //
     }
 }

@@ -17,6 +17,7 @@ class ChangePasswordDto
     {
         return $this->newPassword;
     }
+
     public function getEmail(): Email
     {
         return $this->email;

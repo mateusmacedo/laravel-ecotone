@@ -12,7 +12,7 @@ class AbstractValidableTest extends TestCase
 {
     public function testThatAbstractValidableCanBeCreated(): void
     {
-        $validable = new class () extends AbstractValidable {
+        $validable = new class() extends AbstractValidable {
             public function validate(): void
             {
                 // do nothing
@@ -25,7 +25,7 @@ class AbstractValidableTest extends TestCase
 
     public function testThatAbstractValidableCanBeCreatedWithExceptions(): void
     {
-        $validable = new class () extends AbstractValidable {
+        $validable = new class() extends AbstractValidable {
             public function validate(): void
             {
             }

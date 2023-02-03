@@ -11,8 +11,8 @@ use Module\Users\Application\Events\UserRegisteredHandler;
 
 class UserRegisteredEventHandler
 {
-    #[Asynchronous("users")]
-    #[EventHandler(listenTo: UserRegisteredEvent::class, endpointId: "sendEmail")]
+    #[Asynchronous('users')]
+    #[EventHandler(listenTo: UserRegisteredEvent::class, endpointId: 'sendEmail')]
     public function sendEmail(UserRegisteredEvent $event, UserRegisteredHandler $handler): void
     {
         $handler->handle($event);
