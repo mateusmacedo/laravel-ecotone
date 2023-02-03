@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use Enqueue\AmqpExt\AmqpConnectionFactory;
@@ -29,9 +31,8 @@ class AppServiceProvider extends ServiceProvider
             $connectionString = 'amqp+lib://' . config('rabbitmq.user') . ':' . config('rabbitmq.password') . '@' . config('rabbitmq.host') . ':' . config('rabbitmq.port') . '/';
             return new AmqpConnectionFactory($connectionString);
         });
-        $this->app->singleton(RedisConnectionFactory::class, function () {
-            $connectionString = 'redis://' . config('database.redis.default.host') . ':' . config('database.redis.default.port') . '/' . config('database.redis.default.database');
-            return new RedisConnectionFactory($connectionString);
+        $this->app->singleton(AmqpConnectionFactory::class, function () {
+            return new AmqpConnectionFactory("amqp+lib://guest:guest@rabbitmq:5672//");
         });
     }
 
