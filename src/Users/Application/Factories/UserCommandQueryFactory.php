@@ -15,7 +15,7 @@ use Module\Users\Application\Queries\FindByEmailQuery;
 
 class UserCommandQueryFactory
 {
-    public static function registerCommand(RegisterDto $dto): RegisterCommand
+    public static function registerCommand($dto): RegisterCommand
     {
         return new RegisterCommand($dto);
     }

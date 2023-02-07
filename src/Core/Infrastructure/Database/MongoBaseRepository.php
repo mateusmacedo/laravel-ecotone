@@ -7,9 +7,8 @@ use Module\Core\Infrastructure\Database\Contracts\ListProps;
 use Module\Core\Infrastructure\Database\Contracts\ListResponse;
 use Module\Core\Infrastructure\Database\Contracts\RepositoryError;
 use Module\Core\Mapper\IMapper;
-use MongoException;
 
-class MongoBaseRepository implements IBaseRepository
+class MongoBaseRepository implements IBaseReaderRepository, IBaseWriterRepository
 {
     function __construct(private Model $model, private IMapper $mapper)
     {
@@ -22,7 +21,6 @@ class MongoBaseRepository implements IBaseRepository
     public function list(ListProps $props): ListResponse|RepositoryError
     {
         try {
-            //throw new \ErrorException('huehuebrbr');
             $paginateParams = $this->getPaginationParams($props->page, $props->perPage);
             $baseQuery = new $this->model();
 
@@ -63,8 +61,8 @@ class MongoBaseRepository implements IBaseRepository
             $userModel = new $this->model($data);
             $result = $userModel->save();
             return $result;
-        } catch (MongoException $e) {
-            return new RepositoryError();
+        } catch (\ErrorException | \BadMethodCallException | \TypeError $e) {
+            return new RepositoryError($e);
         }
     }
 
@@ -86,8 +84,8 @@ class MongoBaseRepository implements IBaseRepository
 
             $dataDb = $baseQuery->first();
             return $dataDb != null ? $this->mapper->toDomain($dataDb->toArray()) : null;
-        } catch (MongoException $e) {
-            return new RepositoryError();
+        } catch (\ErrorException | \BadMethodCallException | \TypeError $e) {
+            return new RepositoryError($e);
         }
     }
 
@@ -110,8 +108,8 @@ class MongoBaseRepository implements IBaseRepository
             $result = $baseQuery->delete();
 
             return $result;
-        } catch (MongoException $e) {
-            return new RepositoryError();
+        } catch (\ErrorException | \BadMethodCallException | \TypeError $e) {
+            return new RepositoryError($e);
         }
     }
 

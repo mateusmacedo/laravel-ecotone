@@ -8,6 +8,8 @@ use Ecotone\Modelling\CommandBus;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Module\Core\Application\Errors\ApplicationError;
+use Module\Core\Application\Errors\DataNotFoundError;
 use Module\Core\Domain\Exception\ValidationExceptions;
 use Module\Users\Application\Factories\UserCommandQueryFactory;
 use Module\Users\Application\Factories\UserDtoFactory;
@@ -25,18 +27,19 @@ class RegisterController extends Controller
 
     public function post(Request $request): JsonResponse
     {
-        $dto = $this->dtoFactory->registerDto($request->all());
-        $command = $this->commandQueryFactory->registerCommand($dto);
-        $result = new JsonResponse(null, Response::HTTP_CREATED);
-        try {
-            $this->commandBus->send($command);
-        } catch (ValidationExceptions $e) {
-            $errorMessages = ['message' => $e->extractErrorMessages()];
-            $result = new JsonResponse($errorMessages, Response::HTTP_BAD_REQUEST);
-        } catch (\Exception $e) {
-            $errorMessages = ['message' => $e->getMessage()];
-            $result = new JsonResponse($errorMessages, Response::HTTP_INTERNAL_SERVER_ERROR);
+        $command = $this->commandQueryFactory->registerCommand($request->all());
+        $res = $this->commandBus->send($command);
+        if ($res->isError) {
+            switch (true) {
+                case $res instanceof ApplicationError:
+                    return new JsonResponse($res->getError(), Response::HTTP_INTERNAL_SERVER_ERROR);
+                case $res instanceof DataNotFoundError:
+                    return new JsonResponse($res->getError(), Response::HTTP_BAD_REQUEST);
+                default:
+                    return new JsonResponse('erro ao processar a requisição.', Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
         }
-        return $result;
+
+        return new Response(null, Response::HTTP_CREATED);
     }
 }

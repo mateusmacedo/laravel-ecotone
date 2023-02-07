@@ -18,11 +18,14 @@ class RegisterCommandHandler
     public function handle(RegisterCommand $command, RegisterHandler $handler, EventBus $eventBus): void
     {
         $result = $handler->handle($command);
-        $userRegisteredEvent = new UserRegisteredEvent($result->getValue());
-        $eventBus->publishWithRouting(
-            UserRegisteredEvent::class,
-            $userRegisteredEvent->toJson(),
-            'application/json',
-        );
+        if (!$result->isError) {
+            $userRegisteredEvent = new UserRegisteredEvent($result->getValue());
+            $a = $eventBus->publishWithRouting(
+                UserRegisteredEvent::class,
+                $userRegisteredEvent->toJson(),
+                'application/json',
+            );
+        }
+        return $result;
     }
 }

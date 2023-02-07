@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Module\Users\Application\Commands;
 
-use Ecotone\Messaging\MessagePublisher;
-use Module\Core\Application\Errors\DefaultError;
-use Module\Core\Domain\Exception\ValidationExceptions;
-use Module\Users\Domain\Repositories\UpsertRepository;
+use Module\Core\Application\Errors\ApplicationError;
+use Module\Core\Application\Errors\DataNotFoundError;
+use Module\Core\Domain\Exception\DomainError;
+use Module\Core\Infrastructure\Database\Contracts\RepositoryError;
+use Module\Core\Result;
+use Module\Users\Domain\Contracts\IUserRepository;
+use Module\Users\Domain\Email;
+use Module\Users\Domain\Password;
 use Module\Users\Domain\UserAggregate;
 
 class RegisterHandler
@@ -17,15 +21,26 @@ class RegisterHandler
     }
 
 
-    public function handle(RegisterCommand $command): DefaultError|Result
+    public function handle(RegisterCommand $command): Result
     {
-        $dto = $command->getDto();
+        $emailOrError = Email::create($command->email);
+        if ($emailOrError instanceof DomainError)
+            return new ApplicationError($emailOrError->getErrors());
+
+        $passwordOrError = Password::create($command->password);
+        if ($passwordOrError instanceof DomainError)
+            return new DataNotFoundError($passwordOrError->getErrors());
+
+        $user = UserAggregate::register(null, $emailOrError, $passwordOrError);
+        $resUpsert = $this->repository->upsert($user);
+        if ($resUpsert instanceof RepositoryError)
+            return new ApplicationError('erro ao salvar');
+
+        /*         $dto = $command->getDto();
+        dd($dto->getEmail(), $dto->getPassword());
         $user = UserAggregate::register(null, $dto->getEmail(), $dto->getPassword());
-        //$user->validate();
-        if ($user->hasAnyException()) {
-            throw new ValidationExceptions($user->getExceptions());
-        }
-        $this->repository->upsert($user);
+        dd($user);
+        $this->repository->upsert($user); */
         //$messagePublisher->send($user->toJson(), 'application/json');
         return Result::ok($user);
     }

@@ -7,21 +7,21 @@ namespace Module\Core\Domain;
 use Module\Core\Domain\Contracts\Validable;
 use Module\Core\Domain\Exception\ValidationException;
 
-abstract class AbstractValidable implements Validable
+trait AbstractValidable
 {
-    protected array $exceptions = [];
+    private static array $exceptions = [];
 
-    public function addException(ValidationException $e)
+    public static function addError(ValidationException $e): void
     {
-        $this->exceptions[] = $e;
+        self::$exceptions[] = $e;
     }
 
-    public function hasAnyException(): bool
+    public function hasError(): bool
     {
         return count($this->exceptions) > 0;
     }
 
-    public function getExceptions(): array
+    public function getErrors(): array
     {
         return $this->exceptions;
     }

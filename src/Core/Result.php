@@ -2,15 +2,17 @@
 declare(strict_types=1);
 namespace Module\Core;
 
+use ArrayObject;
+
 class Result
 {
     public readonly bool $isError;
-    private readonly array |string|null $error;
+    private readonly mixed $error;
     private readonly mixed $value;
     function __construct(
         bool $isSuccess,
         mixed $value = null,
-        array |string $error = null
+        mixed $error = null
     )
     {
         if ($isSuccess && $error) {
@@ -32,6 +34,11 @@ class Result
         if ($this->isError)
             throw new \ErrorException('para retornar o erro, use a função getError.');
         return $this->value;
+    }
+
+    public function getError(): mixed
+    {
+        return $this->error;
     }
 
     public static function ok(mixed $value = null): self

@@ -44,16 +44,6 @@ class UserAggregate extends Entity
         return $this->password;
     }
 
-    public function changeEmail(Email $newEmail)
-    {
-        $this->email = $newEmail;
-    }
-
-    public function changePassword(Password $password): void
-    {
-        $this->password = $password;
-    }
-
     public function validate(): void
     {
         $attributes = new \ArrayObject($this);
@@ -81,11 +71,7 @@ class UserAggregate extends Entity
 
     public function jsonSerialize()
     {
-        return new self(
-            $data['uuid'],
-            new Email($data['email']),
-            new Password($data['password'])
-        );
+        return $this->arraySerialize();
     }
 
     public function toJson(): string

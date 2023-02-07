@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace Module\Users\Application\Commands;
 
-use Module\Users\Application\Dtos\RegisterDto;
-
 class RegisterCommand
 {
-    public function __construct(private RegisterDto $registerDto)
+    public readonly string $email;
+    public readonly string $password;
+    public function __construct(mixed $data)
     {
-    }
-
-    public function getDto(): RegisterDto
-    {
-        return $this->registerDto;
+        $this->email = $data['email'] ?? null;
+        $this->password = $data['password'] ?? null;
     }
 }

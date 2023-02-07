@@ -2,6 +2,7 @@
 namespace Module\Users\Mapper;
 
 use Module\Core\Domain\Entity;
+use Module\Core\Domain\Exception\DomainError;
 use Module\Core\Mapper\IMapper;
 use Module\Users\Domain\Email;
 use Module\Users\Domain\Password;
@@ -10,26 +11,15 @@ use Module\Users\Domain\UserAggregate;
 class UsersMapper implements IMapper
 {
 
-
-    /**
-     * @param array $rawData
-     * @return Entity
-     */
-    public function toDomain(array $rawData)
+    public function toDomain(array $rawData): UserAggregate|DomainError
     {
         return UserAggregate::register(
             $rawData['uuid'],
-            new Email($rawData['email']),
-            new Password($rawData['password'])
+            Email::create($rawData['email']),
+            Password::create($rawData['password'])
         );
     }
 
-    /**
-     *
-     * @param \Module\Core\Domain\Entity $data
-     * @param null|string $convertTo
-     * @return mixed
-     */
     public function toDto($data, ?string $convertTo)
     {
     }
@@ -37,9 +27,9 @@ class UsersMapper implements IMapper
     public function toPersistence($domainData): ?array
     {
         return [
-            "uuid"=>$domainData->uuid,
-            "email" => $domainData->getEmail()->getValue(),
-            "password" => $domainData->getPassword()->getValue()
+            "uuid" => $domainData->uuid,
+            "email" => $domainData->email->value,
+            "password" => $domainData->password->value
         ];
     }
 }
