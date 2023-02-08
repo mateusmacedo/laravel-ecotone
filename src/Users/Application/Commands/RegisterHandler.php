@@ -36,12 +36,6 @@ class RegisterHandler
         if ($resUpsert instanceof RepositoryError)
             return new ApplicationError('erro ao salvar');
 
-        /*         $dto = $command->getDto();
-        dd($dto->getEmail(), $dto->getPassword());
-        $user = UserAggregate::register(null, $dto->getEmail(), $dto->getPassword());
-        dd($user);
-        $this->repository->upsert($user); */
-        //$messagePublisher->send($user->toJson(), 'application/json');
         return Result::ok($user);
     }
 }

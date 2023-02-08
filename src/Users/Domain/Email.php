@@ -12,6 +12,11 @@ use Module\Core\Domain\ValueObject;
 class Email extends ValueObject
 {
 
+
+    protected function __construct(public readonly mixed $value)
+    {
+    }
+
     static function create(mixed $value): self|DomainError
     {
         $errors = self::validate($value);
@@ -22,7 +27,7 @@ class Email extends ValueObject
 
     public function equals(ValueObject $valueObject): bool
     {
-        return $this->value === $valueObject->value;
+        return $this->value === $valueObject;
     }
 
     private static function validate(mixed $value): ArrayObject

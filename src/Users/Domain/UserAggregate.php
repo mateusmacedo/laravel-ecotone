@@ -4,34 +4,35 @@ declare(strict_types=1);
 
 namespace Module\Users\Domain;
 
-use Barryvdh\Debugbar\Facades\Debugbar;
-use Module\Core\Domain\AbstractValidable;
+use ArrayObject;
 use Module\Core\Domain\AggregateRoot;
-use Module\Core\Domain\Entity;
-use Module\Core\Domain\Exception\ValidationException;
-use Module\Core\Infrastructure\UuidGenerator;
-use Module\Users\Application\Dtos\RegisterDto;
+use Module\Core\Domain\Exception\DomainError;
+use Module\Users\Domain\Email;
+use Module\Users\Domain\Password;
 
 
-class UserAggregate extends Entity
+class UserAggregate extends AggregateRoot
 {
     public function __construct(
-        ?string $id,
+        ?string $uuid,
         private Email $email,
         private Password $password
     )
     {
-        parent::__construct($id);
+        parent::__construct($uuid);
     }
 
-    public static function register(?string $uuid, Email $email, Password $password): static
+    public static function register(?string $uuid, Email|DomainError $email, Password|DomainError $password): static |DomainError
     {
-        return new self(null, $email, $password);
-    }
 
-    public function getId(): string
-    {
-        return $this->uuid;
+        $errors = self::validate($uuid, $email);
+        if ($errors->count() > 0)
+            return new DomainError($errors, 'userAggregatte');
+
+        $instance = new self($uuid, $email, $password);
+        $instance->addEvent(['deu_bom' => 'huehuebrbr']);
+
+        return $instance;
     }
 
     public function getEmail(): Email
@@ -44,34 +45,36 @@ class UserAggregate extends Entity
         return $this->password;
     }
 
-    public function validate(): void
+    static private function validate($uuid = null, $email = null): ArrayObject
     {
-        $attributes = new \ArrayObject($this);
-        $iterator = $attributes->getIterator();
-        while ($iterator->valid()) {
-            $attribute = $iterator->current();
-            if (!$attribute instanceof Validable) {
-                continue;
-            }
-            $attribute->validate();
-            foreach ($attribute->getExceptions() as $e) {
-                $this->addException($e);
-            }
+        $errors = new ArrayObject();
+        if (is_numeric($uuid)) {
+            $errors->append('uuid nao e valido');
         }
+
+        if ($email instanceof DomainError && $email->getErrors()->count() > 0) {
+            foreach ($email->getErrors() as $erEmail)
+                $errors->append($erEmail);
+        }
+        return $errors;
     }
 
-    public function arraySerialize(): array
+    public function toArray(): array
     {
         return [
-            'uuid' => $this->uuid,
-            'email' => $this->email->getValue(),
-            'password' => $this->password->getValue(),
+            'uuid' => $this->getUuid(),
+            'email' => $this->email->value,
+            'password' => $this->password->value,
         ];
     }
 
-    public function jsonSerialize()
+    public static function fromArray(array $data): self
     {
-        return $this->arraySerialize();
+        return new self(
+            $data['uuid'],
+            new Email($data['email']),
+            new Password($data['password'])
+        );
     }
 
     public function toJson(): string

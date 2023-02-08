@@ -1,7 +1,6 @@
 <?php
 namespace Module\Users\Mapper;
 
-use Module\Core\Domain\Entity;
 use Module\Core\Domain\Exception\DomainError;
 use Module\Core\Mapper\IMapper;
 use Module\Users\Domain\Email;
@@ -27,9 +26,9 @@ class UsersMapper implements IMapper
     public function toPersistence($domainData): ?array
     {
         return [
-            "uuid" => $domainData->uuid,
-            "email" => $domainData->email->value,
-            "password" => $domainData->password->value
+            "uuid" => $domainData->getUuid(),
+            "email" => $domainData->getEmail()->value,
+            "password" => $domainData->getPassword()->value
         ];
     }
 }
