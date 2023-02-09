@@ -6,7 +6,6 @@ namespace Module\Users\Domain;
 
 use ArrayObject;
 use Module\Core\Domain\Exception\DomainError;
-use Module\Core\Domain\Exception\ValidationException;
 use Module\Core\Domain\ValueObject;
 
 class Password extends ValueObject
