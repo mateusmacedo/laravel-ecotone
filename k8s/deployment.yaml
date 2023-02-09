@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel-startkit-deployment
+  namespace: default
+  labels:
+    app.kubernetes.io/name: laravel-startkit
+    app.kubernetes.io/instance: laravel-startkit
+    app.kubernetes.io/component: deployment
+  annotations:
+    app.kubernetes.io/name: laravel-startkit
+    app.kubernetes.io/instance: laravel-startkit
+    app.kubernetes.io/component: deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: laravel-startkit
+      app.kubernetes.io/instance: laravel-startkit
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: laravel-startkit
+        app.kubernetes.io/instance: laravel-startkit
+    spec:
+      containers:
+        - name: laravel-startkit-php-8-2-swoole
+          image: macedodosanjosmateus/laravel-startkit:prd
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 8000
+            - containerPort: 80
+            - containerPort: 443
+          envFrom:
+            - configMapRef:
+                name: laravel-startkit-configs
+            - secretRef:
+                name: laravel-startkit-secrets
+          # resources:
+          #   limits: { cpu: 256m, memory: 512Mi }
+          #   requests: { cpu: 100m, memory: 256Mi }
+      serviceAccountName: laravel-startkit-sa

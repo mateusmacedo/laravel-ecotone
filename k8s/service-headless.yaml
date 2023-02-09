@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: laravel-startkit-service-headless
+  namespace: "default"
+  labels:
+    app.kubernetes.io/name: laravel-startkit
+    app.kubernetes.io/component: service-headless
+  annotations:
+    app.kubernetes.io/name: laravel-startkit
+    app.kubernetes.io/component: service-headless
+spec:
+  type: ClusterIP
+  clusterIP: None
+  publishNotReadyAddresses: true
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  selector:
+    app.kubernetes.io/name: laravel-startkit
+    app.kubernetes.io/instance: laravel-startkit

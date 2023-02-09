@@ -16,3 +16,4 @@ docker-compose.yaml
 **.gitattributes
 **.sass-cache
 .docker-volumes
+storage/*.key

@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: laravel-startkit-ingress
+  namespace: default
+  labels:
+    app.kubernetes.io/name: laravel-startkit
+    app.kubernetes.io/component: ingress
+  annotations:
+    app.kubernetes.io/name: laravel-startkit
+    app.kubernetes.io/component: ingress
+spec:
+  rules:
+    - host: laravel-startkit-swl.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: laravel-startkit-service
+                port:
+                  name: http

@@ -20,11 +20,13 @@ class AppServiceProvider extends ServiceProvider
             // $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
             // $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
         }
-        $this->app->singleton(SqsConnectionFactory::class, function () {
-            return new SqsConnectionFactory('sqs:?key=key&secret=secret&region=us-east-1&endpoint=http://localstack:4566&version=latest');
-        });
+        // $this->app->singleton(SqsConnectionFactory::class, function () {
+        //     $connectionString = "sqs:?key=${env('AWS_ACCESS_KEY_ID')}&secret=${env('AWS_SECRET_ACCESS_KEY')}&region=${env('AWS_DEFAULT_REGION')}&endpoint=${env('AWS_USERS_SQS_ENDPOINT')}&version=latest";
+        //     return new SqsConnectionFactory($connectionString);
+        // });
         $this->app->singleton(AmqpConnectionFactory::class, function () {
-            return new AmqpConnectionFactory('amqp+lib://guest:guest@rabbitmq:5672//');
+            $connectionString = 'amqp+lib://' . config('rabbitmq.user') . ':' . config('rabbitmq.password') . '@' . config('rabbitmq.host') . ':' . config('rabbitmq.port') . '/';
+            return new AmqpConnectionFactory($connectionString);
         });
     }
 
