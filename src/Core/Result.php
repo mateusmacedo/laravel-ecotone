@@ -2,8 +2,6 @@
 declare(strict_types=1);
 namespace Module\Core;
 
-use ArrayObject;
-
 class Result
 {
     public readonly bool $isError;

@@ -1,12 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
-use Illuminate\Support\Facades\Route;
-use Module\Users\Infrastructure\Http\Controllers\Illuminate\ChangeEmailController;
-use Module\Users\Infrastructure\Http\Controllers\Illuminate\FindByEmailController;
-use Module\Users\Infrastructure\Http\Controllers\Illuminate\RegisterController;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes

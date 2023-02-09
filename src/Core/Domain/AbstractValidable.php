@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Module\Core\Domain;
 
-use Module\Core\Domain\Contracts\Validable;
 use Module\Core\Domain\Exception\ValidationException;
 
 trait AbstractValidable

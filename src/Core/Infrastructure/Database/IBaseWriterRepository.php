@@ -7,5 +7,5 @@ use Module\Core\Infrastructure\Database\Contracts\RepositoryError;
 interface IBaseWriterRepository
 {
     function upsert(Entity $data): RepositoryError|bool;
-    function remove(array $filter);
+    function remove(array $filter): RepositoryError|bool;
 }
