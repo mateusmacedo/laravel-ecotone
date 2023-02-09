@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Module\Core\Application\Errors\ApplicationError;
 use Module\Core\Application\Errors\DataNotFoundError;
-use Module\Core\Domain\Exception\ValidationExceptions;
 use Module\Users\Application\Factories\UserCommandQueryFactory;
 use Module\Users\Application\Factories\UserDtoFactory;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,8 +32,6 @@ class RegisterController extends Controller
             switch (true) {
                 case $res instanceof ApplicationError:
                     return new JsonResponse($res->getError(), Response::HTTP_INTERNAL_SERVER_ERROR);
-                case $res instanceof DataNotFoundError:
-                    return new JsonResponse($res->getError(), Response::HTTP_BAD_REQUEST);
                 default:
                     return new JsonResponse('erro ao processar a requisição.', Response::HTTP_INTERNAL_SERVER_ERROR);
             }
