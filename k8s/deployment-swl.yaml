@@ -24,8 +24,8 @@ spec:
         app.kubernetes.io/instance: laravel-startkit
     spec:
       containers:
-        - name: laravel-startkit-php-8-2-fpm
-          image: macedodosanjosmateus/laravel-startkit:prd
+        - name: laravel-startkit-php-8-2-swoole
+          image: macedodosanjosmateus/laravel-startkit:swl
           imagePullPolicy: "Always"
           ports:
             - containerPort: 8000

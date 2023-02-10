@@ -11,7 +11,7 @@ metadata:
     app.kubernetes.io/component: ingress
 spec:
   rules:
-    - host: laravel-startkit-swl.local
+    - host: laravel-startkit.local
       http:
         paths:
           - path: /

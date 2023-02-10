@@ -10,8 +10,8 @@ metadata:
     app.kubernetes.io/name: laravel-startkit
     app.kubernetes.io/component: config-store
 data:
-  APP_DEBUG: "true"
-  APP_ENV: local
+  APP_DEBUG: "false"
+  APP_ENV: production
   APP_NAME: "Laravel Startkit"
   APP_URL: http://laravel-startkit.local
   AWS_BUCKET: ""
@@ -32,14 +32,12 @@ data:
   MAIL_PORT: "1025"
   MAIL_USERNAME: "null"
   MONGODB_AUTHENTICATION_DATABASE: admin
-  MONGODB_CONNECTION: mongodb
   MONGODB_DATABASE: laravel_startkit_api
-  MONGODB_HOST: mongodb-service.default.svc.cluster.local
+  MONGODB_HOST: mongodb-headless.infra.svc.cluster.local
   MONGODB_PORT: "27017"
   MONGODB_USER: laravel_startkit_api
-  MYSQL_CONNECTION: mysql-service.default.svc.cluster.local
   MYSQL_DATABASE: laravel_startkit_api
-  MYSQL_HOST: mysql.default.svc.cluster.local
+  MYSQL_HOST: mysql-headless.infra.svc.cluster.local
   MYSQL_PORT: "3306"
   MYSQL_USER: laravel_startkit_api
   OCTANE_SERVER: swoole
@@ -50,11 +48,11 @@ data:
   PUSHER_PORT: "443"
   PUSHER_SCHEME: https
   QUEUE_CONNECTION: sync
-  RABBITMQ_HOST: rabbitmq.default.svc.cluster.local
+  RABBITMQ_HOST: rabbitmq-headless.infra.svc.cluster.local
   RABBITMQ_PORT: "5672"
   RABBITMQ_USER: admin
   RABBITMQ_VHOST: /
-  REDIS_HOST: redis-service.default.svc.cluster.local
+  REDIS_HOST: redis-headless.infra.svc.cluster.local
   REDIS_PORT: "6379"
   REDIS_USERNAME: ""
   SESSION_DRIVER: file
