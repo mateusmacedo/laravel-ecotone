@@ -19,5 +19,24 @@
 		"4576:4576", //# sqs
 		"4566:4566" //# cli
 	],
-	"postCreateCommand": "sudo chmod 777 .devcontainer/postInstall.sh && ./.devcontainer/postInstall.sh"
+	"postCreateCommand": "sudo chmod 777 .devcontainer/postInstall.sh && ./.devcontainer/postInstall.sh",
+    "customizations": {
+		"vscode": {
+			"extensions": [
+				"esbenp.prettier-vscode",
+				"MS-CEINTL.vscode-language-pack-pt-BR",
+				"xdebug.php-pack",
+				"xdebug.php-debug",
+				"DEVSENSE.phptools-vscode",
+				"dbaeumer.vscode-eslint",
+				"eamodio.gitlens",
+				"EditorConfig.EditorConfig",
+				"ms-azuretools.vscode-docker",
+				"DEVSENSE.composer-php-vscode",
+				"oderwat.indent-rainbow",
+				"higoka.php-cs-fixer",
+				"shevaua.phpcs"
+			]
+		}
+	}
 }
