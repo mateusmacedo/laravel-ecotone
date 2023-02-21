@@ -16,4 +16,9 @@ class RegisterCommand
     {
         return $this->registerDto;
     }
+
+    public function toArray(): array
+    {
+        return $this->registerDto->toArray();
+    }
 }

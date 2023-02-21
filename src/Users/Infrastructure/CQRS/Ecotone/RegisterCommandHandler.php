@@ -13,16 +13,12 @@ use Module\Users\Application\Events\UserRegisteredEvent;
 
 class RegisterCommandHandler
 {
-    #[Asynchronous('users')]
-    #[CommandHandler(endpointId: 'RegisterCommand')]
+    #[Asynchronous('users-aws')]
+    #[CommandHandler(endpointId: 'RegisterCommandHandler.handle')]
     public function handle(RegisterCommand $command, RegisterHandler $handler, EventBus $eventBus): void
     {
         $result = $handler->handle($command);
         $userRegisteredEvent = new UserRegisteredEvent($result);
-        $eventBus->publishWithRouting(
-            UserRegisteredEvent::class,
-            $userRegisteredEvent->toJson(),
-            'application/json',
-        );
+        $eventBus->publish($userRegisteredEvent);
     }
 }

@@ -20,10 +20,10 @@ class AppServiceProvider extends ServiceProvider
             // $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
             // $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
         }
-        // $this->app->singleton(SqsConnectionFactory::class, function () {
-        //     $connectionString = "sqs:?key=${env('AWS_ACCESS_KEY_ID')}&secret=${env('AWS_SECRET_ACCESS_KEY')}&region=${env('AWS_DEFAULT_REGION')}&endpoint=${env('AWS_USERS_SQS_ENDPOINT')}&version=latest";
-        //     return new SqsConnectionFactory($connectionString);
-        // });
+        $this->app->singleton(SqsConnectionFactory::class, function () {
+            $connectionString = 'sqs:?key=' . config('aws.credentials.key') . '&secret=' . config('aws.credentials.secret') . '&region=' . config('aws.region') . '&endpoint=' . config('aws.endpoint.sqs') . '/' . config('aws.queues.users') . '&version=' . config('aws.version');
+            return new SqsConnectionFactory($connectionString);
+        });
         $this->app->singleton(AmqpConnectionFactory::class, function () {
             $connectionString = 'amqp+lib://' . config('rabbitmq.user') . ':' . config('rabbitmq.password') . '@' . config('rabbitmq.host') . ':' . config('rabbitmq.port') . '/';
             return new AmqpConnectionFactory($connectionString);
