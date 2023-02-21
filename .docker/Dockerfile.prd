@@ -22,5 +22,16 @@ RUN apk del --no-cache \
     re2c
 
 COPY .docker/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY .docker/php/daemon-process.conf /etc/supervisor/supervisord.conf
+COPY .docker/php/php.ini /usr/local/etc/php/conf.d/app.ini
+COPY .docker/php/php-fpm-www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY .docker/php/op-cache.ini /usr/local/etc/php/conf.d/opcache.ini
+
+# Expose port
+EXPOSE 80
+
+WORKDIR $DOCUMENT_ROOT
+
+RUN chmod +x .docker/scripts/entrypoint.sh
+ENTRYPOINT [".docker/scripts/entrypoint.sh"]
 

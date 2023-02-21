@@ -117,10 +117,10 @@ localstack-configure:
 	docker compose exec $(CONTAINER_LOCALSTACK_NAME) sh -c "aws configure"
 
 localstack-receive-message:
-	docker compose exec $(CONTAINER_LOCALSTACK_NAME) sh -c "awslocal sqs receive-message --queue-url http://localstack:4566/000000000000/$(QUEUE) --max-number-of-messages $(QUEUE_MAX_MSG)"
+	docker compose exec $(CONTAINER_LOCALSTACK_NAME) sh -c "awslocal sqs receive-message --queue-url http://localstack:4566/000000000000/$(QUEUE) --max-number-of-messages $(MAX)"
 
 localstack-send-message:
-	docker compose exec $(CONTAINER_LOCALSTACK_NAME) sh -c "awslocal sqs send-message --queue-url http://localstack:4566/000000000000/$(QUEUE) --message-body $(QUEUE_MSG)"
+	docker compose exec $(CONTAINER_LOCALSTACK_NAME) sh -c "awslocal sqs send-message --queue-url http://localstack:4566/000000000000/$(QUEUE) --message-body $(MSG)"
 
 localstack-purge-queue:
 	docker compose exec $(CONTAINER_LOCALSTACK_NAME) sh -c "awslocal sqs purge-queue --queue-url http://localstack:4566/000000000000/$(QUEUE)"

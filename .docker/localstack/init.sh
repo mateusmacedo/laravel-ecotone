@@ -7,7 +7,7 @@ echo "########### AWS Configure ###########"
 aws configure list --profile=default
 
 LOCALSTACK_HOST=localhost
-LOCALSTACK_DUMMY_ID=000000000000
+LOCALSTACK_ID=000000000000
 
 create_queue() {
     local QUEUE_NAME_TO_CREATE=$1
@@ -25,28 +25,17 @@ create_queue_with_dlq() {
 
 guess_queue_arn_from_name() {
     local QUEUE_NAME=$1
-    echo "arn:aws:sqs:${AWS_DEFAULT_REGION}:${LOCALSTACK_DUMMY_ID}:$QUEUE_NAME"
+    echo "arn:aws:sqs:${AWS_DEFAULT_REGION}:${LOCALSTACK_ID}:$QUEUE_NAME"
 }
 
 # Create a queue to bind messages and a DLQ to check if messages are redelivered
-QUEUE_NAME="users"
+QUEUE_NAME="users-aws"
 echo "creating queue $QUEUE_NAME"
 QUEUE_URL=$(create_queue_with_dlq ${QUEUE_NAME})
 echo "created queue: $QUEUE_URL"
 QUEUE_ARN=$(guess_queue_arn_from_name $QUEUE_NAME)
-QUEUE_NAME="users_errors"
+QUEUE_NAME="users-aws-errors"
 echo "creating queue $QUEUE_NAME"
 QUEUE_URL=$(create_queue ${QUEUE_NAME})
 echo "created queue: $QUEUE_URL"
 QUEUE_ARN=$(guess_queue_arn_from_name $QUEUE_NAME)
-
-
-# aws --endpoint-url=http://localhost:4566 \
-#  sqs create-queue \
-#  --queue-name=users \
-#  --attributes DelaySeconds=60,\
-# MaximumMessageSize=200,\
-# MessageRetentionPeriod=3600,\
-# ReceiveMessageWaitTimeSeconds=5,\
-# VisibilityTimeout=5,\
-# RedrivePolicy="\"{\\\"deadLetterTargetArn\\\":\\\"arn:aws:sqs:us-east-1:000000000000:users-dlq\\\",\\\"maxReceiveCount\\\":\\\"2\\\"}\""

@@ -16,4 +16,7 @@ docker-compose.yaml
 **.gitattributes
 **.sass-cache
 .docker-volumes
+.vscode
 storage/*.key
+docs
+k8s

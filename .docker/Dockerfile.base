@@ -60,18 +60,6 @@ RUN mv composer.phar /usr/local/bin/composer && chmod +x /usr/local/bin/composer
 
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && ln -sf /dev/stderr /var/log/nginx/error.log
 
-# Copy app and configs
-COPY .docker/php/php.ini /usr/local/etc/php/conf.d/app.ini
-COPY .docker/php/daemon-process.conf /etc/supervisor/supervisord.conf
-COPY .docker/php/php-fpm-www.conf /usr/local/etc/php-fpm.d/www.conf
-
-WORKDIR $DOCUMENT_ROOT
 COPY . $DOCUMENT_ROOT
 RUN chown -R www-data:www-data $DOCUMENT_ROOT
-
-# Expose port
-EXPOSE 80 9000
-
-RUN chmod +x .docker/scripts/entrypoint.sh
-ENTRYPOINT [".docker/scripts/entrypoint.sh"]
 
