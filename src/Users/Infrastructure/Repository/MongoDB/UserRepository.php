@@ -21,9 +21,9 @@ class UserRepository implements UpsertRepository, FindByEmailRepository, FindByI
     {
         $userModel = $this->model->findById($user->getId());
         if (!$userModel) {
-            $userModel = $this->model->newInstance($user->toArray());
+            $userModel = $this->model->newInstance($user->arraySerialize());
         }
-        $userModel->fill($user->toArray());
+        $userModel->fill($user->arraySerialize());
         $userModel->save();
     }
 

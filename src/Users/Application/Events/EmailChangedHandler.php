@@ -16,6 +16,6 @@ class EmailChangedHandler
     public function handle(EmailChangedEvent $event)
     {
         $user = $this->repository->findById($event->getUserAggregate()->getId());
-        Log::info("Sending email to user {$user->getEmail()->getValue()}");
+        Log::info("Sending email to user {$user->getEmail()->getValue()} confirming email change");
     }
 }

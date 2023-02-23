@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Module\Users\Application\Dtos;
 
+use Module\Core\Infrastructure\ArraySerialize;
 use Module\Users\Domain\Email;
 use Module\Users\Domain\Password;
 
-class RegisterDto
+class RegisterDto implements ArraySerialize
 {
     public function __construct(private Email $email, private Password $password)
     {
@@ -23,7 +24,7 @@ class RegisterDto
         return $this->password;
     }
 
-    public function toArray(): array
+    public function arraySerialize(): array
     {
         return [
             'email' => $this->email->getValue(),

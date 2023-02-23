@@ -4,26 +4,27 @@ declare(strict_types=1);
 
 namespace Module\Users\Application\Commands;
 
+use Module\Core\Domain\Exception\ValidationException;
 use Module\Core\Domain\Exception\ValidationExceptions;
-use Module\Users\Domain\Repositories\FindByEmailRepository;
+use Module\Users\Domain\Repositories\FindByIdRepository;
 use Module\Users\Domain\Repositories\UpsertRepository;
 
 class ChangePasswordHandler
 {
-    public function __construct(private UpsertRepository $repository, private FindByEmailRepository $findRepository)
+    public function __construct(private UpsertRepository $repository, private FindByIdRepository $findRepository)
     {
     }
 
     public function handle(ChangePasswordCommand $command): void
     {
         $dto = $command->getDto();
-        $newPassword = $dto->getNewPassword();
-        $email = $dto->getEmail();
-        $user = $this->findRepository->findByEmail($email);
+        $user = $this->findRepository->findById($dto->getUserId());
         if (!$user) {
-            return;
+            throw new ValidationExceptions([
+                new ValidationException('User not found', 'userId')
+            ]);
         }
-        $user->changePassword($newPassword);
+        $user->changePassword($dto->getPassword());
         $user->validate();
         if ($user->hasAnyException()) {
             throw new ValidationExceptions($user->getExceptions());

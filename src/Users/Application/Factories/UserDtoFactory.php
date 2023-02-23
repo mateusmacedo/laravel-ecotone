@@ -20,24 +20,23 @@ class UserDtoFactory
         return new RegisterDto($email, $password);
     }
 
-    public function findByEmailDto(array $data): FindByEmailDto
+    public function findByEmailDto(string $data): FindByEmailDto
     {
-        $email = new Email($data['email']);
+        $email = new Email($data);
         return new FindByEmailDto($email);
     }
 
-  public function changeEmailDto(array $data): ChangeEmailDto
+  public function changeEmailDto(string $userId, array $data): ChangeEmailDto
   {
       return new ChangeEmailDto(
-          new Email($data['currentEmail']),
-          new Email($data['newEmail']),
+          $userId,
+          new Email($data['email']),
       );
   }
 
-    public function changePasswordDto(array $data): ChangePasswordDto
+    public function changePasswordDto(string $userId, array $data): ChangePasswordDto
     {
         $password = new Password($data['password']);
-        $email = new Email($data['email']);
-        return new ChangePasswordDto($password, $email);
+        return new ChangePasswordDto($userId, $password);
     }
 }

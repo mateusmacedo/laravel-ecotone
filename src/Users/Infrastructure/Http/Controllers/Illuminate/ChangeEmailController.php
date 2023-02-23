@@ -22,24 +22,23 @@ class ChangeEmailController extends Controller
     ) {
     }
 
-    public function patch(Request $request)
+    public function patch(Request $request): JsonResponse
     {
         $dto = $this->dtoFactory->changeEmailDto(
-            array_merge(
-                $request->all(),
-                ['currentEmail' => $request->route()->parameter('currentEmail')]
-            )
+            $request->route()->parameter('userId'),
+            $request->all()
         );
         $command = $this->commandQueryFactory->changeEmailCommand($dto);
+        $result = new JsonResponse(null, Response::HTTP_OK);
         try {
             $this->commandBus->send($command);
         } catch (ValidationExceptions $e) {
             $errorMessages = ['message' => $e->extractErrorMessages()];
-            return new JsonResponse($errorMessages, Response::HTTP_BAD_REQUEST);
+            $result = new JsonResponse($errorMessages, Response::HTTP_BAD_REQUEST);
         } catch (\Exception $e) {
             $errorMessages = ['message' => $e->getMessage()];
-            return new JsonResponse($errorMessages, Response::HTTP_INTERNAL_SERVER_ERROR);
+            $result = new JsonResponse($errorMessages, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-        return new Response(null, Response::HTTP_CREATED);
+        return $result;
     }
 }

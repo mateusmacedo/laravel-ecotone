@@ -22,19 +22,20 @@ class ChangePasswordController extends Controller
     ) {
     }
 
-    public function patch(Request $request)
+    public function patch(Request $request): JsonResponse
     {
-        $dto = $this->dtoFactory->changePasswordDto($request->all());
+        $dto = $this->dtoFactory->changePasswordDto($request->route()->parameter('userId'), $request->all());
         $command = $this->commandQueryFactory->ChangePasswordCommand($dto);
+        $result = new JsonResponse(null, Response::HTTP_CREATED);
         try {
             $this->commandBus->send($command);
         } catch (ValidationExceptions $e) {
             $errorMessages = ['message' => $e->extractErrorMessages()];
-            return new JsonResponse($errorMessages, Response::HTTP_BAD_REQUEST);
+            $result = new JsonResponse($errorMessages, Response::HTTP_BAD_REQUEST);
         } catch (\Exception $e) {
             $errorMessages = ['message' => $e->getMessage()];
-            return new JsonResponse($errorMessages, Response::HTTP_INTERNAL_SERVER_ERROR);
+            $result = new JsonResponse($errorMessages, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-        return new Response(null, Response::HTTP_CREATED);
+        return $result;
     }
 }

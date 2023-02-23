@@ -14,10 +14,11 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        "php": "^8.1",
         "aws/aws-sdk-php-laravel": "~3.0",
         "ecotone/amqp": "^1.70",
         "ecotone/laravel": "^1.67",
+        "ecotone/redis": "^1.73",
         "ecotone/sqs": "^1.67",
         "fruitcake/laravel-cors": "^3.0",
         "guzzlehttp/guzzle": "^7.5",

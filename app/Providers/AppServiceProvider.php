@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use Enqueue\AmqpExt\AmqpConnectionFactory;
+use Enqueue\Redis\RedisConnectionFactory;
 use Enqueue\Sqs\SqsConnectionFactory;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,6 +28,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(AmqpConnectionFactory::class, function () {
             $connectionString = 'amqp+lib://' . config('rabbitmq.user') . ':' . config('rabbitmq.password') . '@' . config('rabbitmq.host') . ':' . config('rabbitmq.port') . '/';
             return new AmqpConnectionFactory($connectionString);
+        });
+        $this->app->singleton(RedisConnectionFactory::class, function () {
+            $connectionString = 'redis://' . config('database.redis.default.host') . ':' . config('database.redis.default.port') . '/' . config('database.redis.default.database');
+            return new RedisConnectionFactory($connectionString);
         });
     }
 

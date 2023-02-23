@@ -16,8 +16,7 @@ class RegisterHandler
 
     public function handle(RegisterCommand $command): UserAggregate
     {
-        $dto = $command->getDto();
-        $user = UserAggregate::register($dto->getEmail(), $dto->getPassword());
+        $user = UserAggregate::register($command->getDto());
         $user->validate();
         if ($user->hasAnyException()) {
             throw new ValidationExceptions($user->getExceptions());

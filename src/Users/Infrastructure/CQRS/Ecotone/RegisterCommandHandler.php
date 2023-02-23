@@ -13,7 +13,7 @@ use Module\Users\Application\Events\UserRegisteredEvent;
 
 class RegisterCommandHandler
 {
-    #[Asynchronous('users-aws')]
+    #[Asynchronous('users-redis')]
     #[CommandHandler(endpointId: 'RegisterCommandHandler.handle')]
     public function handle(RegisterCommand $command, RegisterHandler $handler, EventBus $eventBus): void
     {

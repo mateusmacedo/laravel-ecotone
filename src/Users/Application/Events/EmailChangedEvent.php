@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Module\Users\Application\Events;
 
+use Module\Core\Infrastructure\FromArray;
 use Module\Users\Domain\UserAggregate;
 
-class EmailChangedEvent
+class EmailChangedEvent implements \JsonSerializable, FromArray
 {
     public function __construct(private UserAggregate $userAggregate)
     {
@@ -22,8 +23,8 @@ class EmailChangedEvent
         return new self(UserAggregate::fromArray($data));
     }
 
-    public function toJson(): string
+    public function jsonSerialize(): array
     {
-        return json_encode($this->getUserAggregate()->toArray());
+        return $this->getUserAggregate()->arraySerialize();
     }
 }

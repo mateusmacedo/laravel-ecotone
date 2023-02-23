@@ -4,22 +4,21 @@ declare(strict_types=1);
 
 namespace Module\Users\Application\Dtos;
 
-use Module\Users\Domain\Email;
 use Module\Users\Domain\Password;
 
 class ChangePasswordDto
 {
-    public function __construct(private Password $newPassword, private Email $email)
+    public function __construct(private string $userId, private Password $password)
     {
     }
 
-    public function getNewPassword(): Password
+    public function getPassword(): Password
     {
-        return $this->newPassword;
+        return $this->password;
     }
 
-    public function getEmail(): Email
+    public function getUserId(): string
     {
-        return $this->email;
+        return $this->userId;
     }
 }

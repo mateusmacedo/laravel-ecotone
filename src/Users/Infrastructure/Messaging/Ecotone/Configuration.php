@@ -7,6 +7,7 @@ namespace Module\Users\Infrastructure\Messaging\Ecotone;
 use Ecotone\Amqp\AmqpBackedMessageChannelBuilder;
 use Ecotone\Messaging\Attribute\ServiceContext;
 use Ecotone\Messaging\Conversion\MediaType;
+use Ecotone\Redis\RedisBackedMessageChannelBuilder;
 use Ecotone\Sqs\SqsBackedMessageChannelBuilder;
 
 class Configuration
@@ -25,5 +26,11 @@ class Configuration
     public function enableRabbiMQ()
     {
         return AmqpBackedMessageChannelBuilder::create('users');
+    }
+
+    #[ServiceContext]
+    public function enableRedis()
+    {
+        return RedisBackedMessageChannelBuilder::create('users-redis');
     }
 }

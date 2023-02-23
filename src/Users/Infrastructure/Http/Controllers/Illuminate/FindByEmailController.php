@@ -22,22 +22,23 @@ class FindByEmailController extends Controller
     ) {
     }
 
-    public function get(Request $request)
+    public function get(Request $request): JsonResponse
     {
-        $dto = $this->dtoFactory->findByEmailDto($request->all());
+        $dto = $this->dtoFactory->findByEmailDto($request->route()->parameter('userEmail'));
         $query = $this->commandQueryFactory->findByEmailQuery($dto);
+        $result = new JsonResponse(null, Response::HTTP_NOT_FOUND);
         try {
             $user = $this->queryBus->send($query);
             if ($user) {
-                return new JsonResponse($user, Response::HTTP_OK);
+                $result = new JsonResponse($user, Response::HTTP_OK);
             }
         } catch (ValidationExceptions $e) {
             $errorMessages = ['message' => $e->extractErrorMessages()];
-            return new JsonResponse($errorMessages, Response::HTTP_BAD_REQUEST);
+            $result = new JsonResponse($errorMessages, Response::HTTP_BAD_REQUEST);
         } catch (\Exception $e) {
             $errorMessages = ['message' => $e->getMessage()];
-            return new JsonResponse($errorMessages, Response::HTTP_INTERNAL_SERVER_ERROR);
+            $result = new JsonResponse($errorMessages, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-        return new Response(null, Response::HTTP_NOT_FOUND);
+        return $result;
     }
 }

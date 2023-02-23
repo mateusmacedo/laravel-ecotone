@@ -9,18 +9,18 @@ use Module\Users\Domain\Email;
 class ChangeEmailDto
 {
     public function __construct(
-        private Email $currentEmail,
-        private Email $newEmail,
+        private string $userId,
+        private Email $email,
     ) {
     }
 
-    public function getCurrentEmail(): Email
+    public function getUserId(): string
     {
-        return $this->currentEmail;
+        return $this->userId;
     }
 
-    public function getNewEmail(): Email
+    public function getEmail(): Email
     {
-        return $this->newEmail;
+        return $this->email;
     }
 }
