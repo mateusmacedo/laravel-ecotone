@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Module\Users\Application\Dtos;
 
 use Module\Core\Domain\Exception\DomainError;
+use Module\Core\Infrastructure\ArraySerialize;
 use Module\Users\Domain\Email;
 use Module\Users\Domain\Password;
 
