@@ -1,12 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
-use Illuminate\Support\Facades\Route;
-use Module\Users\Infrastructure\Http\Controllers\Illuminate\ChangeEmailController;
-use Module\Users\Infrastructure\Http\Controllers\Illuminate\FindByEmailController;
-use Module\Users\Infrastructure\Http\Controllers\Illuminate\RegisterController;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,9 +11,4 @@ use Module\Users\Infrastructure\Http\Controllers\Illuminate\RegisterController;
 |
 */
 
-Route::prefix('user')->group(function () {
-    Route::post('/register', [RegisterController::class, 'post'])->name('user.register');
-    Route::get('/by-email/{userEmail}', [FindByEmailController::class, 'get'])->name('user.findByEmail');
-    Route::patch('/{userId}/change-email', [ChangeEmailController::class, 'patch'])->name('user.changeEmail');
-    Route::patch('/{userId}/change-password', [ChangePasswordController::class, 'patch'])->name('user.changePassword');
-});
+require_once __DIR__.'/../src/Users/Infrastructure/Http/UsersRoutes.php';

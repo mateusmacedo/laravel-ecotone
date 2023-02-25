@@ -4,23 +4,37 @@ declare(strict_types=1);
 
 namespace Module\Users\Domain;
 
-use Module\Core\Domain\AbstractValueObjectValidable;
-use Module\Core\Domain\Contracts\ValueObject;
-use Module\Core\Domain\Exception\ValidationException;
+use ArrayObject;
+use Module\Core\Domain\Exception\DomainError;
+use Module\Core\Domain\ValueObject;
 
-class Password extends AbstractValueObjectValidable
+class Password extends ValueObject
 {
-    protected string $identifier = 'password';
 
+
+    protected function __construct(public readonly mixed $value)
+    {
+    }
+    static function create(mixed $value): self|DomainError
+    {
+        $errors = self::validate($value);
+        if ($errors->count() > 0)
+            return new DomainError($errors, 'password');
+
+        return new Password($value);
+    }
     public function equals(ValueObject $valueObject): bool
     {
-        return $this->getValue() === $valueObject->getValue();
+        return $this->value === $valueObject;
     }
 
-    public function validate(): void
+    private static function validate(mixed $value): ArrayObject
     {
-        if (strlen($this->getValue()) < 8) {
-            $this->addException(new ValidationException('Password must be at least 8 characters', $this->getIdentifier()));
+        $errors = new ArrayObject();
+        if (strlen($value) < 8) {
+            $errors->append('Password must be at least 8 characters');
         }
+
+        return $errors;
     }
 }

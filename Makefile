@@ -1,4 +1,4 @@
-CONTAINER_NAME=laravel-startkit-api
+CONTAINER_NAME=laravel-startkit-api-dev
 CONTAINER_LOCALSTACK_NAME=localstack
 CONTAINER_MYSQL_NAME=mysql
 CONTAINER_REDIS_NAME=redis

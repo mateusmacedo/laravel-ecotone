@@ -4,45 +4,35 @@ declare(strict_types=1);
 
 namespace Module\Users\Domain;
 
-use Module\Core\Domain\AbstractValidable;
-use Module\Core\Domain\Contracts\Validable;
-use Module\Core\Infrastructure\ArraySerialize;
-use Module\Core\Infrastructure\FromArray;
-use Module\Core\Infrastructure\FromJson;
-use Module\Core\Infrastructure\UuidGenerator;
-use Module\Users\Application\Dtos\RegisterDto;
+use ArrayObject;
+use Module\Core\Domain\AggregateRoot;
+use Module\Core\Domain\Exception\DomainError;
+use Module\Users\Domain\Email;
+use Module\Users\Domain\Password;
 
-class UserAggregate extends AbstractValidable implements ArraySerialize, \JsonSerializable, FromArray, FromJson
+
+class UserAggregate extends AggregateRoot
 {
-    private function __construct(
-        private string $id,
+    public function __construct(
+        ?string $uuid,
         private Email $email,
         private Password $password
-    ) {
+    )
+    {
+        parent::__construct($uuid);
     }
 
-    public static function fromArray(array $data): self
+    public static function register(?string $uuid, Email|DomainError $email, Password|DomainError $password): static |DomainError
     {
-        return new self(
-            $data['id'],
-            new Email($data['email']),
-            new Password($data['password'])
-        );
-    }
 
-    public static function fromJson(string $json): self
-    {
-        return self::fromArray(json_decode($json, true));
-    }
+        $errors = self::validate($uuid, $email);
+        if ($errors->count() > 0)
+            return new DomainError($errors, 'userAggregatte');
 
-    public static function register(RegisterDto $dto): self
-    {
-        return new self(UuidGenerator::generate(), $dto->getEmail(), $dto->getPassword());
-    }
+        $instance = new self($uuid, $email, $password);
+        $instance->addEvent(['deu_bom' => 'huehuebrbr']);
 
-    public function getId(): string
-    {
-        return $this->id;
+        return $instance;
     }
 
     public function getEmail(): Email
@@ -55,6 +45,48 @@ class UserAggregate extends AbstractValidable implements ArraySerialize, \JsonSe
         return $this->password;
     }
 
+    static private function validate($uuid = null, $email = null): ArrayObject
+    {
+        $errors = new ArrayObject();
+        if (is_numeric($uuid)) {
+            $errors->append('uuid nao e valido');
+        }
+
+        if ($email instanceof DomainError && $email->getErrors()->count() > 0) {
+            foreach ($email->getErrors() as $erEmail)
+                $errors->append($erEmail);
+        }
+        return $errors;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'uuid' => $this->getUuid(),
+            'email' => $this->email->value,
+            'password' => $this->password->value,
+        ];
+    }
+
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            $data['uuid'],
+            new Email($data['email']),
+            new Password($data['password'])
+        );
+    }
+
+    public function toJson(): string
+    {
+        return json_encode($this->toArray());
+    }
+
+    public static function fromJson(string $json): self
+    {
+        return self::fromArray(json_decode($json, true));
+    }
+
     public function changeEmail(Email $newEmail)
     {
         $this->email = $newEmail;
@@ -63,35 +95,5 @@ class UserAggregate extends AbstractValidable implements ArraySerialize, \JsonSe
     public function changePassword(Password $password): void
     {
         $this->password = $password;
-    }
-
-    public function validate(): void
-    {
-        $attributes = new \ArrayObject($this);
-        $iterator = $attributes->getIterator();
-        while ($iterator->valid()) {
-            $attribute = $iterator->current();
-            if (!$attribute instanceof Validable) {
-                continue;
-            }
-            $attribute->validate();
-            foreach ($attribute->getExceptions() as $e) {
-                $this->addException($e);
-            }
-        }
-    }
-
-    public function arraySerialize(): array
-    {
-        return [
-            'id' => $this->id,
-            'email' => $this->email->getValue(),
-            'password' => $this->password->getValue(),
-        ];
-    }
-
-    public function jsonSerialize()
-    {
-        return $this->arraySerialize();
     }
 }

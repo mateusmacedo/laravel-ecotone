@@ -28,6 +28,6 @@ return [
     ],
     'accountId' => env('AWS_ACCOUNT_ID', '000000000000'),
     'endpoint' => [
-        'sqs' => env('AWS_SQS_ENDPOINT', 'http://localhost:4566'),
+        'sqs' => env('AWS_SQS_ENDPOINT', 'http://localstack:4566'),
     ],
 ];

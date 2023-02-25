@@ -1,0 +1,42 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
+{
+	"name": "poc-CQRS-dev-container",
+	"image": "mcr.microsoft.com/devcontainers/base:jammy",
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
+		"ghcr.io/devcontainers/features/php:1": {}
+	},
+	"appPort": [
+		"9000:9000",
+		"8081:8081",
+		"3306:3306",
+		"27017:27017",
+		"5672:5672",
+		"25672:25672",
+		"15672:15672",
+		"4572:4572", // s3
+		"4576:4576", //# sqs
+		"4566:4566" //# cli
+	],
+	"postCreateCommand": "sudo chmod 777 .devcontainer/postInstall.sh && ./.devcontainer/postInstall.sh",
+    "customizations": {
+		"vscode": {
+			"extensions": [
+				"esbenp.prettier-vscode",
+				"MS-CEINTL.vscode-language-pack-pt-BR",
+				"xdebug.php-pack",
+				"xdebug.php-debug",
+				"DEVSENSE.phptools-vscode",
+				"dbaeumer.vscode-eslint",
+				"eamodio.gitlens",
+				"EditorConfig.EditorConfig",
+				"ms-azuretools.vscode-docker",
+				"DEVSENSE.composer-php-vscode",
+				"oderwat.indent-rainbow",
+				"higoka.php-cs-fixer",
+				"shevaua.phpcs"
+			]
+		}
+	}
+}

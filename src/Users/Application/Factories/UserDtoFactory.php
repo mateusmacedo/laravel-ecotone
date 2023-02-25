@@ -15,8 +15,8 @@ class UserDtoFactory
 {
     public function registerDto(array $data): RegisterDto
     {
-        $email = new Email($data['email']);
-        $password = new Password($data['password']);
+        $email = Email::create($data['email']);
+        $password = Password::create($data['password']);
         return new RegisterDto($email, $password);
     }
 
