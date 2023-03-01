@@ -197,7 +197,7 @@ services:
   redis:
     image: redis:alpine
     container_name: redis
-    command: redis-server --databases 2
+    command: redis-server --databases 1
     volumes:
       - .docker-volumes/redis/data:/data
     expose:

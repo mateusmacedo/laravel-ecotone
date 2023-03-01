@@ -1,10 +1,7 @@
-#---------------------------------------------------
-# FINAL IMAGE
-#---------------------------------------------------
-
 # Image
 FROM macedodosanjosmateus/laravel-startkit:base
 # Variables
+USER root
 ENV DOCUMENT_ROOT /var/www/localhost/htdocs
 ENV XDEBUG_MODE=debug
 ENV XDEBUG_CLIENT_HOST=host.docker.internal
@@ -33,11 +30,7 @@ COPY .docker/php/php-dev.ini /usr/local/etc/php/conf.d/app.ini
 COPY .docker/php/php-xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 COPY .docker/php/php-fpm-www.conf /usr/local/etc/php-fpm.d/www.conf
 
-# Expose port
-EXPOSE 80
-
-WORKDIR $DOCUMENT_ROOT
-
-RUN chmod +x .docker/scripts/entrypoint.sh
-ENTRYPOINT [".docker/scripts/entrypoint.sh"]
-
+USER www-data
+COPY app $DOCUMENT_ROOT/app
+COPY src $DOCUMENT_ROOT/src
+COPY config $DOCUMENT_ROOT/config

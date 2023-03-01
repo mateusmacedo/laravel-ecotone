@@ -34,8 +34,3 @@ echo "creating queue $QUEUE_NAME"
 QUEUE_URL=$(create_queue_with_dlq ${QUEUE_NAME})
 echo "created queue: $QUEUE_URL"
 QUEUE_ARN=$(guess_queue_arn_from_name $QUEUE_NAME)
-QUEUE_NAME="users-aws-errors"
-echo "creating queue $QUEUE_NAME"
-QUEUE_URL=$(create_queue ${QUEUE_NAME})
-echo "created queue: $QUEUE_URL"
-QUEUE_ARN=$(guess_queue_arn_from_name $QUEUE_NAME)

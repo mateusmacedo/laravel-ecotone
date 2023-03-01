@@ -1,5 +1,5 @@
 # Image
-FROM php:8.2-fpm-alpine
+FROM php:8.2-alpine
 # Variables
 ENV DOCUMENT_ROOT /var/www/localhost/htdocs
 ENV TZ=America/Sao_Paulo
@@ -29,11 +29,23 @@ RUN apk add --no-cache \
     linux-headers \
     rabbitmq-c-dev \
     libssh-dev \
-    && docker-php-ext-install -j "$(nproc)" mysqli pdo_mysql intl zip xsl soap gd bcmath sockets \
-    && docker-php-ext-configure gd  \
+    && docker-php-ext-install -j "$(nproc)" mysqli pdo_mysql intl zip xsl soap gd bcmath sockets opcache \
+    && docker-php-ext-configure gd \
     && docker-php-ext-configure zip \
-    && pecl install memcached redis mongodb amqp \
-    && docker-php-ext-enable memcached opcache redis mongodb amqp
+    && pecl install memcached redis mongodb swoole amqp \
+    && docker-php-ext-enable memcached opcache redis mongodb swoole amqp \
+    && apk del --no-cache \
+    gcc \
+    g++ \
+    make \
+    perl \
+    autoconf \
+    dpkg-dev \
+    dpkg \
+    file \
+    libc-dev \
+    pkgconf \
+    re2c
 
 # Tuning OS
 RUN echo 'net.ipv4.ip_local_port_range = 12000 65535' >> /etc/sysctl.conf
@@ -56,12 +68,18 @@ RUN mv composer.phar /usr/local/bin/composer && chmod +x /usr/local/bin/composer
 
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && ln -sf /dev/stderr /var/log/nginx/error.log
 
+# Copy app and configs
+COPY .docker/nginx/nginx-swl.conf /etc/nginx/nginx.conf
+COPY .docker/php/php.ini /usr/local/etc/php/conf.d/app.ini
+COPY .docker/php/daemon-process-swl.conf /etc/supervisor/supervisord.conf
+COPY .docker/php/op-cache.ini /usr/local/etc/php/conf.d/opcache.ini
+
 USER www-data
 COPY . $DOCUMENT_ROOT
-COPY .docker/scripts/entrypoint.sh .docker/scripts/entrypoint.sh
 USER root
-RUN chmod +x .docker/scripts/entrypoint.sh
-EXPOSE 80
+# Expose port
+EXPOSE 80 8000
 WORKDIR $DOCUMENT_ROOT
-USER www-data
-ENTRYPOINT [".docker/scripts/entrypoint.sh"]
+# Start APP
+RUN chmod +x .docker/scripts/entrypoint-swl.sh
+ENTRYPOINT [".docker/scripts/entrypoint-swl.sh"]

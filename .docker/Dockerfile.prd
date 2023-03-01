@@ -1,12 +1,10 @@
-#---------------------------------------------------
-# FINAL IMAGE
-#---------------------------------------------------
-
 # Image
 FROM macedodosanjosmateus/laravel-startkit:base
 
 # Variables
 ENV DOCUMENT_ROOT /var/www/localhost/htdocs
+
+USER root
 
 RUN apk del --no-cache \
     gcc \
@@ -27,11 +25,8 @@ COPY .docker/php/php.ini /usr/local/etc/php/conf.d/app.ini
 COPY .docker/php/php-fpm-www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY .docker/php/op-cache.ini /usr/local/etc/php/conf.d/opcache.ini
 
-# Expose port
-EXPOSE 80
-
-WORKDIR $DOCUMENT_ROOT
-
-RUN chmod +x .docker/scripts/entrypoint.sh
-ENTRYPOINT [".docker/scripts/entrypoint.sh"]
+USER www-data
+COPY app $DOCUMENT_ROOT/app
+COPY src $DOCUMENT_ROOT/src
+COPY config $DOCUMENT_ROOT/config
 
