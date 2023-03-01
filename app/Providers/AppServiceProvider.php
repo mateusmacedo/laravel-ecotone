@@ -22,28 +22,16 @@ class AppServiceProvider extends ServiceProvider
             // $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
         }
         $this->app->singleton(SqsConnectionFactory::class, function () {
-            $config = [
-                'key' => null,
-                'secret' => config('aws.credentials.secret'),
-                'token' => config('aws.credentials.key'),
-                'region' => config('aws.region'),
-                'retries' => 3,
-                'version' => 'latest',
-                'lazy' => true,
-                'endpoint' => config('queue.connections.sqs.prefix'),
-                'profile' => null,
-                'queue_owner_aws_account_id' => null
-            ];
-            return new SqsConnectionFactory($config);
-            /*   $connectionString = 'sqs:?key=' . config('aws.credentials.key') . '&secret=' . config('aws.credentials.secret') . '&region=' . config('aws.region') . '&endpoint=' . config('aws.endpoint.sqs') . '/' . config('aws.queues.users') . '&version=' . config('aws.version');
-            return new SqsConnectionFactory($connectionString); */
+            $connectionString = 'sqs:?key=' . config('aws.credentials.key') . '&secret=' . config('aws.credentials.secret') . '&region=' . config('aws.region') . '&endpoint=' . config('aws.endpoint.sqs') . '&version=' . config('aws.version');
+            return new SqsConnectionFactory($connectionString);
         });
         $this->app->singleton(AmqpConnectionFactory::class, function () {
             $connectionString = 'amqp+lib://' . config('rabbitmq.user') . ':' . config('rabbitmq.password') . '@' . config('rabbitmq.host') . ':' . config('rabbitmq.port') . '/';
             return new AmqpConnectionFactory($connectionString);
         });
-        $this->app->singleton(AmqpConnectionFactory::class, function () {
-            return new AmqpConnectionFactory("amqp+lib://guest:guest@rabbitmq:5672//");
+        $this->app->singleton(RedisConnectionFactory::class, function () {
+            $connectionString = 'redis://' . config('database.redis.default.host') . ':' . config('database.redis.default.port') . '/' . config('database.redis.default.database');
+            return new RedisConnectionFactory($connectionString);
         });
     }
 

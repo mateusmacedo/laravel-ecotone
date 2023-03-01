@@ -25,7 +25,8 @@ class Configuration
     #[ServiceContext]
     public function enableRabbiMQ()
     {
-        return AmqpBackedMessageChannelBuilder::create('users');
+        return AmqpBackedMessageChannelBuilder::create('users-amqp')
+            ->withDefaultConversionMediaType(MediaType::APPLICATION_JSON);
     }
 
     #[ServiceContext]

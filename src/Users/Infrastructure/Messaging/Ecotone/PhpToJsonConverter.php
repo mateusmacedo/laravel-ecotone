@@ -16,13 +16,15 @@ class PhpToJsonConverter implements Converter
     public function matches(TypeDescriptor $sourceType, MediaType $sourceMediaType, TypeDescriptor $targetType, MediaType $targetMediaType): bool
     {
         return $sourceMediaType->isCompatibleWith(MediaType::createApplicationXPHP())
-            && $targetMediaType->isCompatibleWith(MediaType::createApplicationJson());
+        && ($targetMediaType->isCompatibleWith(MediaType::createApplicationJson())
+        || $targetMediaType->isCompatibleWith(MediaType::createTextPlain()));
     }
 
     public function convert($source, TypeDescriptor $sourceType, MediaType $sourceMediaType, TypeDescriptor $targetType, MediaType $targetMediaType)
     {
-        if (!$sourceType->isClassOfType(ISerializeToQueue::class))
+        if (!$sourceType->isClassOfType(ISerializeToQueue::class)) {
             throw new \InvalidArgumentException('o comando enviado via bus deve implementar a interface ' . ISerializeToQueue::class);
+        }
 
         return json_encode($source->toArray(), JSON_THROW_ON_ERROR);
     }

@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Module\Users\Application\Events;
 
+use Module\Core\Infrastructure\ArraySerialize;
 use Module\Core\Infrastructure\FromArray;
 use Module\Users\Domain\UserAggregate;
 
-class UserRegisteredEvent implements \JsonSerializable, FromArray
+class UserRegisteredEvent implements FromArray, ArraySerialize
 {
     public function __construct(private UserAggregate $userAggregate)
     {
@@ -23,8 +24,8 @@ class UserRegisteredEvent implements \JsonSerializable, FromArray
         return new self(UserAggregate::fromArray($data));
     }
 
-    public function jsonSerialize(): array
+    public function arraySerialize(): array
     {
-        return $this->getUserAggregate()->arraySerialize();
+        return $this->userAggregate->arraySerialize();
     }
 }
