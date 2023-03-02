@@ -6,5 +6,5 @@ namespace Module\Core\Infrastructure\Ecotone\Contracts;
 
 interface ISerializeToQueue
 {
-    function toArray(): array;
+    public function toArray(): array;
 }

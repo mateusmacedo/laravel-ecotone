@@ -1,15 +1,17 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Module\Core\Infrastructure\Database\Contracts;
 
 class RepositoryError
 {
-    function __construct(private readonly mixed $error)
+    public function __construct(private readonly mixed $error)
     {
     }
 
-    function getError()
+    public function getError()
     {
         return $this->error;
     }
-
 }

@@ -25,13 +25,13 @@ class Configuration
     #[ServiceContext]
     public function enableRabbiMQ()
     {
-        return AmqpBackedMessageChannelBuilder::create('users-amqp')
+        return AmqpBackedMessageChannelBuilder::create('users-events')
             ->withDefaultConversionMediaType(MediaType::APPLICATION_JSON);
     }
 
     #[ServiceContext]
     public function enableRedis()
     {
-        return RedisBackedMessageChannelBuilder::create('users-redis');
+        return RedisBackedMessageChannelBuilder::create('users-commands');
     }
 }

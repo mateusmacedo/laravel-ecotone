@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Module\Core\Infrastructure\Database\Contracts;
 
 class ListProps
@@ -7,7 +10,7 @@ class ListProps
     {
     }
 
-    static function create(?int $page = null, ?int $perPage = null, ?array $filters = []): self
+    public static function create(?int $page = null, ?int $perPage = null, ?array $filters = []): self
     {
         return new ListProps($page, $perPage, $filters);
     }

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Module\Core\Infrastructure\Database;
 
 use Jenssegers\Mongodb\Eloquent\Model;
@@ -10,12 +13,13 @@ use Module\Core\Mapper\IMapper;
 
 class MongoBaseRepository implements IBaseReaderRepository, IBaseWriterRepository
 {
-    function __construct(private Model $model, private IMapper $mapper)
+    public function __construct(private Model $model, private IMapper $mapper)
     {
     }
 
     /**
      * @param ListProps $props
+     *
      * @return ListResponse
      */
     public function list(ListProps $props): ListResponse|RepositoryError
@@ -23,35 +27,30 @@ class MongoBaseRepository implements IBaseReaderRepository, IBaseWriterRepositor
         try {
             $paginateParams = $this->getPaginationParams($props->page, $props->perPage);
             $baseQuery = new $this->model();
-
             if (!empty($props->filters)) {
                 foreach ($props->filters as $key => $value) {
                     $baseQuery = $baseQuery->where($key, $value);
                 }
             }
-
             $count = $baseQuery->get()->count();
             $dataDb = $baseQuery->get()
                 ->skip($paginateParams['skip'])
                 ->take($paginateParams['take'])
                 ->toArray();
-
             $domainData = new \ArrayObject(
                 array_map(function ($item) {
                     return $this->mapper->toDomain($item);
                 }, $dataDb)
             );
             return ListResponse::create($domainData, $paginateParams['take'], $count);
-
-        } catch (\ErrorException | \BadMethodCallException | \TypeError $e) {
+        } catch (\ErrorException|\BadMethodCallException|\TypeError $e) {
             return new RepositoryError($e);
         }
-
     }
 
     /**
-     *
      * @param $data
+     *
      * @return mixed
      */
     public function upsert(Entity $domainData): RepositoryError|bool
@@ -59,56 +58,49 @@ class MongoBaseRepository implements IBaseReaderRepository, IBaseWriterRepositor
         try {
             $data = $this->mapper->toPersistence($domainData);
             $userModel = new $this->model($data);
-            $result = $userModel->save();
-            return $result;
-        } catch (\ErrorException | \BadMethodCallException | \TypeError $e) {
+            return $userModel->save();
+        } catch (\ErrorException|\BadMethodCallException|\TypeError $e) {
             return new RepositoryError($e);
         }
     }
 
     /**
-     *
      * @param array $filter
+     *
      * @return mixed
      */
     public function findOne(array $filter): Entity|RepositoryError|null
     {
         try {
             $baseQuery = new $this->model();
-
             if (!empty($filter)) {
                 foreach ($filter as $key => $value) {
                     $baseQuery = $baseQuery->where($key, $value);
                 }
             }
-
             $dataDb = $baseQuery->first();
-            return $dataDb != null ? $this->mapper->toDomain($dataDb->toArray()) : null;
-        } catch (\ErrorException | \BadMethodCallException | \TypeError $e) {
+            return null != $dataDb ? $this->mapper->toDomain($dataDb->toArray()) : null;
+        } catch (\ErrorException|\BadMethodCallException|\TypeError $e) {
             return new RepositoryError($e);
         }
     }
 
     /**
-     *
      * @param array $filter
+     *
      * @return mixed
      */
     public function remove(array $filter): bool|RepositoryError
     {
         try {
             $baseQuery = new $this->model();
-
             if (!empty($filter)) {
                 foreach ($filter as $key => $value) {
                     $baseQuery = $baseQuery->where($key, $value);
                 }
             }
-
-            $result = $baseQuery->delete();
-
-            return $result;
-        } catch (\ErrorException | \BadMethodCallException | \TypeError $e) {
+            return $baseQuery->delete();
+        } catch (\ErrorException|\BadMethodCallException|\TypeError $e) {
             return new RepositoryError($e);
         }
     }
@@ -118,6 +110,6 @@ class MongoBaseRepository implements IBaseReaderRepository, IBaseWriterRepositor
         $perPage = $perPage ?? 10;
         $pageNumber = $page ? $page - 1 : 0;
         $skip = $perPage * $pageNumber;
-        return ["take" => $perPage, "skip" => $skip];
+        return ['take' => $perPage, 'skip' => $skip];
     }
 }

@@ -1,5 +1,7 @@
 <?php
+
+declare(strict_types=1);
 interface ICommandQueryHandlerInterface
 {
-    function handler();
+    public function handler();
 }

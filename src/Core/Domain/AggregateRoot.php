@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Module\Core\Domain;
 
 use Module\Core\Domain\Contracts\DomainEvent;
@@ -6,11 +9,6 @@ use Module\Core\Domain\Contracts\DomainEvent;
 abstract class AggregateRoot extends Entity
 {
     private array $domainEvents;
-
-    protected function addEvent(/* DomainEvent */ $event)
-    {
-        $this->domainEvents[] = $event;
-    }
 
     public function clearEvents(): void
     {
@@ -22,4 +20,8 @@ abstract class AggregateRoot extends Entity
         return $this->domainEvents;
     }
 
+    protected function addEvent(/* DomainEvent */ $event)
+    {
+        $this->domainEvents[] = $event;
+    }
 }

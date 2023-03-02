@@ -10,7 +10,6 @@ use Module\Users\Application\Commands\RegisterCommand;
 use Module\Users\Application\Dtos\ChangeEmailDto;
 use Module\Users\Application\Dtos\ChangePasswordDto;
 use Module\Users\Application\Dtos\FindByEmailDto;
-use Module\Users\Application\Dtos\RegisterDto;
 use Module\Users\Application\Queries\FindByEmailQuery;
 
 class UserCommandQueryFactory

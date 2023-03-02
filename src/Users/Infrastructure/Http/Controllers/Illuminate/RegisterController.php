@@ -9,7 +9,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Module\Core\Application\Errors\ApplicationError;
-use Module\Core\Application\Errors\DataNotFoundError;
 use Module\Users\Application\Factories\UserCommandQueryFactory;
 use Module\Users\Application\Factories\UserDtoFactory;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,8 +19,7 @@ class RegisterController extends Controller
         private UserDtoFactory $dtoFactory,
         private UserCommandQueryFactory $commandQueryFactory,
         private CommandBus $commandBus
-    )
-    {
+    ) {
     }
 
     public function post(Request $request): JsonResponse

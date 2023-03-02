@@ -24,18 +24,18 @@ class UsersProvider extends ServiceProvider
             UserRepository::class
         );
 
-       /*  $this->app->bind(
-            UpsertRepository::class,
-            UserRepository::class
-        );
-        $this->app->bind(
-            FindByIdRepository::class,
-            UserRepository::class
-        );
-        $this->app->bind(
-            FindByEmailRepository::class,
-            UserRepository::class
-        ); */
+        /*  $this->app->bind(
+             UpsertRepository::class,
+             UserRepository::class
+         );
+         $this->app->bind(
+             FindByIdRepository::class,
+             UserRepository::class
+         );
+         $this->app->bind(
+             FindByEmailRepository::class,
+             UserRepository::class
+         ); */
 
         $this->app->bind(UsersMapper::class, UsersMapper::class);
     }

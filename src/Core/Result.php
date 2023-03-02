@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace Module\Core;
 
 class Result
@@ -7,16 +9,15 @@ class Result
     public readonly bool $isError;
     private readonly mixed $error;
     private readonly mixed $value;
-    function __construct(
+
+    public function __construct(
         bool $isSuccess,
         mixed $value = null,
         mixed $error = null
-    )
-    {
+    ) {
         if ($isSuccess && $error) {
             throw new \ErrorException('OperacaoInvalida: O resultado nao pode ser valido e conter erro.');
         }
-
 
         if (!$isSuccess && !$error) {
             throw new \ErrorException('OperacaoInvalida: O resultado deve ser valido ou invalido.');
@@ -29,8 +30,9 @@ class Result
 
     public function getValue(): mixed
     {
-        if ($this->isError)
+        if ($this->isError) {
             throw new \ErrorException('para retornar o erro, use a função getError.');
+        }
         return $this->value;
     }
 
@@ -54,7 +56,7 @@ class Result
         $errors = [];
         foreach ($results as $key => $result) {
             if ($result->isError) {
-                $errors[] = ["arrayPosition" => $key, "error" => $result->getError()];
+                $errors[] = ['arrayPosition' => $key, 'error' => $result->getError()];
             }
         }
 

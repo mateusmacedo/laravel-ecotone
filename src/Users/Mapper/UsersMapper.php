@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Module\Users\Mapper;
 
 use Module\Core\Domain\Exception\DomainError;
@@ -9,7 +12,6 @@ use Module\Users\Domain\UserAggregate;
 
 class UsersMapper implements IMapper
 {
-
     public function toDomain(array $rawData): UserAggregate|DomainError
     {
         return UserAggregate::register(
@@ -26,9 +28,9 @@ class UsersMapper implements IMapper
     public function toPersistence($domainData): ?array
     {
         return [
-            "uuid" => $domainData->getUuid(),
-            "email" => $domainData->getEmail()->value,
-            "password" => $domainData->getPassword()->value
+            'uuid' => $domainData->getUuid(),
+            'email' => $domainData->getEmail()->value,
+            'password' => $domainData->getPassword()->value
         ];
     }
 }

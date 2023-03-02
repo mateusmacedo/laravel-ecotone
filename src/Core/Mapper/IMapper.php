@@ -1,11 +1,14 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Module\Core\Mapper;
 
 interface IMapper
 {
-    function toDomain(array $rawData);
+    public function toDomain(array $rawData);
 
-    function toDto($data, ?string $convertTo);
+    public function toDto($data, ?string $convertTo);
 
-    function toPersistence($domainData): ?array;
+    public function toPersistence($domainData): ?array;
 }

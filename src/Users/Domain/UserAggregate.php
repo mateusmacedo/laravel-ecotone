@@ -4,12 +4,8 @@ declare(strict_types=1);
 
 namespace Module\Users\Domain;
 
-use ArrayObject;
 use Module\Core\Domain\AggregateRoot;
 use Module\Core\Domain\Exception\DomainError;
-use Module\Users\Domain\Email;
-use Module\Users\Domain\Password;
-
 
 class UserAggregate extends AggregateRoot
 {
@@ -17,17 +13,16 @@ class UserAggregate extends AggregateRoot
         ?string $uuid,
         private Email $email,
         private Password $password
-    )
-    {
+    ) {
         parent::__construct($uuid);
     }
 
-    public static function register(?string $uuid, Email|DomainError $email, Password|DomainError $password): static |DomainError
+    public static function register(?string $uuid, Email|DomainError $email, Password|DomainError $password): UserAggregate|DomainError
     {
-
         $errors = self::validate($uuid, $email);
-        if ($errors->count() > 0)
+        if ($errors->count() > 0) {
             return new DomainError($errors, 'userAggregatte');
+        }
 
         $instance = new self($uuid, $email, $password);
         $instance->addEvent(['deu_bom' => 'huehuebrbr']);
@@ -43,20 +38,6 @@ class UserAggregate extends AggregateRoot
     public function getPassword(): Password
     {
         return $this->password;
-    }
-
-    static private function validate($uuid = null, $email = null): ArrayObject
-    {
-        $errors = new ArrayObject();
-        if (is_numeric($uuid)) {
-            $errors->append('uuid nao e valido');
-        }
-
-        if ($email instanceof DomainError && $email->getErrors()->count() > 0) {
-            foreach ($email->getErrors() as $erEmail)
-                $errors->append($erEmail);
-        }
-        return $errors;
     }
 
     public function toArray(): array
@@ -95,5 +76,19 @@ class UserAggregate extends AggregateRoot
     public function changePassword(Password $password): void
     {
         $this->password = $password;
+    }
+
+    private static function validate($uuid = null, $email = null): \ArrayObject
+    {
+        $errors = new \ArrayObject();
+        if (is_numeric($uuid)) {
+            $errors->append('uuid nao e valido');
+        }
+        if ($email instanceof DomainError && $email->getErrors()->count() > 0) {
+            foreach ($email->getErrors() as $erEmail) {
+                $errors->append($erEmail);
+            }
+        }
+        return $errors;
     }
 }
