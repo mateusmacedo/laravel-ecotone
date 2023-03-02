@@ -11,9 +11,9 @@ use Module\Users\Application\Events\UserRegisteredHandler;
 
 class UserRegisteredEventHandler
 {
-    #[Asynchronous('users-amqp')]
-    #[EventHandler(endpointId: 'UserRegisteredEventHandler.sendEmail')]
-    public function sendEmail(UserRegisteredEvent $event, UserRegisteredHandler $handler): void
+    #[Asynchronous('users-events')]
+    #[EventHandler(endpointId: 'UserRegisteredEventHandler.sendUserRegisteredNotification')]
+    public function sendUserRegisteredNotification(UserRegisteredEvent $event, UserRegisteredHandler $handler): void
     {
         $handler->handle($event);
     }

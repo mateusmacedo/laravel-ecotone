@@ -11,7 +11,7 @@ use Module\Users\Application\Commands\ChangePasswordHandler;
 
 class ChangePasswordCommandHandler
 {
-    #[Asynchronous('users-redis')]
+    #[Asynchronous('users-commands')]
     #[CommandHandler(endpointId: 'ChangePasswordCommandHandler.handle')]
     public function handle(ChangePasswordCommand $command, ChangePasswordHandler $handler): void
     {

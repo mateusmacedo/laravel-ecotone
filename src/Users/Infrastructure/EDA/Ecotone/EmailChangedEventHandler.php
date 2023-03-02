@@ -11,9 +11,9 @@ use Module\Users\Application\Events\EmailChangedHandler;
 
 class EmailChangedEventHandler
 {
-    #[Asynchronous('users-amqp')]
-    #[EventHandler(endpointId: 'EmailChangedEventHandler.notifyEmailHasChanged')]
-    public function notifyEmailHasChanged(EmailChangedEvent $event, EmailChangedHandler $handler): void
+    #[Asynchronous('users-events')]
+    #[EventHandler(endpointId: 'EmailChangedEventHandler.sendEmailHasChangedNotification')]
+    public function sendEmailHasChangedNotification(EmailChangedEvent $event, EmailChangedHandler $handler): void
     {
         $handler->handle($event);
     }

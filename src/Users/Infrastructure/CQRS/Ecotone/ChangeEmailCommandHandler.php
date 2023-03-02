@@ -13,7 +13,7 @@ use Module\Users\Application\Events\EmailChangedEvent;
 
 class ChangeEmailCommandHandler
 {
-    #[Asynchronous('users-redis')]
+    #[Asynchronous('users-commands')]
     #[CommandHandler(endpointId: 'ChangeEmailCommandHandler.handle')]
     public function handle(ChangeEmailCommand $command, ChangeEmailHandler $handler, EventBus $eventBus): void
     {
