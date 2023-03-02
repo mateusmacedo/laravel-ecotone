@@ -6,8 +6,9 @@ namespace Module\Users\Domain;
 
 use Module\Core\Domain\AggregateRoot;
 use Module\Core\Domain\Exception\DomainError;
+use Module\Core\Infrastructure\Ecotone\Contracts\ISerializeToQueue;
 
-class UserAggregate extends AggregateRoot
+class UserAggregate extends AggregateRoot implements ISerializeToQueue
 {
     public function __construct(
         ?string $uuid,
@@ -56,16 +57,6 @@ class UserAggregate extends AggregateRoot
             new Email($data['email']),
             new Password($data['password'])
         );
-    }
-
-    public function toJson(): string
-    {
-        return json_encode($this->toArray());
-    }
-
-    public static function fromJson(string $json): self
-    {
-        return self::fromArray(json_decode($json, true));
     }
 
     public function changeEmail(Email $newEmail)

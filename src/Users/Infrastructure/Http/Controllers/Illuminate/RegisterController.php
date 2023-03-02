@@ -27,14 +27,12 @@ class RegisterController extends Controller
         $command = $this->commandQueryFactory->registerCommand($request->all());
         $res = $this->commandBus->send($command);
         if ($res->isError) {
-            switch (true) {
-                case $res instanceof ApplicationError:
-                    return new JsonResponse($res->getError(), Response::HTTP_INTERNAL_SERVER_ERROR);
-                default:
-                    return new JsonResponse('erro ao processar a requisição.', Response::HTTP_INTERNAL_SERVER_ERROR);
-            }
+            return match (true) {
+                $res instanceof ApplicationError => new JsonResponse($res->getError(), Response::HTTP_INTERNAL_SERVER_ERROR),
+                default => new JsonResponse('erro ao processar a requisição.', Response::HTTP_INTERNAL_SERVER_ERROR),
+            };
         }
 
-        return new Response(null, Response::HTTP_CREATED);
+        return new JsonResponse(null, Response::HTTP_CREATED);
     }
 }

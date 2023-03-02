@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace Module\Users\Application\Events;
 
-use Module\Core\Infrastructure\ArraySerialize;
-use Module\Core\Infrastructure\FromArray;
+use Module\Core\Infrastructure\Ecotone\Contracts\ISerializeToQueue;
 use Module\Users\Domain\UserAggregate;
 
-class UserRegisteredEvent implements FromArray, ArraySerialize
+class UserRegisteredEvent implements ISerializeToQueue
 {
     public function __construct(private UserAggregate $userAggregate)
     {
@@ -19,13 +18,13 @@ class UserRegisteredEvent implements FromArray, ArraySerialize
         return $this->userAggregate;
     }
 
-    public static function fromArray($data): self
+    /**
+     * @return array
+     */
+    public function toArray(): array
     {
-        return new self(UserAggregate::fromArray($data));
-    }
-
-    public function arraySerialize(): array
-    {
-        return $this->userAggregate->arraySerialize();
+        return [
+            'userAggregate' => $this->userAggregate->toArray(),
+        ];
     }
 }

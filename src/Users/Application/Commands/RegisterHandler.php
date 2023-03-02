@@ -22,10 +22,12 @@ class RegisterHandler
     public function handle(RegisterCommand $command): Result
     {
         $emailOrError = Email::create($command->email);
+        if ($emailOrError instanceof DomainError) {
+            return new ApplicationError($emailOrError->getErrors());
+        }
         $passwordOrError = Password::create($command->password);
-        $errors = Result::combine([$emailOrError, $passwordOrError]);
-        if ($errors->isError) {
-            return $errors;
+        if ($passwordOrError instanceof DomainError) {
+            return new ApplicationError($passwordOrError->getErrors());
         }
         $result = UserAggregate::register(null, $emailOrError, $passwordOrError);
         if ($result instanceof DomainError) {
