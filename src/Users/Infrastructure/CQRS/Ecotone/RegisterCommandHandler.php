@@ -9,23 +9,19 @@ use Ecotone\Modelling\Attribute\CommandHandler;
 use Ecotone\Modelling\EventBus;
 use Module\Users\Application\Commands\RegisterCommand;
 use Module\Users\Application\Commands\RegisterHandler;
+use Module\Users\Application\Events\RegisterCommandFailEvent;
 use Module\Users\Application\Events\UserRegisteredEvent;
 
 class RegisterCommandHandler
 {
-    #[Asynchronous('users-redis')]
+    #[Asynchronous('users-commands')]
     #[CommandHandler(endpointId: 'RegisterCommandHandler.handle')]
     public function handle(RegisterCommand $command, RegisterHandler $handler, EventBus $eventBus): void
     {
         $result = $handler->handle($command);
-        if (!$result->isError) {
-            $userRegisteredEvent = new UserRegisteredEvent($result->getValue());
-            $a = $eventBus->publishWithRouting(
-                UserRegisteredEvent::class,
-                $userRegisteredEvent->toJson(),
-                'application/json',
-            );
+        if ($result->isError) {
+            $eventBus->publish(new RegisterCommandFailEvent($command, $result->getError()));
         }
-        return $result;
+        $eventBus->publish(new UserRegisteredEvent($result->getValue()));
     }
 }
