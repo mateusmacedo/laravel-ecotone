@@ -1,30 +1,22 @@
 # Image
-FROM macedodosanjosmateus/laravel-startkit:base-swl
-USER root
+FROM macedodosanjosmateus/laravel-startkit:base
 # Variables
 ENV DOCUMENT_ROOT /var/www/localhost/htdocs
-ENV TZ=America/Sao_Paulo
 
-# Install dependencies
-RUN apk del --no-cache \
-    gcc \
-    g++ \
-    make \
-    perl \
-    autoconf \
-    dpkg-dev \
-    dpkg \
-    file \
-    libc-dev \
-    pkgconf \
-    re2c
-
+# Copy app and configs
 COPY .docker/nginx/nginx-swl.conf /etc/nginx/nginx.conf
 COPY .docker/php/php.ini /usr/local/etc/php/conf.d/app.ini
 COPY .docker/php/daemon-process-swl.conf /etc/supervisor/supervisord.conf
 COPY .docker/php/op-cache.ini /usr/local/etc/php/conf.d/opcache.ini
+COPY .docker/scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+# Copy files
+COPY --chown=www-data:www-data src $DOCUMENT_ROOT/src
+COPY --chown=www-data:www-data config $DOCUMENT_ROOT/config
+COPY --chown=www-data:www-data app $DOCUMENT_ROOT/app
 
-USER www-data
-COPY app $DOCUMENT_ROOT/app
-COPY src $DOCUMENT_ROOT/src
-COPY config $DOCUMENT_ROOT/config
+# Expose port
+EXPOSE 80 8000
+WORKDIR $DOCUMENT_ROOT
+# Start APP
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

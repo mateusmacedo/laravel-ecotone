@@ -1,10 +1,12 @@
+#---------------------------------------------------
+# FINAL IMAGE
+#---------------------------------------------------
+
 # Image
 FROM macedodosanjosmateus/laravel-startkit:base
 
 # Variables
 ENV DOCUMENT_ROOT /var/www/localhost/htdocs
-
-USER root
 
 RUN apk del --no-cache \
     gcc \
@@ -19,14 +21,22 @@ RUN apk del --no-cache \
     pkgconf \
     re2c
 
-COPY .docker/nginx/nginx.conf /etc/nginx/nginx.conf
-COPY .docker/php/daemon-process.conf /etc/supervisor/supervisord.conf
-COPY .docker/php/php.ini /usr/local/etc/php/conf.d/app.ini
+# Copy app and configs
 COPY .docker/php/php-fpm-www.conf /usr/local/etc/php-fpm.d/www.conf
+COPY .docker/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY .docker/php/php.ini /usr/local/etc/php/conf.d/app.ini
+COPY .docker/php/daemon-process.conf /etc/supervisor/supervisord.conf
 COPY .docker/php/op-cache.ini /usr/local/etc/php/conf.d/opcache.ini
+COPY .docker/scripts/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
-USER www-data
-COPY app $DOCUMENT_ROOT/app
-COPY src $DOCUMENT_ROOT/src
-COPY config $DOCUMENT_ROOT/config
+COPY --chown=www-data:www-data src $DOCUMENT_ROOT/src
+COPY --chown=www-data:www-data config $DOCUMENT_ROOT/config
+COPY --chown=www-data:www-data app $DOCUMENT_ROOT/app
+
+# Expose port
+EXPOSE 80
+WORKDIR $DOCUMENT_ROOT
+# Start APP
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 

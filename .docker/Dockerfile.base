@@ -44,24 +44,11 @@ RUN echo '*                hard    nofile          1048576' >> /etc/security/lim
 RUN echo 'root             soft    nofile          1048576' >> /etc/security/limits.conf
 RUN echo 'root             hard    nofile          1048576' >> /etc/security/limits.conf
 
-# Set Timezone
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
-# Remove NGINX old
 RUN rm -f /etc/nginx/conf.d/*
-
-RUN curl -s https://getcomposer.org/installer | php
-
-RUN mv composer.phar /usr/local/bin/composer && chmod +x /usr/local/bin/composer
-
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && ln -sf /dev/stderr /var/log/nginx/error.log
 
-USER www-data
-COPY . $DOCUMENT_ROOT
-COPY .docker/scripts/entrypoint.sh .docker/scripts/entrypoint.sh
-USER root
-RUN chmod +x .docker/scripts/entrypoint.sh
-EXPOSE 80
-WORKDIR $DOCUMENT_ROOT
-USER www-data
-ENTRYPOINT [".docker/scripts/entrypoint.sh"]
+RUN curl -s https://getcomposer.org/installer | php
+RUN mv composer.phar /usr/local/bin/composer && chmod +x /usr/local/bin/composer
+
+COPY --chown=www-data:www-data . $DOCUMENT_ROOT

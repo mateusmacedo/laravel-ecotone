@@ -20,3 +20,10 @@ docker-compose.yaml
 storage/*.key
 docs
 k8s
+
+# Laravel 9
+bootstrap/cache/*
+storage/framework/cache/data/ecotone/*
+storage/framework/sessions/*
+storage/framework/testing/disks/local/*
+storage/framework/views/*
