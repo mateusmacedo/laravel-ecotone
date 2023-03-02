@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Module\Users\Domain;
 
-use Module\Core\Domain\Exception\DomainError;
+use Module\Core\Domain\Errors\DomainError;
 use Module\Core\Domain\ValueObject;
 
 class Password extends ValueObject
@@ -28,7 +28,7 @@ class Password extends ValueObject
         return $this->value === $valueObject;
     }
 
-    private static function validate(mixed $value): \ArrayObject
+    public static function validate(mixed $value): \ArrayObject
     {
         $errors = new \ArrayObject();
         if (strlen($value) < 8) {

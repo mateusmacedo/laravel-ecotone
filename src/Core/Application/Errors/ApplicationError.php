@@ -8,7 +8,7 @@ use Module\Core\Result;
 
 class ApplicationError extends Result
 {
-    public function __construct(private readonly \ArrayObject|string $errors)
+    public function __construct(private readonly mixed $errors)
     {
         parent::__construct(false, null, $errors);
     }

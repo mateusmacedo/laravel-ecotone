@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Module\Core\Domain\Exception;
+namespace Module\Core\Domain\Errors;
 
 class ValidationExceptions extends \DomainException
 {

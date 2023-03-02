@@ -8,7 +8,7 @@ use Jenssegers\Mongodb\Eloquent\Model;
 use Module\Core\Domain\Entity;
 use Module\Core\Infrastructure\Database\Contracts\ListProps;
 use Module\Core\Infrastructure\Database\Contracts\ListResponse;
-use Module\Core\Infrastructure\Database\Contracts\RepositoryError;
+use Module\Core\Infrastructure\Database\Errors\RepositoryError;
 use Module\Core\Mapper\IMapper;
 
 class MongoBaseRepository implements IBaseReaderRepository, IBaseWriterRepository
@@ -17,11 +17,6 @@ class MongoBaseRepository implements IBaseReaderRepository, IBaseWriterRepositor
     {
     }
 
-    /**
-     * @param ListProps $props
-     *
-     * @return ListResponse
-     */
     public function list(ListProps $props): ListResponse|RepositoryError
     {
         try {
@@ -48,11 +43,6 @@ class MongoBaseRepository implements IBaseReaderRepository, IBaseWriterRepositor
         }
     }
 
-    /**
-     * @param $data
-     *
-     * @return mixed
-     */
     public function upsert(Entity $domainData): RepositoryError|bool
     {
         try {
@@ -64,11 +54,6 @@ class MongoBaseRepository implements IBaseReaderRepository, IBaseWriterRepositor
         }
     }
 
-    /**
-     * @param array $filter
-     *
-     * @return mixed
-     */
     public function findOne(array $filter): Entity|RepositoryError|null
     {
         try {
@@ -85,11 +70,6 @@ class MongoBaseRepository implements IBaseReaderRepository, IBaseWriterRepositor
         }
     }
 
-    /**
-     * @param array $filter
-     *
-     * @return mixed
-     */
     public function remove(array $filter): bool|RepositoryError
     {
         try {
