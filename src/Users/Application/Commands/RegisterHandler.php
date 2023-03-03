@@ -7,9 +7,9 @@ namespace Module\Users\Application\Commands;
 use Module\Core\Application\Errors\ApplicationError;
 use Module\Core\Infrastructure\Database\Contracts\RepositoryError;
 use Module\Core\Result;
-use Module\Users\Domain\Contracts\IUserRepository;
 use Module\Users\Domain\Email;
 use Module\Users\Domain\Password;
+use Module\Users\Domain\Repository\IUserRepository;
 use Module\Users\Domain\UserAggregate;
 
 class RegisterHandler
@@ -31,6 +31,6 @@ class RegisterHandler
         if ($resUpsert instanceof RepositoryError) {
             return new ApplicationError('erro ao salvar');
         }
-        return Result::ok($result);
+        return Result::ok($user);
     }
 }

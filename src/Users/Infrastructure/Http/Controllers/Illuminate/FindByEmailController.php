@@ -8,7 +8,7 @@ use Ecotone\Modelling\QueryBus;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Module\Core\Domain\Exception\ValidationExceptions;
+use Module\Core\Domain\Errors\ValidationExceptions;
 use Module\Users\Application\Factories\UserCommandQueryFactory;
 use Module\Users\Application\Factories\UserDtoFactory;
 use Symfony\Component\HttpFoundation\Response;

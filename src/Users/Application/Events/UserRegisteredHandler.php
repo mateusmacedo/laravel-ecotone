@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace Module\Users\Application\Events;
 
 use Illuminate\Support\Facades\Log;
-use Module\Users\Domain\Repositories\FindByIdRepository;
+use Module\Users\Domain\Repository\IUserRepository;
 
 class UserRegisteredHandler
 {
-    public function __construct(private FindByIdRepository $repository)
+    public function __construct(private IUserRepository $repository)
     {
     }
 
     public function handle(UserRegisteredEvent $event): void
     {
-        $user = $this->repository->findById($event->getUserAggregate()->getId());
-        Log::info("Sending email to user {$user->getEmail()->getValue()} confirming registration");
+        $user = $this->repository->findOne(['uuid' => $event->uuid]);
+        Log::info("Sending email to user {$user->getEmail()->value} confirming registration");
     }
 }

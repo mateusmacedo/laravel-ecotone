@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Module\Users\Infrastructure\Repository\MongoDB;
 
-use Module\Core\Infrastructure\Database\MongoBaseRepository;
-use Module\Users\Domain\Contracts\IUserRepository;
-use Module\Users\Infrastructure\Repository\MongoDB\Models\UserModel;
+use Module\Core\Infrastructure\Database\MongoDB\MongoBaseRepository;
+use Module\Users\Domain\Repository\IUserRepository;
 use Module\Users\Mapper\UsersMapper;
 
 class UserRepository extends MongoBaseRepository implements IUserRepository

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Module\Users\Mapper;
 
-use Module\Core\Domain\Exception\DomainError;
+use Module\Core\Domain\Errors\DomainError;
 use Module\Core\Mapper\IMapper;
 use Module\Users\Domain\Email;
 use Module\Users\Domain\Password;
@@ -23,6 +23,7 @@ class UsersMapper implements IMapper
 
     public function toDto($data, ?string $convertTo)
     {
+        throw new \Exception('Not implemented');
     }
 
     public function toPersistence($domainData): ?array
