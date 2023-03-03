@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Module\Core;
 
+use Module\Core\Domain\Errors\DomainError;
+use Module\Core\Infrastructure\Database\Errors\RepositoryError;
+
 class Result
 {
     public readonly bool $isError;
@@ -55,11 +58,17 @@ class Result
     {
         $errors = [];
         foreach ($results as $key => $result) {
-            if ($result->isError) {
-                $errors[] = ['arrayPosition' => $key, 'error' => $result->getError()];
+            $error = null;
+            if ($result instanceof DomainError) {
+                $error = $result->getErrors();
+            }
+            if ($result instanceof RepositoryError || $result instanceof Result) {
+                $error = $result->getError();
+            }
+            if (null != $error) {
+                $errors[] = ['arrayPosition' => $key, 'error' => $error];
             }
         }
-
         return !empty($errors) ? self::fail($errors) : self::ok();
     }
 }

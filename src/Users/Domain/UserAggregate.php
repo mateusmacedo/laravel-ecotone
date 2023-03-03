@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Module\Users\Domain;
 
 use Module\Core\Domain\AggregateRoot;
-use Module\Core\Domain\Exception\DomainError;
+use Module\Core\Domain\Errors\DomainError;
 use Module\Core\Infrastructure\Ecotone\Contracts\ISerializeToQueue;
 
 class UserAggregate extends AggregateRoot implements ISerializeToQueue

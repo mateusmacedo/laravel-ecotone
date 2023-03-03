@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Module\Core\Infrastructure\Database\Contracts;
+namespace Module\Core\Infrastructure\Database\Errors;
 
 class RepositoryError
 {
