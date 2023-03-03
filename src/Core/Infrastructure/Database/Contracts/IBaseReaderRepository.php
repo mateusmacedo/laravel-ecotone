@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Module\Core\Infrastructure\Database;
+namespace Module\Core\Infrastructure\Database\Contracts;
 
 use Module\Core\Domain\Entity;
-use Module\Core\Infrastructure\Database\Contracts\ListProps;
-use Module\Core\Infrastructure\Database\Contracts\ListResponse;
 use Module\Core\Infrastructure\Database\Errors\RepositoryError;
 
 interface IBaseReaderRepository
