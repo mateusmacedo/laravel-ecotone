@@ -15,6 +15,6 @@ class FindByEmailHandler
 
     public function handle(FindByEmailQuery $query): ?UserAggregate
     {
-        return $this->repository->findOne(['email' => $query->getDto()->getEmail()]);
+        return $this->repository->findOne(['email' => $query->email]);
     }
 }

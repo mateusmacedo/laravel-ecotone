@@ -11,8 +11,8 @@ class RegisterCommandFailHandler
     public function handle(RegisterCommandFailEvent $event): void
     {
         Log::info('RegisterCommandFailEvent: error:{error} data:{data}', [
-            'error' => $event->getError(),
-            'data' => json_encode($event->getCommand()->toArray())
+            'error' => $event->error,
+            'data' => json_encode($event->command)
         ]);
     }
 }

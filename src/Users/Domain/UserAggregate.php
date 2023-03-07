@@ -30,6 +30,11 @@ class UserAggregate extends AggregateRoot
         return $instance;
     }
 
+    public function getEmail(): Email
+    {
+        return $this->email;
+    }
+
     private static function validate($uuid = null, $email = null): \ArrayObject
     {
         $errors = new \ArrayObject();

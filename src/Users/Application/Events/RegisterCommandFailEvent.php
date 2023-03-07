@@ -8,17 +8,7 @@ use Module\Users\Application\Commands\RegisterCommand;
 
 class RegisterCommandFailEvent
 {
-    public function __construct(private readonly RegisterCommand $command, private readonly string $error)
+    public function __construct(public readonly RegisterCommand $command, public readonly string $error)
     {
-    }
-
-    public function getCommand(): RegisterCommand
-    {
-        return $this->command;
-    }
-
-    public function getError(): string
-    {
-        return $this->error;
     }
 }

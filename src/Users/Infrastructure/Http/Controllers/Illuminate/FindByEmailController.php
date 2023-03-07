@@ -9,23 +9,19 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Module\Core\Domain\Errors\ValidationExceptions;
-use Module\Users\Application\Factories\UserCommandQueryFactory;
-use Module\Users\Application\Factories\UserDtoFactory;
+use Module\Users\Application\Queries\FindByEmailQuery;
 use Symfony\Component\HttpFoundation\Response;
 
 class FindByEmailController extends Controller
 {
     public function __construct(
-        private UserDtoFactory $dtoFactory,
-        private UserCommandQueryFactory $commandQueryFactory,
         private QueryBus $queryBus
     ) {
     }
 
     public function get(Request $request): JsonResponse
     {
-        $dto = $this->dtoFactory->findByEmailDto($request->route()->parameter('userEmail'));
-        $query = $this->commandQueryFactory->findByEmailQuery($dto);
+        $query = new FindByEmailQuery($request->route()->parameter('userEmail'));
         $result = new JsonResponse(null, Response::HTTP_NOT_FOUND);
         try {
             $user = $this->queryBus->send($query);
