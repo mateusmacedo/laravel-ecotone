@@ -8,7 +8,6 @@ use Ecotone\Messaging\Attribute\MediaTypeConverter;
 use Ecotone\Messaging\Conversion\Converter;
 use Ecotone\Messaging\Conversion\MediaType;
 use Ecotone\Messaging\Handler\TypeDescriptor;
-use Module\Core\Infrastructure\Ecotone\Contracts\ISerializeToQueue;
 
 #[MediaTypeConverter]
 class PhpToJsonConverter implements Converter
@@ -22,10 +21,11 @@ class PhpToJsonConverter implements Converter
 
     public function convert($source, TypeDescriptor $sourceType, MediaType $sourceMediaType, TypeDescriptor $targetType, MediaType $targetMediaType)
     {
-        if (!$sourceType->isClassOfType(ISerializeToQueue::class)) {
-            throw new \InvalidArgumentException('a mensagem a ser enviada via bus deve implementar a interface ' . ISerializeToQueue::class);
+        if (!is_object($source)) {
+            throw new \InvalidArgumentException('Source must be an object');
         }
+        $data = (array) $source;
 
-        return json_encode($source->toArray(), JSON_THROW_ON_ERROR);
+        return json_encode($data, JSON_THROW_ON_ERROR);
     }
 }

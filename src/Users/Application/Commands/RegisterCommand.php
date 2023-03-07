@@ -4,21 +4,9 @@ declare(strict_types=1);
 
 namespace Module\Users\Application\Commands;
 
-use Module\Core\Infrastructure\Ecotone\Contracts\ISerializeToQueue;
-
-class RegisterCommand implements ISerializeToQueue
+class RegisterCommand
 {
-    public readonly string $email;
-    public readonly string $password;
-
-    public function __construct(mixed $data)
+    public function __construct(public readonly string $email, public readonly string $password)
     {
-        $this->email = $data['email'] ?? null;
-        $this->password = $data['password'] ?? null;
-    }
-
-    public function toArray(): array
-    {
-        return ['email' => $this->email, 'password' => $this->password];
     }
 }
