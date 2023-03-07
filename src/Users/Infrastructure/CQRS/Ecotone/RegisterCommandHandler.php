@@ -24,7 +24,7 @@ class RegisterCommandHandler
         if ($result->isError) {
             $eventBus->publish(new RegisterCommandFailEvent($command, $result->getError()));
         }
-        $eventBus->publish(new UserRegisteredEvent($result->getValue()->toArray()));
+        $eventBus->publish(new UserRegisteredEvent($result->getValue()->getUuid()));
         return $result;
     }
 }

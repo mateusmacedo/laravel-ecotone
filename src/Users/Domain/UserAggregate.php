@@ -35,6 +35,11 @@ class UserAggregate extends AggregateRoot
         return $this->email;
     }
 
+    public function getPassword(): Password
+    {
+        return $this->password;
+    }
+
     private static function validate($uuid = null, $email = null): \ArrayObject
     {
         $errors = new \ArrayObject();
