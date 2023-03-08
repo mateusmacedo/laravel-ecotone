@@ -6,7 +6,7 @@ namespace Module\Users\Application\Events;
 
 class UserRegisteredEvent
 {
-    public function __construct(public readonly string $uuid)
+    public function __construct(public readonly string $id)
     {
     }
 }

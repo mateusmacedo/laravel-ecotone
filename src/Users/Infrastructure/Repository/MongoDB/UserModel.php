@@ -11,7 +11,7 @@ class UserModel extends BaseModel
     protected $connection = 'mongodb';
     protected $table = 'users';
     protected $fillable = [
-        'uuid',
+        'id',
         'email',
         'password'
     ];

@@ -8,13 +8,13 @@ use Module\Core\Infrastructure\UuidGenerator;
 
 abstract class Entity
 {
-    protected function __construct(private ?string $uuid = null)
+    protected function __construct(private ?string $id = null)
     {
-        $this->uuid = $uuid ?? UuidGenerator::generate();
+        $this->id = $id ?? UuidGenerator::generate();
     }
 
-    public function getUuid()
+    public function getId()
     {
-        return $this->uuid;
+        return $this->id;
     }
 }

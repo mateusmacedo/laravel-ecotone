@@ -15,7 +15,7 @@ class UsersMapper implements IMapper
     public function toDomain(array $rawData): UserAggregate|DomainError
     {
         return UserAggregate::register(
-            $rawData['uuid'],
+            $rawData['id'],
             Email::create($rawData['email']),
             Password::create($rawData['password'])
         );
@@ -29,7 +29,7 @@ class UsersMapper implements IMapper
     public function toPersistence($domainData): ?array
     {
         return [
-            'uuid' => $domainData->getUuid(),
+            'id' => $domainData->getId(),
             'email' => $domainData->getEmail()->value,
             'password' => $domainData->getPassword()->value
         ];

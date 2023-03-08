@@ -15,7 +15,7 @@ class UserRegisteredHandler
 
     public function handle(UserRegisteredEvent $event): void
     {
-        $user = $this->repository->findOne(['uuid' => $event->uuid]);
+        $user = $this->repository->findOne(['id' => $event->id]);
         Log::info("Sending email to user {$user->getEmail()->value} confirming registration");
     }
 }
