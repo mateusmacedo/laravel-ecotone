@@ -13,7 +13,7 @@ abstract class Entity
         $this->id = $id ?? UuidGenerator::generate();
     }
 
-    public function getId()
+    public function getId(): ?string
     {
         return $this->id;
     }

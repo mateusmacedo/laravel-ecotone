@@ -37,6 +37,11 @@ class ValidationExceptions extends \DomainException
         return current($this->items) ?: null;
     }
 
+    public function nextElement(): bool
+    {
+        return false !== next($this->items);
+    }
+
     public function extractErrorMessages(): array
     {
         $errorMessages = [];

@@ -15,13 +15,13 @@ trait AbstractValidable
         self::$exceptions[] = $e;
     }
 
-    public function hasError(): bool
+    public static function hasError(): bool
     {
-        return count($this->exceptions) > 0;
+        return count(self::$exceptions) > 0;
     }
 
-    public function getErrors(): array
+    public static function getErrors(): array
     {
-        return $this->exceptions;
+        return self::$exceptions;
     }
 }
