@@ -1,0 +1,2 @@
+#supervisor
+environment=XDEBUG_TRIGGER="1"
