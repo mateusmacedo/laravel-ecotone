@@ -9,7 +9,7 @@ use MongoDB\BSON\UTCDateTime;
 
 class BaseModel extends Model
 {
-    protected function fromBsonToString($dateTime): ?string
+    public function fromBsonToString(?UTCDateTime $dateTime): ?string
     {
         if (null === $dateTime) {
             return null;
@@ -18,7 +18,7 @@ class BaseModel extends Model
         return $dateTime->toDateTime()->format('Y-m-d H:i:s');
     }
 
-    protected function toBson($dateTime): ?UTCDateTime
+    public function toBson(?string $dateTime): ?UTCDateTime
     {
         if (null === $dateTime) {
             return null;
